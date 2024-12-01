@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12_Framework\x64\Debug\DirextX12_Framework.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12_Framework\Shader\DeferredPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12_Framework\Shader\DeferredVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12_Framework\Shader\GeometryPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12_Framework\Shader\GeometryVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12_Framework\Shader\LanbertPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12_Framework\Shader\LanbertVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12_Framework\Shader\PostEffectPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12_Framework\Shader\PostEffectVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12_Framework\Shader\UnlitPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12_Framework\Shader\UnlitVS.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>

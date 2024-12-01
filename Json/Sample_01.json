@@ -1,0 +1,34 @@
+{
+    "Gamma_Parameter": 1.2799999713897705,
+    "Material_ClearColorStatus": {
+        "b": 0.0,
+        "g": 0.0,
+        "r": 0.0
+    },
+    "Material_MetallicStatus": 0.8500000238418579,
+    "Material_RoughnessStatus": 0.41999998688697815,
+    "Material_SpecularStatus": 0.3700000047683716,
+    "PostEffect_ChromaticAberrationFlag": true,
+    "PostEffect_ChromaticAberrationStatus": {
+        "b": 0.005900000222027302,
+        "g": 0.002099999925121665,
+        "r": 0.007600000128149986
+    },
+    "PostEffect_DistortionFlag": true,
+    "PostEffect_DistortionStatus": {
+        "Camera": 0.5,
+        "Parameter": 1.0
+    },
+    "PostEffect_GrayScaleFlag": false,
+    "PostEffect_GrayScaleStatus": {
+        "b": 0.6660000085830688,
+        "g": 0.3330000042915344,
+        "r": 0.0
+    },
+    "PostEffect_SepiaFlag": true,
+    "PostEffect_SepiaStatus": {
+        "b": 0.5400000214576721,
+        "g": 0.30000001192092896,
+        "r": 0.4699999988079071
+    }
+}
