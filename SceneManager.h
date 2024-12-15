@@ -1,43 +1,48 @@
 #pragma once
 
-#include "GameManager.h"
 
-// シーンの種類を定義する enum class
-enum class SceneType
+#include "TitleManager.h"
+#include "GameManager.h"
+#include "ResultManager.h"
+
+
+enum class SceneType 
 {
-    Title,      // タイトル画面
-    Game,       // ゲーム画面
-    GameOver,   // ゲームオーバー画面
-    Option      // オプション画面
+	Title,
+	Game,
+	Result,
 };
 
-// SceneManager クラスの定義
 class SceneManager
 {
-public:
-    // コンストラクタ
-    SceneManager();
-
-    // シーンを更新する
-    void Update();
-
-    // シーンを描画する
-    void Draw();
-
-    // シーン遷移を開始する
-    void TransitionTo(SceneType scene);
-
-    // 現在のシーンを取得
-    SceneType GetCurrentScene() const;
-
-    // シーン名を文字列で返す（デバッグ用）
-    const char* GetSceneName(SceneType scene) const;
-
 private:
+	static SceneManager* m_Instance;
 
-    GameManager m_GameManager;
+	RenderManager m_RenderManager;
 
-    SceneType currentScene;   // 現在のシーン
-    SceneType nextScene;      // 次に遷移するシーン
-    bool isTransitioning;     // 遷移中かどうか
+	SceneType		m_Scene;
+
+	std::unique_ptr<TitleManager> m_Title;
+	std::unique_ptr<GameManager> m_Game;
+	std::unique_ptr<ResultManager> m_Result;
+
+	void InitializeScene(SceneType sceneType);
+	void FinalizeScene(SceneType sceneType);
+
+public:
+	static SceneManager* GetInstance() {
+		if (m_Instance == nullptr)
+		{
+			m_Instance = new SceneManager();
+		}
+		return m_Instance;
+	}
+
+	SceneManager();
+	~SceneManager();
+
+	void Update();
+	void Draw();
+
+	void SetSceneType(SceneType sceneType);
 };

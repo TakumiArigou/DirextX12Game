@@ -1,32 +1,26 @@
 #pragma once
 
+#include "SceneBase.h"
 
-#include "RenderManager.h"
-#include "Camera.h"
-#include "Polygon2D.h"
-#include "TestObject.h"
-
-class TitleManager
+class TitleManager : public SceneBase
 {
 private:
 
-	static TitleManager* m_Instance;
-
-	RenderManager	m_RenderManger;
 	Camera			m_Camera;
 	Polygon2D		m_Polygon2D;
 	TestObject		m_TestObject;
 
+	//SceneManager m_SceneManager;
+
 public:
-	static TitleManager* GetInstance() { return m_Instance; }
 
 	TitleManager();
-	~TitleManager();
+	~TitleManager() override;
 
 
 
-	void Update();
-	void Draw();
+	void Update() override;
+	void Draw() override;
 
 
 };

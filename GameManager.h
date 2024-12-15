@@ -1,34 +1,30 @@
 #pragma once
 
+#include "SceneBase.h"
 
-#include "RenderManager.h"
-#include "Camera.h"
-#include "Polygon2D.h"
-#include "Field.h"
-#include "TestObject.h"
 
-class GameManager
+class GameManager : public SceneBase
 {
 private:
 
-	static GameManager* m_Instance;
+	//static GameManager* m_Instance;
 
-	RenderManager	m_RenderManger;
+	//RenderManager	m_RenderManger;
 	Camera			m_Camera;
-	Polygon2D		m_Polygon2D;
+	//Polygon2D		m_Polygon2D;
 	Field			m_Field;
 	TestObject		m_TestObject;
 
+	//SceneManager m_SceneManager;
+
 public:
-	static GameManager* GetInstance() { return m_Instance; }
 
 	GameManager();
-	~GameManager();
+	~GameManager() override;
 
 
-
-	void Update();
-	void Draw();
+	void Update() override;
+	void Draw() override;
 
 
 };

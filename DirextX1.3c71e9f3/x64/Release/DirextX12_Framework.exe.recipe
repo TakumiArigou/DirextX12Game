@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12Game\x64\Release\DirextX12_Framework.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12Game\Shader\DeferredPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12Game\Shader\DeferredVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12Game\Shader\GeometryPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12Game\Shader\GeometryVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12Game\Shader\LanbertPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12Game\Shader\LanbertVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12Game\Shader\PostEffectPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12Game\Shader\PostEffectVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12Game\Shader\UnlitPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Raisou\Desktop\DirextX12Game\Shader\UnlitVS.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>

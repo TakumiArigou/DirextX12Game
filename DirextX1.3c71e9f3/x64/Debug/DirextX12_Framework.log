@@ -1,2 +1,7 @@
-﻿  Main.cpp
-  DirextX12_Framework.vcxproj -> C:\Users\Raisou\Desktop\DirextX12_Framework\x64\Debug\DirextX12_Framework.exe
+﻿  GameManager.cpp
+  Main.cpp
+  ResultManager.cpp
+  SceneManager.cpp
+  TitleManager.cpp
+  コードを生成中...
+  DirextX12_Framework.vcxproj -> C:\Users\Raisou\Desktop\DirextX12Game\x64\Debug\DirextX12_Framework.exe

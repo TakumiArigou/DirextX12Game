@@ -1,4 +1,4 @@
-#pragma
+#pragma once
 
 class Polygon2D
 {

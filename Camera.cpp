@@ -1,7 +1,5 @@
 
-#include "Main.h"
-#include "RenderManager.h"
-#include "Camera.h"
+#include "SceneBase.h"
 
 
 Camera::Camera()

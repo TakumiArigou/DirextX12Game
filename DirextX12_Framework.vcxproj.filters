@@ -78,7 +78,7 @@
     <ClCompile Include="Json.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
+    <ClCompile Include="SceneBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
@@ -92,6 +92,15 @@
     </ClCompile>
     <ClCompile Include="TitleManager.cpp">
       <Filter>Scene_Title</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultManager.cpp">
+      <Filter>Scene_Result</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,8 +167,17 @@
     <ClInclude Include="TitleManager.h">
       <Filter>Scene_Title\Header</Filter>
     </ClInclude>
+    <ClInclude Include="SceneBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultManager.h">
+      <Filter>Scene_Result\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

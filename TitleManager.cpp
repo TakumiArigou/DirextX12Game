@@ -1,22 +1,10 @@
 
-
-#include "Main.h"
 #include "TitleManager.h"
-
-
-
-
-TitleManager* TitleManager::m_Instance = nullptr;
-
-
-
+#include "SceneManager.h"
 
 
 TitleManager::TitleManager()
 {
-	m_Instance = this;
-
-
 }
 
 
@@ -24,7 +12,7 @@ TitleManager::TitleManager()
 
 TitleManager::~TitleManager()
 {
-	m_RenderManger.WaitGPU();
+	RenderManager::GetInstance()->WaitGPU();
 }
 
 
@@ -37,6 +25,10 @@ void TitleManager::Update()
 	m_TestObject.Update();
 	m_Polygon2D.Update();
 
+	if (GetKeyState('A') & 0x8000)
+	{
+		SceneManager::GetInstance()->SetSceneType(SceneType::Game);
+	}
 }
 
 
@@ -45,12 +37,12 @@ void TitleManager::Update()
 void TitleManager::Draw()
 {
 
-	m_RenderManger.DrawBegin();
+	RenderManager::GetInstance()->DrawBegin();
 
 	m_Camera.Draw();
 	m_TestObject.Draw();
 
-	m_RenderManger.DrawEnd();
+	RenderManager::GetInstance()->DrawEnd();
 
 }
 

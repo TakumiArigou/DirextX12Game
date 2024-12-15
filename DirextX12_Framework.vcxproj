@@ -134,6 +134,10 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DDSTextureLoader12.cpp" />
+    <ClCompile Include="FadeManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="ImGUI\imgui.cpp" />
@@ -150,7 +154,12 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Polygon2D.cpp" />
     <ClCompile Include="RenderManager.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ResultManager.cpp" />
+    <ClCompile Include="SceneBase.cpp" />
+    <ClCompile Include="SceneManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="TitleManager.cpp" />
   </ItemGroup>
@@ -158,6 +167,10 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="D3DX12.h" />
     <ClInclude Include="DDSTextureLoader12.h" />
+    <ClInclude Include="FadeManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Field.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="ImGUI\imconfig.h" />
@@ -177,7 +190,12 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Polygon2D.h" />
     <ClInclude Include="RenderManager.h" />
-    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ResultManager.h" />
+    <ClInclude Include="SceneBase.h" />
+    <ClInclude Include="SceneManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="TitleManager.h" />
   </ItemGroup>

@@ -1,6 +1,4 @@
-#include "Main.h"
-#include "RenderManager.h"
-#include "Camera.h"
+#include "SceneBase.h"
 #include "Json.h"
 #include "json.hpp"
 

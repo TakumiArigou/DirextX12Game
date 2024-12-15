@@ -1,9 +1,9 @@
 
 #include "Main.h"
-#include "GameManager.h"
+//#include "GameManager.h"
+//#include "TitleManager.h"
+//#include "ResultManager.h"
 #include "SceneManager.h"
-
-
 
 
 #define APP_NAME "Framework"
@@ -93,8 +93,9 @@ int APIENTRY wWinMain(  _In_ HINSTANCE hInstance,
 
 
         //GameManager gameManager;
-        SceneManager sceneManager;
-
+        //TitleManager titleManager;
+        //ResultManager resultManager;
+        //SceneManager* scene = SceneManager::GetInstance();
 
         ShowWindow(g_Window, SW_SHOW);
 
@@ -134,8 +135,14 @@ int APIENTRY wWinMain(  _In_ HINSTANCE hInstance,
                     //gameManager.Update();
                     //gameManager.Draw();
 
-                    sceneManager.Update();
-                    sceneManager.Draw();
+                    //titleManager.Update();
+                    //titleManager.Draw();
+
+                    //resultManager.Update();
+                    //resultManager.Draw();
+
+                    SceneManager::GetInstance()->Update();
+                    SceneManager::GetInstance()->Draw();
 
                     dwExecLastTime = dwCurrentTime;
                 }

@@ -1,0 +1,115 @@
+﻿C:\Users\Raisou\Desktop\DirextX12Game\Shader\DeferredPS.hlsl(83,16-49): warning X3206: implicit truncation of vector type
+C:\Users\Raisou\Desktop\DirextX12Game\Shader\DeferredPS.hlsl(85,16-48): warning X3206: implicit truncation of vector type
+  
+  compilation object save succeeded; see C:\Users\Raisou\Desktop\DirextX12Game\Shader\DeferredPS.cso
+C:\Users\Raisou\Desktop\DirextX12Game\Shader\DeferredVS.hlsl(7,28-53): warning X3206: 'mul': implicit truncation of vector type
+C:\Users\Raisou\Desktop\DirextX12Game\Shader\DeferredVS.hlsl(3,13-29): warning X3578: Output value 'main' is not completely initialized
+  
+  compilation object save succeeded; see C:\Users\Raisou\Desktop\DirextX12Game\Shader\DeferredVS.cso
+C:\Users\Raisou\Desktop\DirextX12Game\Shader\GeometryPS.hlsl(14,12-32): warning X3206: implicit truncation of vector type
+C:\Users\Raisou\Desktop\DirextX12Game\Shader\GeometryPS.hlsl(23,12-36): warning X3206: implicit truncation of vector type
+  
+  compilation object save succeeded; see C:\Users\Raisou\Desktop\DirextX12Game\Shader\GeometryPS.cso
+  compilation object save succeeded; see C:\Users\Raisou\Desktop\DirextX12Game\Shader\GeometryVS.cso
+C:\Users\Raisou\Desktop\DirextX12Game\Shader\LanbertPS.hlsl(9,31-40): warning X3081: comma expression used where a vector constructor may have been intended
+C:\Users\Raisou\Desktop\DirextX12Game\Shader\LanbertPS.hlsl(9,31-46): warning X3081: comma expression used where a vector constructor may have been intended
+  
+  compilation object save succeeded; see C:\Users\Raisou\Desktop\DirextX12Game\Shader\LanbertPS.cso
+C:\Users\Raisou\Desktop\DirextX12Game\Shader\LanbertVS.hlsl(21,28-53): warning X3206: 'mul': implicit truncation of vector type
+C:\Users\Raisou\Desktop\DirextX12Game\Shader\LanbertVS.hlsl(3,13-29): warning X3578: Output value 'main' is not completely initialized
+  
+  compilation object save succeeded; see C:\Users\Raisou\Desktop\DirextX12Game\Shader\LanbertVS.cso
+  compilation object save succeeded; see C:\Users\Raisou\Desktop\DirextX12Game\Shader\PostEffectPS.cso
+C:\Users\Raisou\Desktop\DirextX12Game\Shader\PostEffectVS.hlsl(7,28-53): warning X3206: 'mul': implicit truncation of vector type
+C:\Users\Raisou\Desktop\DirextX12Game\Shader\PostEffectVS.hlsl(3,13-29): warning X3578: Output value 'main' is not completely initialized
+  
+  compilation object save succeeded; see C:\Users\Raisou\Desktop\DirextX12Game\Shader\PostEffectVS.cso
+  compilation object save succeeded; see C:\Users\Raisou\Desktop\DirextX12Game\Shader\UnlitPS.cso
+C:\Users\Raisou\Desktop\DirextX12Game\Shader\UnlitVS.hlsl(3,13-29): warning X3578: Output value 'main' is not completely initialized
+  
+  compilation object save succeeded; see C:\Users\Raisou\Desktop\DirextX12Game\Shader\UnlitVS.cso
+  Camera.cpp
+  DDSTextureLoader12.cpp
+  FadeManager.cpp
+  Field.cpp
+  GameManager.cpp
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_dx12.cpp
+  imgui_impl_win32.cpp
+  imgui_widgets.cpp
+  Json.cpp
+  Main.cpp
+  Model.cpp
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(121,4): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(127,4): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(208,9): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(248,9): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(307,9): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(315,3): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(346,5): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(398,3): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(406,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(409,4): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(410,4): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(411,4): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(418,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(423,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(424,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(425,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(433,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(434,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(435,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(442,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(443,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(444,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(445,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(452,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(453,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(460,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(462,4): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(489,5): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(491,9): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(497,10): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(501,9): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(504,9): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(569,9): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(578,3): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(602,3): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(612,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(614,4): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(620,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(621,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(622,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(627,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(628,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(629,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(635,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(636,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(637,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(644,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(645,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(646,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(654,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(659,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(664,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(669,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(674,4): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Raisou\Desktop\DirextX12Game\Model.cpp(675,4): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Polygon2D.cpp
+C:\Users\Raisou\Desktop\DirextX12Game\Polygon2D.cpp(67,38): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\Raisou\Desktop\DirextX12Game\Polygon2D.cpp(66,37): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  RenderManager.cpp
+C:\Users\Raisou\Desktop\DirextX12Game\RenderManager.cpp(1193,20): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  ResultManager.cpp
+  SceneBase.cpp
+  SceneManager.cpp
+  TestObject.cpp
+  コードを生成中...
+  コンパイル中...
+  TitleManager.cpp
+  コードを生成中...
+LINK : warning LNK4075: /INCREMENTAL は /OPT:ICF の指定によって無視されます。
+Camera.obj : warning LNK4075: /EDITANDCONTINUE は /OPT:ICF の指定によって無視されます。
+  DirextX12_Framework.vcxproj -> C:\Users\Raisou\Desktop\DirextX12Game\x64\Release\DirextX12_Framework.exe

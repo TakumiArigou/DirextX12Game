@@ -1,6 +1,4 @@
-#include "Main.h"
-#include "RenderManager.h"
-#include "Polygon2D.h"
+#include "SceneBase.h"
 
 Polygon2D::Polygon2D()
 {

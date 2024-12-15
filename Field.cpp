@@ -1,8 +1,6 @@
 
 
-#include "Main.h"
-#include "RenderManager.h"
-#include "Field.h"
+#include "GameManager.h"
 
 
 
@@ -68,7 +66,7 @@ void Field::Draw()
 
 		constant.LightDirection.x = 0.0f;
 		constant.LightDirection.y = 1.0f;
-		constant.LightDirection.y = 0.0f;
+		constant.LightDirection.z = 0.0f;
 
 		constant.LightColor.x = 5.0f;
 		constant.LightColor.y = 5.0f;
@@ -102,19 +100,19 @@ void Field::Draw()
 
 
 
-	////頂点バッファ設定
-	//renderManager->SetVertexBuffer(m_VertexBuffer.get());
+	//頂点バッファ設定
+	renderManager->SetVertexBuffer(m_VertexBuffer.get());
 
 
-	////テクスチャ設定
-	//renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture.get());
+	//テクスチャ設定
+	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture.get());
 
 
-	////トポロジ設定
-	//renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	//トポロジ設定
+	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	////描画
-	//renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
+	//描画
+	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
 
 
 }

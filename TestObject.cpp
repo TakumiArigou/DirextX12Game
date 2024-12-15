@@ -1,8 +1,5 @@
 
-#include "Main.h"
-#include "RenderManager.h"
-#include "TestObject.h"
-
+#include "GameManager.h"
 
 TestObject::TestObject()
 {
@@ -29,6 +26,21 @@ void TestObject::Update()
 void TestObject::Draw()
 {
 	RenderManager* renderManager = RenderManager::GetInstance();
+
+	//定数バッファ設定
+	{
+		ENV_CONSTANT constant;
+
+		constant.LightDirection.x = 0.0f;
+		constant.LightDirection.y = 1.0f;
+		constant.LightDirection.z = 0.0f;
+
+		constant.LightColor.x = 5.0f;
+		constant.LightColor.y = 5.0f;
+		constant.LightColor.z = 5.0f;
+
+		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::ENV, &constant, sizeof(constant));
+	}
 
 	//マトリクス設定
 	{

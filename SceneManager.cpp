@@ -1,103 +1,110 @@
-#include "Main.h"
+
 #include "SceneManager.h"
 
+SceneManager* SceneManager::m_Instance = nullptr;
 
-// コンストラクタ
 SceneManager::SceneManager()
-    : currentScene(SceneType::Game), nextScene(SceneType::Game), isTransitioning(false)
 {
+	m_Instance = this;
+
+	m_Scene = SceneType::Title;
+
+	m_Title = std::make_unique<TitleManager>();
+	m_Game = std::make_unique<GameManager>();
+	m_Result = std::make_unique<ResultManager>();
 }
 
-// シーンを更新する
+SceneManager::~SceneManager()
+{
+	FinalizeScene(m_Scene);
+
+	delete m_Instance;
+}
+
 void SceneManager::Update()
 {
-    GetCurrentScene();
+	//GetSceneType();
 
-    // シーン遷移中の場合
-    if (isTransitioning)
-    {
-        // フェードイン/フェードアウトの処理
-        std::cout << "フェード処理中..." << std::endl;
+	switch (m_Scene) {
+	case SceneType::Title:
 
-        // フェード処理が終了したら遷移を実行
-        isTransitioning = false;
-        currentScene = nextScene;
-        std::cout << "シーン遷移: " << GetSceneName(currentScene) << std::endl;
-    }
+		m_Title->Update();
+		break;
 
-    switch (currentScene)
-    {
-    case SceneType::Title:
+	case SceneType::Game:
 
-        break;
-    case SceneType::Game:
-        m_GameManager.Update();
+		m_Game->Update();
+		break;
 
-        break;
-    case SceneType::GameOver:
+	case SceneType::Result:
 
-        break;
-    case SceneType::Option:
+		m_Result->Update();
+		break;
 
-        break;
-    default:
-        std::cout << "不明なシーンです。" << std::endl;
-        break;
-    }
+	default:
+		break;
+	}
+
 }
 
-//シーンを描画する
 void SceneManager::Draw()
 {
-    switch (currentScene)
-    {
-    case SceneType::Title:
+	switch (m_Scene) {
+	case SceneType::Title:
 
-        break;
-    case SceneType::Game:
-        m_GameManager.Draw();
+		m_Title->Draw();
+		break;
 
-        break;
-    case SceneType::GameOver:
+	case SceneType::Game:
 
-        break;
-    case SceneType::Option:
+		m_Game->Draw();
+		break;
 
-        break;
-    default:
-        std::cout << "不明なシーンです。" << std::endl;
-        break;
-    }
+	case SceneType::Result:
+
+		m_Result->Draw();
+		break;
+
+	default:
+		break;
+	}
 }
 
-// シーン遷移を開始する
-void SceneManager::TransitionTo(SceneType scene)
+void SceneManager::InitializeScene(SceneType sceneType)
 {
-    if (currentScene != scene)
-    {
-        nextScene = scene;
-        isTransitioning = true;  // フェードを開始
-        std::cout << "遷移開始: " << GetSceneName(scene) << std::endl;
-    }
+	switch (sceneType)
+	{
+	case SceneType::Title:
+		if (!m_Title) m_Title = std::make_unique<TitleManager>();
+		break;
+	case SceneType::Game:
+		if (!m_Game) m_Game = std::make_unique<GameManager>();
+		break;
+	case SceneType::Result:
+		if (!m_Result) m_Result = std::make_unique<ResultManager>();
+		break;
+	}
 }
 
-// 現在のシーンを取得
-SceneType SceneManager::GetCurrentScene() const
+void SceneManager::FinalizeScene(SceneType sceneType)
 {
-    return currentScene;
+	switch (sceneType)
+	{
+	case SceneType::Title:
+		m_Title.reset();
+		break;
+	case SceneType::Game:
+		m_Game.reset();
+		break;
+	case SceneType::Result:
+		m_Result.reset();
+		break;
+	}
 }
 
-// シーン名を文字列で返す（デバッグ用）
-const char* SceneManager::GetSceneName(SceneType scene) const
+void SceneManager::SetSceneType(SceneType sceneType)
 {
-    switch (scene)
-    {
-    case SceneType::Title: return "Title";
-    case SceneType::Game: return "Game";
-    case SceneType::GameOver: return "GameOver";
-    case SceneType::Option: return "Option";
-    default: return "Unknown";
-    }
-
-
+	FinalizeScene(m_Scene);
+	m_Scene = sceneType;
+	InitializeScene(sceneType);
 }

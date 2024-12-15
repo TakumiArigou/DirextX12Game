@@ -1,21 +1,10 @@
 
 
-#include "Main.h"
 #include "GameManager.h"
-
-
-
-
-GameManager* GameManager::m_Instance = nullptr;
-
-
-
-
+#include "SceneManager.h"
 
 GameManager::GameManager()
 {
-	m_Instance = this;
-
 
 }
 
@@ -24,7 +13,7 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
-	m_RenderManger.WaitGPU();
+	RenderManager::GetInstance()->WaitGPU();
 }
 
 
@@ -36,7 +25,11 @@ void GameManager::Update()
 	m_Camera.Update();
 	m_Field.Update();
 	m_TestObject.Update();
-	m_Polygon2D.Update();
+
+	if (GetKeyState('A') & 0x8000)
+	{
+		SceneManager::GetInstance()->SetSceneType(SceneType::Result);
+	}
 
 }
 
@@ -45,14 +38,13 @@ void GameManager::Update()
 
 void GameManager::Draw()
 {
-
-	m_RenderManger.DrawBegin();
+	RenderManager::GetInstance()->DrawBegin();
 
 	m_Camera.Draw();
 	m_Field.Draw();
 	m_TestObject.Draw();
 
-	m_RenderManger.DrawEnd();
+	RenderManager::GetInstance()->DrawEnd();
 
 }
 
