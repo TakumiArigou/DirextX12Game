@@ -84,10 +84,7 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Scene_Game</Filter>
     </ClCompile>
-    <ClCompile Include="Field.cpp">
-      <Filter>Scene_Game</Filter>
-    </ClCompile>
-    <ClCompile Include="TestObject.cpp">
+    <ClCompile Include="Player.cpp">
       <Filter>Scene_Game</Filter>
     </ClCompile>
     <ClCompile Include="TitleManager.cpp">
@@ -101,6 +98,15 @@
     </ClCompile>
     <ClCompile Include="ResultManager.cpp">
       <Filter>Scene_Result</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleObject.cpp">
+      <Filter>Scene_Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleBack.cpp">
+      <Filter>Scene_Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Sky.cpp">
+      <Filter>Scene_Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,13 +161,10 @@
     <ClInclude Include="json.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Field.h">
-      <Filter>Scene_Game\Header</Filter>
-    </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Scene_Game\Header</Filter>
     </ClInclude>
-    <ClInclude Include="TestObject.h">
+    <ClInclude Include="Player.h">
       <Filter>Scene_Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="TitleManager.h">
@@ -178,6 +181,15 @@
     </ClInclude>
     <ClInclude Include="ResultManager.h">
       <Filter>Scene_Result\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleObject.h">
+      <Filter>Scene_Title\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleBack.h">
+      <Filter>Scene_Title\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Sky.h">
+      <Filter>Scene_Game\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +224,15 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="Shader\UnlitVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\SkyPS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\SkyVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Noise.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

@@ -51,8 +51,8 @@ int APIENTRY wWinMain(  _In_ HINSTANCE hInstance,
 
     int windowWidth, windowHeight;
 
-    windowWidth = 1280;
-    windowHeight = 720;
+    windowWidth = SCREEN_MAX_WIDTH;
+    windowHeight = SCREEN_MAX_HIGHT;
 
 
 

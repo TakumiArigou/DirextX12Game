@@ -10,6 +10,7 @@ Camera::Camera()
 
 void Camera::Update()
 {
+	m_Time += 1.0f / 60.0f;
 }
 
 
@@ -93,7 +94,7 @@ void Camera::Draw()
 
 		XMMATRIX projection;
 		float aspect = (float)renderManager->GetBackBufferWidth() / renderManager->GetBackBufferHeight();
-		projection = XMMatrixPerspectiveFovLH(1.0f, aspect, 0.1f, 100.0f);
+		projection = XMMatrixPerspectiveFovLH(1.0f, aspect, 0.1f, 10000.0f);
 		
 
 
@@ -108,6 +109,8 @@ void Camera::Draw()
 		constant.Distorsion = XMFLOAT2{ postEffect.m_Distorsion[0], postEffect.m_Distorsion[1]};
 		constant.Gamma = postEffect.m_Gamma;
 
+		constant.Time = m_Time;
+
 		constant.isGrayScale = postEffect.isGrayScale;
 		constant.isSepia = postEffect.isSepia;
 		constant.isDistorsion = postEffect.isDistorsion;
@@ -115,4 +118,9 @@ void Camera::Draw()
 
 		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::CAMERA, &constant, sizeof(constant));	
 	}
+}
+
+void Camera::SetCameraPosition(XMFLOAT3 cameraPosition)
+{
+	m_Position = cameraPosition;
 }

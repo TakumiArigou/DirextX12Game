@@ -42,7 +42,7 @@ struct CAMERA_CONSTANT
 	XMFLOAT2		Distorsion;
 	float			Gamma;
 
-	float			Dummy;
+	float			Time;
 
 	BOOL		isGrayScale;
 	BOOL	isSepia;
@@ -193,6 +193,7 @@ private:
 	std::unique_ptr<RENDER_TARGET>		m_NormalBuffer;		//法線バッファ
 	std::unique_ptr<RENDER_TARGET>		m_PositionBuffer;	//位置バッファ
 	std::unique_ptr<RENDER_TARGET>		m_MaterialBuffer;	//マテリアルバッファ
+	std::unique_ptr<RENDER_TARGET>		m_EmissionBuffer;	//エミッションバッファ
 
 	//ポストエフェクトバッファ
 	std::unique_ptr<RENDER_TARGET>		m_PostEffectBuffer;
@@ -270,6 +271,7 @@ public:
 		NORMAL,
 		POSITION,
 		MATERIAL,
+		EMISSION,
 		POST,
 	};
 	std::unique_ptr<TEXTURE> LoadTexture(const char* FileName);
@@ -290,6 +292,6 @@ public:
 
 
 	void SetPipelineState(const char* PiplineName);
-
+	void CreatePipelineDef(const char* PiplineName, const char* VertexShaderFile, const char* PixelShaderFile, const DXGI_FORMAT* RTVFormats, unsigned int NumRenderTargets);
 };
 

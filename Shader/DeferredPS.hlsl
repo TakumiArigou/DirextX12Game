@@ -33,6 +33,7 @@ PS_OUTPUT main(PS_INPUT input)
     float3 normal = TextureNormal.Sample(Sampler, texCoord).rgb;
     float3 position = TexturePosition.Sample(Sampler, texCoord).rgb;
     float3 lightDirection = float3(0.0f, Material.Specular, 0.0f);
+    float3 emission = TextureEmission.Sample(Sampler, texCoord).rgb;
     
     float metallic = Material.Metallic;  //‹à‘®
     float roughness = Material.Roughness; //‘e‚³
@@ -93,7 +94,7 @@ PS_OUTPUT main(PS_INPUT input)
         specular *= LightColor.rgb;
     }
         
-    output.Color.rgb = diffuse.rgb + specular.rgb;
+    output.Color.rgb = diffuse.rgb + specular.rgb + emission.rgb;
     output.Color.a = 1.0f;
 
     return output;

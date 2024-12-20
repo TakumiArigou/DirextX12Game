@@ -21,11 +21,11 @@ ResultManager::~ResultManager()
 void ResultManager::Update()
 {
 	m_Camera.Update();
-	m_TestObject.Update();
+	m_Plyaer.Update();
 	m_Polygon2D.Update();
 
 
-	if (GetKeyState('A') & 0x8000)
+	if (GetKeyState('Z') & 0x8000)
 	{
 		SceneManager::GetInstance()->SetSceneType(SceneType::Title);
 	}
@@ -40,7 +40,7 @@ void ResultManager::Draw()
 	RenderManager::GetInstance()->DrawBegin();
 
 	m_Camera.Draw();
-	m_TestObject.Draw();
+	m_Plyaer.Draw();
 
 	RenderManager::GetInstance()->DrawEnd();
 

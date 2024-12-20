@@ -51,7 +51,8 @@ using namespace DirectX;
 #pragma comment( lib, "dxgi.lib" )
 #pragma comment (lib, "xinput.lib")
 
-
+#define SCREEN_MAX_WIDTH (1280)
+#define SCREEN_MAX_HIGHT (720)
 
 
 HWND GetWindow();

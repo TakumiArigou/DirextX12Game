@@ -1,16 +1,16 @@
 #pragma once
 
 #include "SceneBase.h"
+#include "TitleObject.h"
+#include "TitleBack.h"
 
 class TitleManager : public SceneBase
 {
 private:
 
 	Camera			m_Camera;
-	Polygon2D		m_Polygon2D;
-	TestObject		m_TestObject;
-
-	//SceneManager m_SceneManager;
+	TitleObject		m_TitleObject;
+	TitleBack		m_TitleBack;
 
 public:
 

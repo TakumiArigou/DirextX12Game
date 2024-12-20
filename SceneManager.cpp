@@ -7,7 +7,7 @@ SceneManager::SceneManager()
 {
 	m_Instance = this;
 
-	m_Scene = SceneType::Title;
+	m_Scene = SceneType::Game;
 
 	m_Title = std::make_unique<TitleManager>();
 	m_Game = std::make_unique<GameManager>();
@@ -23,8 +23,6 @@ SceneManager::~SceneManager()
 
 void SceneManager::Update()
 {
-	//GetSceneType();
-
 	switch (m_Scene) {
 	case SceneType::Title:
 
