@@ -108,6 +108,15 @@
     <ClCompile Include="Sky.cpp">
       <Filter>Scene_Game</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Scene_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>Scene_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>Scene_Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -189,6 +198,15 @@
       <Filter>Scene_Title\Header</Filter>
     </ClInclude>
     <ClInclude Include="Sky.h">
+      <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
       <Filter>Scene_Game\Header</Filter>
     </ClInclude>
   </ItemGroup>

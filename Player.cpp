@@ -9,6 +9,8 @@ Player::Player()
 	m_Rotation = { 0.0f, 1.57f, 0.0f };
 	m_Scale = { 0.1f, 0.1f, 0.1f };
 
+	m_ShootCoolDown = 0.0f;
+	m_ShootCoolDownMax = 0.1f;
 }
 
 
@@ -16,90 +18,110 @@ Player::Player()
 
 void Player::Update()
 {
+	//弾発射のクールタイム処理
+	if (m_ShootCoolDown > 0.0f) {
+		m_ShootCoolDown -= 1.0f / 60.0f;
+	}
 
+	//弾の更新
+	for (auto Bullet : m_Bullet) {
+		Bullet->Update();
+	}
 
-		//プレイヤー横移動処理
-		//入力方向に回転を加える
-		if (GetKeyState('A') & 0x8000)		//左入力(Aキー)
+	//非アクティブな弾を削除
+	m_Bullet.erase(std::remove_if(m_Bullet.begin(), m_Bullet.end(), [](PlayerBullet* bullet)
 		{
-			m_Position.x -= 0.07f;
-			m_Rotation.x -= 0.02f;
+			return !bullet->IsActive();
+		}), m_Bullet.end());
 
-			if (m_Rotation.x <= -0.5f)
-			{
-				m_Rotation.x = -0.5f;
-			}
-		}
-		else if (GetKeyState('D') & 0x8000)	//右入力(Dキー)
-		{
-			m_Position.x += 0.07f;
-			m_Rotation.x += 0.02f;
+	//弾発射
+	if (GetKeyState(VK_SPACE) & 0x8000)
+	{
+		Shoot();
+	}
 
-			if (m_Rotation.x >= 0.5f)
-			{
-				m_Rotation.x = 0.5f;
-			}
-		}
-		else if (m_Rotation.x < 0.0)	//非入力時に回転の値を0.0に戻す処理
-		{
-			m_Rotation.x += 0.01f;
-		}
-		else if (m_Rotation.x > 0.0)	//非入力時に回転の値を0.0に戻す処理
-		{
-			m_Rotation.x -= 0.01f;
-		}
+	//プレイヤー横移動処理
+	//入力方向に回転を加える
+	if (GetKeyState('A') & 0x8000)		//左入力(Aキー)
+	{
+		m_Position.x -= 0.07f;
+		m_Rotation.x -= 0.02f;
 
-		//プレイヤー縦移送処理
-		//入力方向に回転を加える
-		if (GetKeyState('W') & 0x8000)		//上入力(Wキー)
+		if (m_Rotation.x <= -0.5f)
 		{
-			m_Position.y += 0.07f;
-			m_Rotation.z -= 0.02f;
+			m_Rotation.x = -0.5f;
+		}
+	}
+	else if (GetKeyState('D') & 0x8000)	//右入力(Dキー)
+	{
+		m_Position.x += 0.07f;
+		m_Rotation.x += 0.02f;
 
-			if (m_Rotation.z <= -0.3f)
-			{
-				m_Rotation.z = -0.3f;
-			}
-		}
-		else if (GetKeyState('S') & 0x8000)	//下入力(Sキー)
+		if (m_Rotation.x >= 0.5f)
 		{
-			m_Position.y -= 0.07f;
-			m_Rotation.z += 0.02f;
+			m_Rotation.x = 0.5f;
+		}
+	}
+	else if (m_Rotation.x < 0.0)	//非入力時に回転の値を0.0に戻す処理
+	{
+		m_Rotation.x += 0.01f;
+	}
+	else if (m_Rotation.x > 0.0)	//非入力時に回転の値を0.0に戻す処理
+	{
+		m_Rotation.x -= 0.01f;
+	}
 
-			if (m_Rotation.z >= 0.3f)
-			{
-				m_Rotation.z = 0.3f;
-			}
-		}
-		else if (m_Rotation.z < 0.0)	//非入力時に回転の値を0.0に戻す処理
-		{
-			m_Rotation.z += 0.01f;
-		}
-		else if (m_Rotation.z > 0.0)	//非入力時に回転の値を0.0に戻す処理
-		{
-			m_Rotation.z -= 0.01f;
-		}
+	//プレイヤー縦移送処理
+	//入力方向に回転を加える
+	if (GetKeyState('W') & 0x8000)		//上入力(Wキー)
+	{
+		m_Position.y += 0.07f;
+		m_Rotation.z -= 0.02f;
 
-		//プレイヤーカメラ外処理
-		if (m_Position.x >= 7.0f)
+		if (m_Rotation.z <= -0.3f)
 		{
-			m_Position.x = 7.0f;
+			m_Rotation.z = -0.3f;
 		}
+	}
+	else if (GetKeyState('S') & 0x8000)	//下入力(Sキー)
+	{
+		m_Position.y -= 0.07f;
+		m_Rotation.z += 0.02f;
 
-		if (m_Position.x <= -7.0f)
+		if (m_Rotation.z >= 0.3f)
 		{
-			m_Position.x = -7.0f;
+			m_Rotation.z = 0.3f;
 		}
+	}
+	else if (m_Rotation.z < 0.0)	//非入力時に回転の値を0.0に戻す処理
+	{
+		m_Rotation.z += 0.01f;
+	}
+	else if (m_Rotation.z > 0.0)	//非入力時に回転の値を0.0に戻す処理
+	{
+		m_Rotation.z -= 0.01f;
+	}
 
-		if (m_Position.y >= 4.0f)
-		{
-			m_Position.y = 4.0f;
-		}
+	//プレイヤーカメラ外処理
+	if (m_Position.x >= 7.0f)
+	{
+		m_Position.x = 7.0f;
+	}
 
-		if (m_Position.y <= -4.0f)
-		{
-			m_Position.y = -4.0f;
-		}
+	if (m_Position.x <= -7.0f)
+	{
+		m_Position.x = -7.0f;
+	}
+
+	if (m_Position.y >= 4.0f)
+	{
+		m_Position.y = 4.0f;
+	}
+
+	if (m_Position.y <= -4.0f)
+	{
+		m_Position.y = -4.0f;
+	}
 }
 
 
@@ -138,7 +160,26 @@ void Player::Draw()
 		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::OBJECT, &constant, sizeof(constant));
 	}
 
-	//renderManager->SetPipelineState("Geometry");
-
 	m_Model.Draw();
+
+	for (auto Bullet : m_Bullet) {
+		Bullet->Draw();
+	}
+}
+
+
+void Player::Shoot()
+{
+	if (m_ShootCoolDown <= 0.0f) {
+		// 新しい弾を生成して発射
+		PlayerBullet* newBullet = new PlayerBullet(m_Position);  // プレイヤーの位置から弾を発射
+		m_Bullet.push_back(newBullet);
+
+		m_ShootCoolDown = m_ShootCoolDownMax;
+	}
+}
+
+
+XMFLOAT3 Player::GetPlayerPosition() const {
+	return m_Position;
 }

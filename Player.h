@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model.h"
+#include "PlayerBullet.h"
 
 class Player
 {
@@ -12,11 +13,20 @@ private:
 
 	Model			m_Model;
 
+	float			m_ShootCoolDown;
+	float			m_ShootCoolDownMax;
+	std::vector<PlayerBullet*> m_Bullet;
+
+
 public:
 
 	Player();
 
 	void Update();
 	void Draw();
+
+	void Shoot();
+
+	XMFLOAT3 GetPlayerPosition() const;
 };
 

@@ -292,6 +292,5 @@ public:
 
 
 	void SetPipelineState(const char* PiplineName);
-	void CreatePipelineDef(const char* PiplineName, const char* VertexShaderFile, const char* PixelShaderFile, const DXGI_FORMAT* RTVFormats, unsigned int NumRenderTargets);
 };
 

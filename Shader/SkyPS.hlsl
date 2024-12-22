@@ -30,15 +30,16 @@ PS_OUTPUT_GEOMETRY main(PS_INPUT input)
 		
     float3 eyeVec = position.xyz - CameraPosition.xyz;
     eyeVec = normalize(eyeVec);
-    float2 cloudPosition = eyeVec.xz * 1000 / eyeVec.y;
+    float2 cloudPosition = float2(eyeVec.xz * 1000 / eyeVec.y);
 	
+    cloudPosition.y /= 3;
     
 	//ドメインワーピング
     float2 warp;
     warp.x = fbm2(cloudPosition * 0.05, 3, Time * 0.2);
     warp.y = fbm2(cloudPosition * 0.05 + 1.0, 3, Time);
 
-    float2 noise = fbm2(cloudPosition * 0.001 + Time, 6, Time * 0.2, 3.0);
+    float2 noise = fbm2(cloudPosition * 0.001 + Time, 6, Time * 0.02, 3.0);
 	
     //float2 noise = fbm2(cloudPosition * 0.01 + warp, 6, Time * 0.1);
 	
@@ -50,7 +51,7 @@ PS_OUTPUT_GEOMETRY main(PS_INPUT input)
 	
     output.Emission.rgb = lerp(float3(1.0, 1.0, 1.0),
 							   skyColor,
-							   saturate(eyeVec.y * 10.0));
+							   saturate(eyeVec.y * 20.0));
 	
     output.Emission.a = 1.0;
 
