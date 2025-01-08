@@ -4,7 +4,6 @@
 
 #include "RenderManager.h"
 #include "Camera.h"
-#include "Polygon2D.h"
 #include "Player.h"
 
 class SceneBase

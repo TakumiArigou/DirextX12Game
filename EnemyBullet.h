@@ -14,12 +14,13 @@ private:
 	bool isActive;
 
 	Model			m_Model;
+	Player*			m_Player;
 
 	float m_Time{};
 
 public:
 
-	EnemyBullet(XMFLOAT3 startPos, XMFLOAT3 targetPos);
+	EnemyBullet(XMFLOAT3 startPos, XMFLOAT3 targetPos, Player* player);
 	~EnemyBullet();
 
 	void Update();
@@ -27,4 +28,3 @@ public:
 
 	bool IsActive() const;
 };
-

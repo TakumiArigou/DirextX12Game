@@ -22,8 +22,6 @@ void ResultManager::Update()
 {
 	m_Camera.Update();
 	m_Plyaer.Update();
-	m_Polygon2D.Update();
-
 
 	if (GetKeyState('Z') & 0x8000)
 	{

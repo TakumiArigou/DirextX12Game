@@ -4,6 +4,7 @@
 #include "TitleManager.h"
 #include "GameManager.h"
 #include "ResultManager.h"
+#include "ScoreManager.h"
 
 
 enum class SceneType 
@@ -17,8 +18,6 @@ class SceneManager
 {
 private:
 	static SceneManager* m_Instance;
-
-	RenderManager m_RenderManager;
 
 	SceneType		m_Scene;
 

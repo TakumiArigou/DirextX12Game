@@ -218,7 +218,13 @@ private:
 
 public:
 
-	static RenderManager* GetInstance() { return m_Instance; }
+	static RenderManager* GetInstance() {
+		if (m_Instance == nullptr)
+		{
+			m_Instance = new RenderManager();
+		}
+		return m_Instance;
+	}
 
 	ID3D12Device* GetDevice() { return m_Device.Get(); }
 	ID3D12GraphicsCommandList* GetGraphicsCommandList() { return m_GraphicsCommandList.Get(); }

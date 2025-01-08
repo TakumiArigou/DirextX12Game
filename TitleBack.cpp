@@ -10,7 +10,7 @@ TitleBack::TitleBack()
 {
 	RenderManager* renderManager = RenderManager::GetInstance();
 
-	m_Texture = renderManager->LoadTexture("Asset\\Drill_01_diff_4k.dds");
+	m_Texture = renderManager->LoadTexture("Asset\\Number.dds");
 
 
 	m_VertexBuffer = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), 4);
@@ -22,10 +22,15 @@ TitleBack::TitleBack()
 	HRESULT hr = m_VertexBuffer->Resource->Map(0, nullptr, (void**)&buffer);
 	assert(SUCCEEDED(hr));
 
-	buffer[0].Position = { -50.0f,  0.0f,  50.0f };
-	buffer[1].Position = {  50.0f,  0.0f,  50.0f };
-	buffer[2].Position = { -50.0f,  0.0f, -50.0f };
-	buffer[3].Position = {  50.0f,  0.0f, -50.0f };
+	buffer[0].Position = { -1.0f,  7.5f,  1.4f };
+	buffer[1].Position = { -0.95f,  8.0f,  1.4f };
+	buffer[2].Position = { -1.0f,  7.5f, 1.0f };
+	buffer[3].Position = { -0.95f,  8.0f, 1.0f };
+
+	//buffer[0].Position = { -50.0f,  0.0f,  50.0f };
+	//buffer[1].Position = { 50.0f,  0.0f,  50.0f };
+	//buffer[2].Position = { -50.0f,  0.0f, -50.0f };
+	//buffer[3].Position = { 50.0f,  0.0f, -50.0f };
 
 	buffer[0].Color = { 1.0f,  1.0f,  1.0f, 1.0f };
 	buffer[1].Color = { 1.0f,  1.0f,  1.0f, 1.0f };
@@ -38,9 +43,9 @@ TitleBack::TitleBack()
 	buffer[3].Normal = { 0.0f, 1.0f, 0.0f };
 
 	buffer[0].TexCoord = {  0.0f,  0.0f };
-	buffer[1].TexCoord = {  10.0f,  0.0f };
-	buffer[2].TexCoord = {  0.0f,  10.0f };
-	buffer[3].TexCoord = {  10.0f,  10.0f };
+	buffer[1].TexCoord = {  1.0f,  0.0f };
+	buffer[2].TexCoord = {  0.0f,  1.0f };
+	buffer[3].TexCoord = {  1.0f,  1.0f };
 
 	m_VertexBuffer->Resource->Unmap(0, nullptr);
 }
@@ -50,6 +55,30 @@ TitleBack::TitleBack()
 
 void TitleBack::Update()
 {
+	int score = 3;
+	int digit = score % 10; // 最下位の数字を取得
+	score /= 10; // 次の桁に進む
+
+	// テクスチャ座標の設定
+	VERTEX_3D* buffer{};
+	HRESULT hr = m_VertexBuffer->Resource->Map(0, nullptr, (void**)&buffer);
+	assert(SUCCEEDED(hr));
+
+	float texX = digit * 0.1f; // スプライトシートのX座標（10分の1）
+	float texY = 0.0f;         // スプライトシートのY座標
+
+	// 頂点座標とテクスチャ座標を調整
+	buffer[0].TexCoord = { texX, texY };
+	buffer[1].TexCoord = { texX + 0.1f, texY };
+	buffer[2].TexCoord = { texX, texY + 1.0f };
+	buffer[3].TexCoord = { texX + 0.1f, texY + 1.0f };
+
+	//for (int j = 0; j < 4; ++j)
+	{
+		//buffer[0].Position.x += offsetX + 1 * digitWidth; // 数字の位置を調整
+	}
+
+	m_VertexBuffer->Resource->Unmap(0, nullptr);
 }
 
 
@@ -59,6 +88,8 @@ void TitleBack::Update()
 void TitleBack::Draw()
 {
 	RenderManager* renderManager = RenderManager::GetInstance();
+
+	renderManager->SetPipelineState("Unlit");
 
 	//定数バッファ設定
 	{

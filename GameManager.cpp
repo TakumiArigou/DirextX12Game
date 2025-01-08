@@ -1,5 +1,4 @@
 
-
 #include "GameManager.h"
 #include "SceneManager.h"
 
@@ -28,6 +27,7 @@ void GameManager::Update()
 	m_Sky.Update();
 	m_Player.Update();
 	m_Enemy.Update();
+	m_GameUIScore.Update();
 
 
 	if (GetKeyState('Z') & 0x8000)
@@ -44,16 +44,18 @@ void GameManager::Draw()
 {
 	RenderManager::GetInstance()->DrawBegin();
 
+	m_GameUIScore.Draw();
+
 	m_Camera.Draw();
-
+	
 	m_Enemy.Draw();
-
 	m_Player.Draw();
 	
 
+
+
+
 	m_Sky.Draw();
-
-
 
 	RenderManager::GetInstance()->DrawEnd();
 

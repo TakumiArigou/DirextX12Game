@@ -18,6 +18,8 @@ void Camera::Draw()
 {	
 	RenderManager* renderManager = RenderManager::GetInstance();
 
+	
+
 	{
 		ImGui::Begin("Camera");
 
@@ -118,6 +120,8 @@ void Camera::Draw()
 
 		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::CAMERA, &constant, sizeof(constant));	
 	}
+
+	renderManager->SetPipelineState("Geometry");
 }
 
 void Camera::SetCameraPosition(XMFLOAT3 cameraPosition)

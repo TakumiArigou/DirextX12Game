@@ -6,10 +6,12 @@ PS_INPUT main(VS_INPUT input)
     
     float4x4 wvp;
     wvp = mul(World, View);
-    wvp = mul(wvp, Projection);
+    wvp = mul(wvp,Projection);
     
     float4 position = float4(input.Position, 1.0f);
     output.Position = mul(position, wvp);
+    
+    output.WorldPosition = mul(position, World);
     
     float4 normal = float4(input.Normal, 0.0f);
     output.Normal = mul(normal, World);

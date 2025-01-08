@@ -10,6 +10,7 @@ private:
 	XMFLOAT3		m_Position{ 0.0f, 0.0f, 0.0f };
 	XMFLOAT3		m_Rotation{ 0.0f, 0.0f, 0.0f };
 	XMFLOAT3		m_Scale{ 1.0f, 1.0f, 1.0f };
+	XMFLOAT3		m_Extents{ 0.0f, 0.0f, 0.0f };
 
 	Model			m_Model;
 
@@ -28,5 +29,5 @@ public:
 	void Shoot();
 
 	XMFLOAT3 GetPlayerPosition() const;
+	XMFLOAT3 GetPlayerScale() const;
 };
-

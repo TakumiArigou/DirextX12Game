@@ -14,10 +14,12 @@ public:
 
 	float			m_Time{};
 
-private:
-
 	XMFLOAT3 m_Position{ 20.0f, 0.0f, 0.0f };
 	XMFLOAT3 m_Target{ 0.0f, 0.0f, 0.0f };
+
+private:
+
+
 	
 	POSTEFFECT_STATUS& postEffect = POSTEFFECT_STATUS::GetInstance();
 };

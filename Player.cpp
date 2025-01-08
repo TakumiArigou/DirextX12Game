@@ -8,6 +8,7 @@ Player::Player()
 	m_Position = { 0.0f, 0.0f, 5.0f };
 	m_Rotation = { 0.0f, 1.57f, 0.0f };
 	m_Scale = { 0.1f, 0.1f, 0.1f };
+	m_Extents = { 1.0f, 1.0f, 1.0f };
 
 	m_ShootCoolDown = 0.0f;
 	m_ShootCoolDownMax = 0.1f;
@@ -180,6 +181,12 @@ void Player::Shoot()
 }
 
 
-XMFLOAT3 Player::GetPlayerPosition() const {
+XMFLOAT3 Player::GetPlayerPosition() const 
+{
 	return m_Position;
+}
+
+XMFLOAT3 Player::GetPlayerScale() const
+{
+	return m_Scale;
 }

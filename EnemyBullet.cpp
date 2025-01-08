@@ -1,8 +1,8 @@
 
 #include "GameManager.h"
+#include "OBBManager.h"
 
-
-EnemyBullet::EnemyBullet(XMFLOAT3 startPos, XMFLOAT3 targetPos)
+EnemyBullet::EnemyBullet(XMFLOAT3 startPos, XMFLOAT3 targetPos, Player* player)
 {
 	m_Model.Load("Asset\\Enemy_Attack.obj");
 
@@ -10,8 +10,10 @@ EnemyBullet::EnemyBullet(XMFLOAT3 startPos, XMFLOAT3 targetPos)
 	m_PlayerPosition = targetPos;
 	m_Rotation = { 0.0f, 1.57f, 0.0f };
 	m_Scale = { 0.1f, 0.1f, 0.1f };
-	m_Velocity = { 0.0f, 0.0f, 0.2f };
+	m_Velocity = { 0.0f, 0.0f, 0.1f };
 	isActive = true;
+
+	m_Player = player;
 }
 
 EnemyBullet::~EnemyBullet()
@@ -43,6 +45,23 @@ void EnemyBullet::Update()
 	m_Position.z -= m_Velocity.z * m_Time;
 
 	if (m_Position.z <= 0.0f) {
+		isActive = false;
+	}
+
+	XMFLOAT3 pos = m_Player->GetPlayerPosition();
+	XMFLOAT3 sca = {5.0f, 5.0f, 5.0f};
+
+	OBB		PlayerOBB(pos, XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), 0.5, 0.5, 0.5);	//座標(X,Y,Z),X軸,Y軸,Z軸,ボックスのサイズ(X,Y,Z)
+	OBB		EnemyBulletOBB(m_Position, XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), 0.5, 0.5, 0.5);	//座標(X,Y,Z),X軸,Y軸,Z軸,ボックスのサイズ(X,Y,Z)
+
+	OBBManager	OM;
+
+	//衝突処理
+	bool isHit = OM.ColOBBs(PlayerOBB, EnemyBulletOBB);
+
+	//当たったら非アクティブ
+	if (isHit)
+	{
 		isActive = false;
 	}
 }

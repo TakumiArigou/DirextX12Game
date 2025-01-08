@@ -87,7 +87,7 @@ void Enemy::Shoot()
 	XMFLOAT3 playerPos = m_Player->GetPlayerPosition();
 	
 		// 新しい弾を生成して発射
-		EnemyBullet* newBullet = new EnemyBullet(m_Position, playerPos);  // エネミーの位置から弾を発射
+		EnemyBullet* newBullet = new EnemyBullet(m_Position, playerPos, m_Player);  // エネミーの位置から弾を発射
 		m_Bullet.push_back(newBullet);
 
 		m_ShootCoolDown = m_ShootCoolDownMax;

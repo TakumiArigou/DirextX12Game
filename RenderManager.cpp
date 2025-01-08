@@ -438,8 +438,8 @@ void RenderManager::Init()
 
 		//ÉTÉìÉvÉâÅ[
 		D3D12_STATIC_SAMPLER_DESC	samplerDesc[2]{};
-		//samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-		samplerDesc[0].Filter = D3D12_FILTER_ANISOTROPIC;
+		samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+		//samplerDesc[0].Filter = D3D12_FILTER_ANISOTROPIC;
 		samplerDesc[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 		samplerDesc[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 		samplerDesc[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
@@ -524,7 +524,11 @@ void RenderManager::Init()
 	{
 		DXGI_FORMAT RTVFormats[] =
 		{
-			DXGI_FORMAT_R8G8B8A8_UNORM
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
 		};
 
 		m_PipelineState["Unlit"] =
@@ -1268,8 +1272,8 @@ ComPtr<ID3D12PipelineState> RenderManager::CreatePipeline(const char* VertexShad
 	for (int i = 0; i < _countof(pipelineStateDesc.BlendState.RenderTarget); ++i)
 	{	
 		pipelineStateDesc.BlendState.RenderTarget[i].BlendEnable = TRUE;
-		pipelineStateDesc.BlendState.RenderTarget[i].SrcBlend = D3D12_BLEND_ONE;
-		pipelineStateDesc.BlendState.RenderTarget[i].DestBlend = D3D12_BLEND_ZERO;
+		pipelineStateDesc.BlendState.RenderTarget[i].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		pipelineStateDesc.BlendState.RenderTarget[i].DestBlend = D3D12_BLEND_INV_ALPHA_FACTOR;
 		pipelineStateDesc.BlendState.RenderTarget[i].BlendOp = D3D12_BLEND_OP_ADD;
 		pipelineStateDesc.BlendState.RenderTarget[i].SrcBlendAlpha = D3D12_BLEND_ONE;
 		pipelineStateDesc.BlendState.RenderTarget[i].DestBlendAlpha = D3D12_BLEND_ZERO;

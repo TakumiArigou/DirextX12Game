@@ -47,5 +47,4 @@ void Sky::Draw()
 	renderManager->SetPipelineState("Sky");
 
 	m_Model.Draw();
-
 }

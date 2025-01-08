@@ -10,7 +10,7 @@ PS_OUTPUT_GEOMETRY main(PS_INPUT input)
     
     baseColor = TextureBaseColor.Sample(Sampler, input.TexCoord);
     output.Color = baseColor;
-    
+   
     float3 normal = input.Normal;
     normal = normalize(normal);
     output.Normal.rgb = normal;
