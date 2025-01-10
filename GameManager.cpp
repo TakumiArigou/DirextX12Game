@@ -27,7 +27,11 @@ void GameManager::Update()
 	m_Sky.Update();
 	m_Player.Update();
 	m_Enemy.Update();
+
 	m_GameUIScore.Update();
+	m_GameUITime.Update();
+	m_GameUIPlayerGage.Update();
+	m_GameUIPlayerHPGage.Update();
 
 
 	if (GetKeyState('Z') & 0x8000)
@@ -45,12 +49,15 @@ void GameManager::Draw()
 	RenderManager::GetInstance()->DrawBegin();
 
 	m_GameUIScore.Draw();
+	m_GameUITime.Draw();
+	m_GameUIPlayerGage.Draw();
+	m_GameUIPlayerHPGage.Draw();
 
 	m_Camera.Draw();
-	
+
 	m_Enemy.Draw();
 	m_Player.Draw();
-	
+
 
 
 

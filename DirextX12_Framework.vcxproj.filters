@@ -126,6 +126,15 @@
     <ClCompile Include="GameUIScore.cpp">
       <Filter>Scene_Game</Filter>
     </ClCompile>
+    <ClCompile Include="GameUIPlayerGage.cpp">
+      <Filter>Scene_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUIPlayerHPGage.cpp">
+      <Filter>Scene_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUITime.cpp">
+      <Filter>Scene_Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -225,6 +234,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="GameUIScore.h">
+      <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUIPlayerGage.h">
+      <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUIPlayerHPGage.h">
+      <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUITime.h">
       <Filter>Scene_Game\Header</Filter>
     </ClInclude>
   </ItemGroup>
