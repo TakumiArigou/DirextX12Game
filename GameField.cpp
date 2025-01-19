@@ -1,0 +1,172 @@
+
+
+#include "Main.h"
+#include "RenderManager.h"
+#include "GameField.h"
+
+
+
+
+
+GameField::GameField()
+{
+	RenderManager* renderManager = RenderManager::GetInstance();
+
+	m_Texture = renderManager->LoadTexture("Asset\\field004.dds");
+
+
+
+	{
+		m_VertexBuffer = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), FIELD_X * FIELD_Z);
+
+		VERTEX_3D* vertex{};
+		HRESULT hr = m_VertexBuffer->Resource->Map(0, nullptr, (void**)&vertex);
+		assert(SUCCEEDED(hr));
+
+		for (int z = 0; z < FIELD_Z; z++)
+		{
+			for (int x = 0; x < FIELD_X; x++)
+			{
+				vertex[z * FIELD_X + x].Position.x = x * 10.0f - FIELD_X * 10.0f / 2;
+				vertex[z * FIELD_X + x].Position.z = -z * 10.0f + FIELD_Z * 10.0f / 2;
+				vertex[z * FIELD_X + x].Position.y = 0.0f;
+				vertex[z * FIELD_X + x].Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+				vertex[z * FIELD_X + x].TexCoord = XMFLOAT2(x, z);
+				vertex[z * FIELD_X + x].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
+			}
+		}
+
+		m_VertexBuffer->Resource->Unmap(0, nullptr);
+	}
+
+
+
+
+	{
+		m_IndexBuffer = renderManager->CreateIndexBuffer((FIELD_X * 2 + 2) * (FIELD_Z - 1) - 2);
+
+		unsigned int* index{};
+		HRESULT hr = m_IndexBuffer->Resource->Map(0, nullptr, (void**)&index);
+		assert(SUCCEEDED(hr));
+
+		unsigned int i = 0;
+		for (int z = 0; z < FIELD_Z - 1; z++)
+		{
+			for (int x = 0; x < FIELD_X; x++)
+			{
+				index[i] = (z + 1) * FIELD_X + x;
+				i++;
+				index[i] = z * FIELD_X + x;
+				i++;
+			}
+
+			if (z == FIELD_Z - 2)
+				break;
+
+			index[i] = z * FIELD_X + FIELD_X - 1;
+			i++;
+			index[i] = (z + 2) * FIELD_X;
+			i++;
+		}
+
+		m_IndexBuffer->Resource->Unmap(0, nullptr);
+	}
+}
+
+
+
+
+void GameField::Update()
+{
+	m_Time += 1.0f / 60.0f;
+}
+
+
+
+
+
+void GameField::Draw()
+{
+	RenderManager* renderManager = RenderManager::GetInstance();
+
+
+
+	ImGui::Begin("GameField");
+
+	//定数バッファ設定
+	{
+		ENV_CONSTANT constant;
+
+		ImGui::SliderFloat("LightRotationX", (float*)&m_LightRotation.x, 0.0f, XM_PI);
+		ImGui::SliderFloat("LightRotationY", (float*)&m_LightRotation.y, 0.0f, XM_2PI);
+
+		ImGui::SliderFloat("Octave", (float*)&m_FiledParameter.x, 0.0f, 10.0f);
+		ImGui::SliderFloat("Hight", (float*)&m_FiledParameter.y, 0.0f, 1000.0f);
+		ImGui::SliderFloat("Mesh", (float*)&m_FiledParameter.z, 0.0f, 0.01f);
+
+		constant.LightDirection.x = sinf(m_LightRotation.y) * cosf(m_LightRotation.x);
+		constant.LightDirection.y = sinf(m_LightRotation.x);
+		constant.LightDirection.z = cosf(m_LightRotation.y) * cosf(m_LightRotation.x);
+
+		constant.LightColor.x = 5.0f;
+		constant.LightColor.y = 5.0f;
+		constant.LightColor.z = 5.0f;
+
+		RenderManager::GetInstance()->SetConstant(
+			RenderManager::CONSTANT_TYPE::ENV,
+			&constant, sizeof(constant));
+	}
+
+	ImGui::End();
+
+
+
+	//マトリクス設定
+	{
+		XMMATRIX world = XMMatrixIdentity();
+		world *= XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
+		world *= XMMatrixRotationRollPitchYaw(m_Rotation.z, m_Rotation.x, m_Rotation.y);
+		world *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
+
+		OBJECT_CONSTANT constant{};
+		XMStoreFloat4x4(&constant.World, XMMatrixTranspose(world));
+		constant.Filed = m_FiledParameter;
+
+		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::OBJECT, &constant, sizeof(constant));
+	}
+
+
+	//マテリアル設定
+	{
+		static float metallic = 0.0f;
+		static float roughness = 0.2f;
+
+		MATERIAL material{};
+		material.BaseColor = XMFLOAT4{ 1.0f, 1.0f, 1.0f, 1.0f };
+		material.Metallic = metallic;
+		material.Roughness = roughness;
+		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::SUBSET, &material, sizeof(material));
+	}
+
+
+	//頂点バッファ設定
+	renderManager->SetVertexBuffer(m_VertexBuffer.get());
+
+	//インデックスバッファ設定
+	renderManager->SetIndexBuffer(m_IndexBuffer.get());
+
+	//テクスチャ設定
+	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture.get());
+
+	//トポロジ設定
+	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	//パイプライン設定
+	renderManager->SetPipelineState("GameField");
+
+
+	//描画
+	renderManager->GetGraphicsCommandList()->DrawIndexedInstanced(((FIELD_X * 2 + 2) * (FIELD_Z - 1) - 2), 1, 0, 0, 0);
+
+
+}

@@ -54,6 +54,8 @@ struct CAMERA_CONSTANT
 struct OBJECT_CONSTANT
 {
 	XMFLOAT4X4 World;
+	XMFLOAT4   Filed;
+	XMFLOAT4   Water;
 };
 
 

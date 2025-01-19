@@ -1,3 +1,4 @@
+
 #include "SceneBase.h"
 #include "GameUIPlayerHPGage.h"
 #include "ScoreManager.h"
@@ -9,7 +10,6 @@ GameUIPlayerHPGage::GameUIPlayerHPGage()
 
 	m_Texture1 = renderManager->LoadTexture("Asset\\PlayerHPGage1.dds");
 	m_Texture2 = renderManager->LoadTexture("Asset\\PlayerHPGage2.dds");
-
 
 	m_VertexBuffer1 = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), 4);
 	m_VertexBuffer2 = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), 4);
@@ -71,28 +71,29 @@ GameUIPlayerHPGage::GameUIPlayerHPGage()
 		m_VertexBuffer2->Resource->Unmap(0, nullptr);
 	}
 
-	a = 0;
+	m_oldPlayerHP = MAX_PLAYER_HP;
 }
 
 void GameUIPlayerHPGage::Update()
 {
+	m_PlayerHP = m_Player->GetPlayerHP();
 
 	if (GetKeyState('L') & 0x8000)
 	{
-		a -= 1;
+		m_PlayerHP -= 1;
 	}
-	else if (a <= 0)
+	else if (m_PlayerHP <= 0)
 	{
-		a = 0;
+		m_PlayerHP = 0;
 	}
 
 	if (GetKeyState('O') & 0x8000)
 	{
-		a += 1;
+		m_PlayerHP += 1;
 	}
-	else if (a >= 10)
+	else if (m_PlayerHP >= m_oldPlayerHP)
 	{
-		a = 10;
+		m_PlayerHP = m_oldPlayerHP;
 	}
 }
 
@@ -158,12 +159,12 @@ void GameUIPlayerHPGage::PlayerHPDraw2()
 		HRESULT hr = m_VertexBuffer2->Resource->Map(0, nullptr, (void**)&buffer);
 		assert(SUCCEEDED(hr));
 
-		texX = 0.14f; // スプライトシートのX座標（10分の1）
+		texX = 1.4f / m_oldPlayerHP; // スプライトシートのX座標（10分の1）
 
 		buffer[0].Position = { -0.9f,  -2.4f,  -1.0f };
-		buffer[1].Position = { -0.9f,  -1.0f - (texX * a),  -1.0f };
+		buffer[1].Position = { -0.9f,  -2.4f + (texX * m_PlayerHP),  -1.0f };
 		buffer[2].Position = { -0.9f,  -2.4f, -1.2f };
-		buffer[3].Position = { -0.9f,  -1.0f - (texX * a), -1.2f };
+		buffer[3].Position = { -0.9f,  -2.4f + (texX * m_PlayerHP), -1.2f };
 
 		buffer[0].TexCoord = { 0.0, texY };
 		buffer[1].TexCoord = { 1.0, texY };
@@ -190,13 +191,13 @@ void GameUIPlayerHPGage::PlayerHPDraw2()
 	{
 		MATERIAL material{};
 
-		if (a > 7)
-		{
-			material.BaseColor = XMFLOAT4{ 1.0f, 0.0f, 0.0f, 1.0f };
-		}
-		else if (a < 4)
+		if (m_PlayerHP > m_oldPlayerHP / 2)
 		{
 			material.BaseColor = XMFLOAT4{ 0.0f, 1.0f, 0.0f, 1.0f };
+		}
+		else if (m_PlayerHP < m_oldPlayerHP / 4)
+		{
+			material.BaseColor = XMFLOAT4{ 1.0f, 0.0f, 0.0f, 1.0f };
 		}
 		else
 		{
@@ -212,11 +213,15 @@ void GameUIPlayerHPGage::PlayerHPDraw2()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture2.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
 
+}
+
+void GameUIPlayerHPGage::SetPlayer(Player* player)
+{
+	m_Player = player;
 }

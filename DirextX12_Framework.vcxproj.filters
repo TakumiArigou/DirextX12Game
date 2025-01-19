@@ -105,7 +105,7 @@
     <ClCompile Include="Sky.cpp">
       <Filter>Scene_Game</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
+    <ClCompile Include="EnemySmall.cpp">
       <Filter>Scene_Game</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBullet.cpp">
@@ -133,6 +133,21 @@
       <Filter>Scene_Game</Filter>
     </ClCompile>
     <ClCompile Include="GameUITime.cpp">
+      <Filter>Scene_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameField.cpp">
+      <Filter>Scene_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Water.cpp">
+      <Filter>Scene_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>Scene_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Scene_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySmall2.cpp">
       <Filter>Scene_Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -215,7 +230,7 @@
     <ClInclude Include="Sky.h">
       <Filter>Scene_Game\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
+    <ClInclude Include="EnemySmall.h">
       <Filter>Scene_Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="PlayerBullet.h">
@@ -243,6 +258,21 @@
       <Filter>Scene_Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="GameUITime.h">
+      <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameField.h">
+      <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySmall2.h">
       <Filter>Scene_Game\Header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -287,6 +317,18 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="Shader\Noise.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\GameFieldPS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\GameFieldVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\WaterPS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\WaterVS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

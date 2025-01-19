@@ -1,5 +1,7 @@
 #pragma once
 
+#define MAX_PLAYER_HP 20
+
 class GameUIPlayerHPGage
 {
 private:
@@ -13,7 +15,10 @@ private:
 	std::unique_ptr<TEXTURE>		m_Texture1;
 	std::unique_ptr<TEXTURE>		m_Texture2;
 
-	int a;
+	Player* m_Player;
+
+	int m_PlayerHP;
+	int m_oldPlayerHP;
 
 public:
 
@@ -24,4 +29,6 @@ public:
 
 	void PlayerHPDraw1();
 	void PlayerHPDraw2();
+
+	void SetPlayer(Player* player);
 };

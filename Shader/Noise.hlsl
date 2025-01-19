@@ -130,6 +130,8 @@ float fbm2(in float2 vec, in int octave, in float2 offset = 0.0, in float vecVal
     float value = 0.0;
     float amplitude = 1.0;
     
+    vec.y += Time;
+    
     for (int i = 0; i < octave; i++)
     {
         value += amplitude * perlinNoise2(vec + offset);
@@ -140,6 +142,41 @@ float fbm2(in float2 vec, in int octave, in float2 offset = 0.0, in float vecVal
     return value;
 }
 
+//フェールド用FBM
+float fbm2field(in float2 vec, in int octave)
+{
+    vec.y += Time / 5;
+    
+    float value = 0.0;
+    float amplitude = 1.0;
+    
+    for (int i = 0; i < octave; i++)
+    {
+        value += amplitude * (perlinNoise2(vec)) - 0.1; //abs()：絶対値に変換する関数(例えば-1は1になる)
+        vec *= 2.0;
+        amplitude *= 0.5;
+    }
+    
+    return value;
+}
+
+//水用FBM
+float fbm2water(in float2 vec, in int octave, in float2 offset = 0.0, in float vecValue = 2.0)
+{
+    float value = 0.0;
+    float amplitude = 1.0;
+    
+    vec.y += Time * 2;
+    
+    for (int i = 0; i < octave; i++)
+    {
+        value += amplitude * perlinNoise2(vec + offset) + 7;
+        vec *= vecValue;
+        amplitude *= 0.5;
+    }
+    
+    return value;
+}
 
 //3DFBM(フラクタルパーリンノイズ)
 float fbm3(in float3 vec, int octave)
@@ -160,12 +197,14 @@ float fbm3(in float3 vec, int octave)
 //FBM ABS(アブストラクト)
 float fbm2abs(in float2 vec, in int octave)
 {
+    vec.y += Time / 5;
+    
     float value = 0.0;
     float amplitude = 1.0;
     
     for (int i = 0; i < octave; i++)
     {
-        value += amplitude * -abs(perlinNoise2(vec)); //abs()：絶対値に変換する関数(例えば-1は1になる)
+        value += amplitude * (perlinNoise2(vec)) - 0.1; //abs()：絶対値に変換する関数(例えば-1は1になる)
         vec *= 2.0;
         amplitude *= 0.5;
     }
@@ -173,7 +212,14 @@ float fbm2abs(in float2 vec, in int octave)
     return value;
 }
 
+//フィールドの高さ
 float GetFieldHeight(in float2 Position, in int Octave, in float Hight, in float Mesh)
 {
-    return fbm2abs(Position * Mesh, Octave) * Hight;
+    return fbm2field(Position * Mesh, Octave) * Hight;
+}
+
+//水の高さ
+float GetWaterHeight(in float2 Position, in int Octave, in float offset, in float Hight = 3.0f)
+{
+    return fbm2water(Position * 0.02, Octave, offset) * Hight;
 }

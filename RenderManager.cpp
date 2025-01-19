@@ -612,6 +612,42 @@ void RenderManager::Init()
 				RTVFormats, _countof(RTVFormats));
 	}
 
+	//ゲームフィールドパイプライン生成
+	{
+		DXGI_FORMAT RTVFormats[] =
+		{
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+		};
+
+		m_PipelineState["GameField"] =
+			CreatePipeline(
+				"Shader\\GameFieldVS.cso",
+				"Shader\\GameFieldPS.cso",
+				RTVFormats, _countof(RTVFormats));
+	}
+
+	//フィールドパイプライン生成
+	{
+		DXGI_FORMAT RTVFormats[] =
+		{
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+			DXGI_FORMAT_R16G16B16A16_FLOAT,
+		};
+
+		m_PipelineState["Water"] =
+			CreatePipeline(
+				"Shader\\WaterVS.cso",
+				"Shader\\WaterPS.cso",
+				RTVFormats, _countof(RTVFormats));
+	}
+
 
 	//カラーバッファ生成
 	{

@@ -5,10 +5,6 @@
 PS_OUTPUT_GEOMETRY main(PS_INPUT input)
 {
     PS_OUTPUT_GEOMETRY output;
-              
-	//float4 baseColor;
-	//baseColor = TextureBaseColor.Sample(Sampler, input.TexCoord);
-	//output.Color = input.Color * Material.BaseColor * baseColor;
     
     output.Color = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	
@@ -25,8 +21,6 @@ PS_OUTPUT_GEOMETRY main(PS_INPUT input)
     output.Material.g = Material.Specular;
     output.Material.b = Material.Roughness;
     output.Material.a = 1.0;
-	
-	//output.Emission = Material.EmissionColor;
 		
     float3 eyeVec = position.xyz - CameraPosition.xyz;
     eyeVec = normalize(eyeVec);
@@ -34,26 +28,40 @@ PS_OUTPUT_GEOMETRY main(PS_INPUT input)
 	
     cloudPosition.y /= 3;
     
-	//ドメインワーピング
-    float2 warp;
-    warp.x = fbm2(cloudPosition * 0.05, 3, Time * 0.2);
-    warp.y = fbm2(cloudPosition * 0.05 + 1.0, 3, Time);
-
-    float2 noise = fbm2(cloudPosition * 0.001 + Time, 6, Time * 0.02, 3.0);
-	
-    //float2 noise = fbm2(cloudPosition * 0.01 + warp, 6, Time * 0.1);
+    float2 noise = fbm2(cloudPosition * 0.001, 6, Time * 0.02, 3.0);
+    
+    
+    float addTime = Time / 100;
+    
+    if (addTime >= 1.0f)
+    {
+        addTime = 1.0f;
+    }
+    
+    float3 sunColor = GetAtomColor(LightDirection.xyz) * addTime; //雲の色を大気の色に合わせる
 	
     float cloud = saturate(noise + 0.001);
 	
-    float3 skyColor = output.Emission.rgb = lerp(float3(0.1, 0.1, 0.9),
+    float3 skyColor = output.Emission.rgb = lerp(float3(0.0, 0.0, 1.0),
 												 float3(1.0, 1.0, 1.0),
 												 cloud);
-	
+
     output.Emission.rgb = lerp(float3(1.0, 1.0, 1.0),
 							   skyColor,
 							   saturate(eyeVec.y * 20.0));
-	
+
     output.Emission.a = 1.0;
+    
+    
+   //ミー散乱
+    float dle = dot(LightDirection.xyz, eyeVec);
+    float g = 0.990f;
+    float g2 = g * g;
+    float miePhase = 1.5f * ((1.0 + g2) / (2.0 + g2)) * (1.0 + dle * dle) / pow((1.0 + g2 - 2.0 * g * dle), 0.5);
+	
+    miePhase += step(0.99998, dle) * 10; //太陽直接光
+	
+    output.Emission.rgb += miePhase * sunColor;
 
     return output;
 }

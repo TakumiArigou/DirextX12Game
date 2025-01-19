@@ -29,6 +29,8 @@ cbuffer CameraConstantBuffer : register(b1)
 cbuffer ObjectConstantBuffer : register(b2)
 {
     float4x4    World;
+    float4      Field;
+    float4      Water;
 };
 
 cbuffer SubsetConstantBuffer : register(b3)
@@ -91,3 +93,48 @@ Texture2D<float4> TextureEmission : register(t4);
 SamplerState Sampler : register(s0);
 
 static float PI = 3.141592653589;
+
+
+//レイリー散乱で大気色を算出
+float3 GetAtomColor(float3 EyeVector)
+{
+    EyeVector.y = saturate(EyeVector.y);
+    
+    float3 sunLight = LightColor;
+    float3 wavelength = float3(0.630, 0.532, 0.467); //RGB波長
+    float3 wavelength4inv = 1.0 / pow(wavelength, 4);
+    
+    float dle = dot(LightDirection.xyz, EyeVector);
+    
+    float atomThicknessRatio = 0.05; //大気の厚さ
+    float atomDensityEye = atomThicknessRatio + pow(1.0 - EyeVector.y, 10) * (1.0 - atomThicknessRatio);
+    float atomDensityLight = atomThicknessRatio + pow(1.0 - LightDirection.y, 9) * (1.0 - atomThicknessRatio);
+    float3 scatteringLight = sunLight * exp(-atomDensityLight * atomDensityEye * wavelength4inv * 0.5);
+    float rayleighPhese = (0.5 + dle * dle);
+    
+    float3 atomColor = scatteringLight * atomDensityEye * wavelength4inv * rayleighPhese * 0.03;
+    
+    return atomColor;
+}
+
+
+float3 GetAtomColorWater(float3 EyeVector)
+{
+    EyeVector.y = saturate(EyeVector.y);
+    
+    float3 sunLight = LightColor;
+    float3 wavelength = float3(0.630, 0.532, 0.467); //RGB波長
+    float3 wavelength4inv = 1.0 / pow(wavelength, 4);
+    
+    float dle = dot(LightDirection.xyz, EyeVector);
+    
+    float atomThicknessRatio = 0.1; //大気の厚さ
+    float atomDensityEye = atomThicknessRatio + pow(1.0 - EyeVector.y, 10) * (1.0 - atomThicknessRatio);
+    float atomDensityLight = atomThicknessRatio + pow(1.0 - LightDirection.y, 9) * (1.0 - atomThicknessRatio);
+    float3 scatteringLight = sunLight * exp(-atomDensityLight * atomDensityEye * wavelength4inv * 0.5);
+    float rayleighPhese = (0.5 + dle * dle);
+    
+    float3 atomColor = scatteringLight * atomDensityEye * wavelength4inv * rayleighPhese * 0.03;
+    
+    return atomColor;
+}

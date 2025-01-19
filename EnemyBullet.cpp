@@ -48,6 +48,7 @@ void EnemyBullet::Update()
 		isActive = false;
 	}
 
+	bool isPlayerInvincible = m_Player->GetPlayerIsInvincible();
 	XMFLOAT3 pos = m_Player->GetPlayerPosition();
 	XMFLOAT3 sca = {5.0f, 5.0f, 5.0f};
 
@@ -59,10 +60,15 @@ void EnemyBullet::Update()
 	//衝突処理
 	bool isHit = OM.ColOBBs(PlayerOBB, EnemyBulletOBB);
 
-	//当たったら非アクティブ
-	if (isHit)
+	//プレイヤーが無敵でなければ当たり判定処理に入る
+	if (!isPlayerInvincible)
 	{
-		isActive = false;
+		//当たったら非アクティブ
+		if (isHit)
+		{
+			m_Player->SetPlayerHP(1);
+			isActive = false;
+		}
 	}
 }
 

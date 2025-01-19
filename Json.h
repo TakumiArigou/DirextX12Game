@@ -13,13 +13,13 @@ public:
 
 	bool isGrayScale = false;
 	bool isSepia = false;
-	bool isDistorsion = false;
-	bool isChromaticAberration = false;
+	bool isDistorsion = true;
+	bool isChromaticAberration = true;
 
 	float m_GrayScale[4] = { 0.0f, 0.333f, 0.666f, 1.0f };
 	float m_Sepia[4] = { 0.8f, 0.4f, 0.1f, 1.0f };
-	float m_Distorsion[2] = { 0.0f,0.75f };
-	float m_ChromaticAberration[4] = { 0.000f, 0.003f, 0.006f, 1.0f };
+	float m_Distorsion[2] = { 0.04f,0.97f };
+	float m_ChromaticAberration[4] = { 0.000f, 0.001f, 0.002f, 1.0f };
 	float m_Gamma = 2.2f;
 
 	POSTEFFECT_STATUS() {}

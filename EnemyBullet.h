@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model.h"
+#include "Player.h"
 
 class EnemyBullet
 {
