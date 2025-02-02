@@ -2,7 +2,6 @@
 #include "TitleManager.h"
 #include "SceneManager.h"
 
-
 TitleManager::TitleManager()
 {
 }
@@ -24,10 +23,25 @@ void TitleManager::Update()
 	m_Camera.Update();
 	m_TitleBack.Update();
 	m_TitleObject.Update();
+	m_TitleLogo.Update();
 
-	if (GetKeyState('Z') & 0x8000)
+	//FadeManager::GetInstance()->Update();
+
+	if (GetKeyState(VK_SPACE) & 0x8000)
 	{
-		SceneManager::GetInstance()->SetSceneType(SceneType::Game);
+		if (GetKeyState(VK_SPACE) & 0x0001)
+		{
+			//FadeManager::GetInstance()->FadeOUT();
+
+			//bool ia;
+
+			//ia = FadeManager::GetInstance()->IsFading();
+
+			//if (ia)
+			{
+				SceneManager::GetInstance()->SetSceneType(SceneType::Game);
+			}
+		}
 	}
 }
 
@@ -42,6 +56,7 @@ void TitleManager::Draw()
 	m_Camera.Draw();
 	m_TitleBack.Draw();
 	m_TitleObject.Draw();
+	m_TitleLogo.Draw();
 
 	RenderManager::GetInstance()->DrawEnd();
 

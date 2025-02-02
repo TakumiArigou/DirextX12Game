@@ -16,10 +16,13 @@ private:
 
 	Model			m_Model;
 	Player*			m_Player;
-
+	
+	float			m_AddCount;
 	float			m_ShootCoolDown;
 	float			m_ShootCoolDownMax;
-	std::vector<EnemyBullet*> m_Bullet;
+	std::array<EnemyBullet, 10> m_Bullet;
+
+	PlayerBullet	m_PlayerBullet;
 
 	int				m_EnemyHP;
 	bool			isActive;
@@ -32,7 +35,15 @@ private:
 
 public:
 
+	EnemySmall();
 	EnemySmall(XMFLOAT3 pos, Player* player);
+
+	//ムーブメントコンストラクタ
+	EnemySmall(EnemySmall&& other) noexcept;
+
+	//ムーブ代入演算子
+	EnemySmall& operator=(EnemySmall&& other) noexcept;
+
 	~EnemySmall();
 
 	void Update() override;
@@ -42,5 +53,12 @@ public:
 	bool IsDead() override;
 
 	void Shoot();
+
+	void SetPlayer(Player* player);
+	void SetIsActive(bool isactive);
+	void SetEnemySmallPosition(XMFLOAT3 pos);
+	void SetAddCount(float count);
+
+	std::array<EnemyBullet, 10>& GetEnemyBullet();
 };
 

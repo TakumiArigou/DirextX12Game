@@ -18,12 +18,17 @@ private:
 
 public:
 
-	PlayerBullet(XMFLOAT3 startPos);
+	PlayerBullet();
 	~PlayerBullet();
 
 	void Update();
 	void Draw();
 
+	void Reset(XMFLOAT3 position);
+
 	bool IsActive() const;
+	void SetActive(bool isactive);
+
+	XMFLOAT3 GetPlayerBulletPosition() const;
 };
 

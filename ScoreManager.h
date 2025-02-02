@@ -6,6 +6,9 @@ private:
 
 	static ScoreManager* m_Instance;
 
+    int     m_ClearScore;
+	std::array<float, 4> m_ClearTime;
+
 	int m_HighScore;       // 最高スコア
 	bool m_IsGameOver;     // ゲームオーバーフラグ
 
@@ -23,42 +26,14 @@ public:
 
 	ScoreManager();
 	~ScoreManager();
-    // スコアを加算
-    void AddScore(int value) {
-        if (!m_IsGameOver) {
-            m_Score += value;
-            if (m_Score > m_HighScore) {
-                m_HighScore = m_Score;  // 最高スコアを更新
-            }
-        }
-    }
 
-    // スコアを減算
-    void SubtractScore(int value);
+	void Update();
 
-    // 現在のスコアを取得
-    int GetScore() const;
+	void AddScore(int addscore);
 
-    // スコアをリセット
-    void ResetScore() {
-        m_Score = 0;
-    }
+	const std::array<float, 4>& GetClearTime() const;
+	void SetClearTime(std::array<float, 4> cleartime);
 
-    // ゲームオーバー時の処理
-    void GameOver();
-
-    // 最高スコアを保存
-    void SaveHighScore();
-
-    // 最高スコアを読み込む
-    void LoadHighScore();
-
-    // 最高スコアを取得
-    int GetHighScore() const;
-
-    // ゲームオーバーかどうかをチェック
-    bool IsGameOver() const;
-
-    // 現在のスコアと最高スコアを表示
-    void DisplayScore() const;
+	int GetClearScore() const;
+	void SetClearScore(int clearscore);
 };

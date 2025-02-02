@@ -150,6 +150,15 @@
     <ClCompile Include="EnemySmall2.cpp">
       <Filter>Scene_Game</Filter>
     </ClCompile>
+    <ClCompile Include="ResultScore.cpp">
+      <Filter>Scene_Result</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultTime.cpp">
+      <Filter>Scene_Result</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>Scene_Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -274,6 +283,15 @@
     </ClInclude>
     <ClInclude Include="EnemySmall2.h">
       <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultScore.h">
+      <Filter>Scene_Result\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultTime.h">
+      <Filter>Scene_Result\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>Scene_Title\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

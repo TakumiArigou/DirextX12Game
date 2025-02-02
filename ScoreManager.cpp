@@ -1,6 +1,7 @@
 
 #include "Main.h"
 #include "ScoreManager.h"
+//#include "GameUITime.h"
 
 ScoreManager* ScoreManager::m_Instance = nullptr;
 
@@ -9,6 +10,7 @@ ScoreManager::ScoreManager()
 {
     m_Instance = this;
 
+    m_ClearScore = 10000;
     m_Score = 0;
 }
 
@@ -16,55 +18,31 @@ ScoreManager::~ScoreManager()
 {
 }
 
-void ScoreManager::SubtractScore(int value)
+void ScoreManager::Update()
 {
-    if (!m_IsGameOver) {
-        m_Score -= value;
-        if (m_Score < 0) m_Score = 0;  // スコアが負にならないようにする
-    }
 }
 
-int ScoreManager::GetScore() const
+void ScoreManager::AddScore(int addscore)
 {
-    return m_Score;
+    m_ClearScore += addscore;
 }
 
-void ScoreManager::GameOver()
+const std::array<float, 4>& ScoreManager::GetClearTime() const
 {
-    m_IsGameOver = true;
-    SaveHighScore();  // ゲームオーバー時にスコアを保存
+    return m_ClearTime;
 }
 
-void ScoreManager::SaveHighScore()
+void ScoreManager::SetClearTime(std::array<float, 4> cleartime)
 {
-    std::ofstream outFile("highscore.txt");
-    if (outFile.is_open()) {
-        outFile << m_HighScore;  // 最高スコアを書き込む
-        outFile.close();
-    }
+    m_ClearTime = cleartime;
 }
 
-void ScoreManager::LoadHighScore()
+int ScoreManager::GetClearScore() const
 {
-    std::ifstream inFile("highscore.txt");
-    if (inFile.is_open()) {
-        inFile >> m_HighScore;  // ファイルから最高スコアを読み込む
-        inFile.close();
-    }
+    return m_ClearScore;
 }
 
-int ScoreManager::GetHighScore() const
+void ScoreManager::SetClearScore(int clearscore)
 {
-    return m_HighScore;
-}
-
-bool ScoreManager::IsGameOver() const
-{
-    return m_IsGameOver;
-}
-
-void ScoreManager::DisplayScore() const
-{
-    std::cout << "Score: " << m_Score << std::endl;
-    std::cout << "High Score: " << m_HighScore << std::endl;
+    m_ClearScore = clearscore;
 }

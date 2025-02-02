@@ -1,5 +1,28 @@
 
 #include "GameManager.h"
+#include "OBBManager.h"
+#include "ScoreManager.h"
+
+EnemySmall::EnemySmall()
+{
+	m_Model.Load("Asset\\PlayerModel.obj");
+
+	m_Position = { 10.0f, 10.0f, 15.0f };
+	m_Rotation = { 0.0f, 1.57f, 0.0f };
+	m_Scale = { 0.1f, 0.1f, 0.1f };
+
+	//m_AddCount = 0.0f;
+
+	m_ShootCoolDown = 0.0f;
+	m_ShootCoolDownMax = 0.5f;
+
+	m_EnemyHP = 2;
+	isActive = true;
+	isDead = true;
+
+	m_MoveX = 0.02f;
+	m_MoveY = 0.01f;
+}
 
 EnemySmall::EnemySmall(XMFLOAT3 pos, Player* player)
 {
@@ -10,17 +33,53 @@ EnemySmall::EnemySmall(XMFLOAT3 pos, Player* player)
 	m_Rotation = { 0.0f, 1.57f, 0.0f };
 	m_Scale = { 0.1f, 0.1f, 0.1f };
 
+	//m_AddCount = 0.0f;
+
 	m_ShootCoolDown = 0.0f;
 	m_ShootCoolDownMax = 0.5f;
 
 	m_EnemyHP = 2;
-	isActive = false;
-	isDead = false;
+	isActive = true;
+	isDead = true;
 
 	m_MoveX = 0.02f;
 	m_MoveY = 0.01f;
 
 	m_Player = player;
+}
+
+EnemySmall::EnemySmall(EnemySmall&& other) noexcept
+{
+	m_Model.Load("Asset\\PlayerModel.obj");
+
+	m_Position = { 10.0f, 10.0f, 15.0f };
+	m_Rotation = { 0.0f, 1.57f, 0.0f };
+	m_Scale = { 0.1f, 0.1f, 0.1f };
+
+	//m_AddCount = 0.0f;
+
+	m_ShootCoolDown = 0.0f;
+	m_ShootCoolDownMax = 0.5f;
+
+	m_EnemyHP = 2;
+	isActive = true;
+	isDead = true;
+
+	m_MoveX = 0.02f;
+	m_MoveY = 0.01f;
+
+	m_Player = other.m_Player;
+	other.m_Player = nullptr;
+}
+
+
+EnemySmall& EnemySmall::operator=(EnemySmall&& other) noexcept
+{
+	if (this != &other) {
+		m_Player = other.m_Player;
+		other.m_Player = nullptr;  // ムーブ元のポインタを無効化
+	}
+	return *this;
 }
 
 EnemySmall::~EnemySmall()
@@ -30,15 +89,29 @@ EnemySmall::~EnemySmall()
 
 void EnemySmall::Update()
 {
+	ScoreManager* scoreManager = ScoreManager::GetInstance();
 
-	time += 1.0f / 60.0f;
-
-	if (time >= 5.0f)
+	if (!isActive)
 	{
-		isActive = true;
+		for (auto& bullet : m_Bullet)
+		{
+			bullet.SetActive(false);
+		}
+
+		return;
 	}
 
-	if (isActive)
+	if (isDead)
+	{
+		time += 1.0f / 60.0f;
+
+		if (time >= m_AddCount)
+		{
+			isDead = false;
+			time = 0.0f;
+		}
+	}
+	else if (!isDead)
 	{
 		//弾発射のクールタイム処理
 		if (m_ShootCoolDown > 0.0f) {
@@ -46,8 +119,8 @@ void EnemySmall::Update()
 		}
 
 		//弾の更新
-		for (auto Bullet : m_Bullet) {
-			Bullet->Update();
+		for (auto& Bullet : m_Bullet) {
+			Bullet.Update();
 		}
 
 
@@ -81,21 +154,36 @@ void EnemySmall::Update()
 		{
 			m_MovePosition.y = 4;
 		}
-	}
 
-	//非アクティブな弾を削除
-	m_Bullet.erase(std::remove_if(m_Bullet.begin(), m_Bullet.end(), [](EnemyBullet* bullet)
+		const auto& playerBullet = m_Player->GetPlayerBullet();
+		for (const auto& pBullet : playerBullet)
 		{
-			return !bullet->IsActive();
-		}), m_Bullet.end());
 
-	if (m_ShootCoolDown <= 0.0f) {
-		Shoot();
-	}
+			OBB		EnemyOBB(m_Position, XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), 0.5, 0.5, 0.5);	//座標(X,Y,Z),X軸,Y軸,Z軸,ボックスのサイズ(X,Y,Z)
+			OBB		PlayerBulletOBB(pBullet.GetPlayerBulletPosition(), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), 0.5, 0.5, 0.5);	//座標(X,Y,Z),X軸,Y軸,Z軸,ボックスのサイズ(X,Y,Z)
 
-	if (m_EnemyHP <= 0)
-	{
-		isDead = true;
+			OBBManager	OM;
+
+			//衝突処理
+			bool isHit = OM.ColOBBs(EnemyOBB, PlayerBulletOBB);
+
+			if (isHit)
+			{
+				isActive = false;
+				isDead = true;
+
+				scoreManager->AddScore(10);
+			}
+		}
+
+		if (m_ShootCoolDown <= 0.0f) {
+			Shoot();
+		}
+
+		if (m_EnemyHP <= 0)
+		{
+			isDead = true;
+		}
 	}
 }
 
@@ -140,8 +228,8 @@ void EnemySmall::Draw()
 
 		m_Model.Draw();
 
-		for (auto Bullet : m_Bullet) {
-			Bullet->Draw();
+		for (auto& Bullet : m_Bullet) {
+			Bullet.Draw();
 		}
 	}
 }
@@ -149,13 +237,48 @@ void EnemySmall::Draw()
 void EnemySmall::Shoot()
 {
 	XMFLOAT3 playerPos = m_Player->GetPlayerPosition();
-	
-		// 新しい弾を生成して発射
-		EnemyBullet* newBullet = new EnemyBullet(m_Position, playerPos, m_Player);  // エネミーの位置から弾を発射
-		m_Bullet.push_back(newBullet);
 
-		m_ShootCoolDown = m_ShootCoolDownMax;
+
+	for (auto& bullet : m_Bullet)
+	{
+		if (!bullet.IsActive())
+		{
+			bullet.SetPlayer(m_Player);
+			bullet.Reset(m_Position, m_Player->GetPlayerPosition());
+			bullet.SetActive(true);
+
+			m_ShootCoolDown = m_ShootCoolDownMax;
+			return;
+		}
+	}
+
+
 	
+}
+
+void EnemySmall::SetPlayer(Player* player)
+{
+	m_Player = player;
+}
+
+void EnemySmall::SetIsActive(bool isactive)
+{
+	isActive = isactive;
+}
+
+void EnemySmall::SetEnemySmallPosition(XMFLOAT3 pos)
+{
+	m_Position = pos;
+}
+
+void EnemySmall::SetAddCount(float count)
+{
+	m_AddCount = count;
+}
+
+std::array<EnemyBullet, 10>& EnemySmall::GetEnemyBullet()
+{
+	return m_Bullet;
 }
 
 bool EnemySmall::IsActive()

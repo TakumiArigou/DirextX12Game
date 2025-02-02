@@ -1,11 +1,11 @@
 #pragma once
 
-class GameUITime
+class ResultTime
 {
 private:
 
-	XMFLOAT3		m_Position{ 0.0f, 0.0f, 0.0f };
-	XMFLOAT3		m_Rotation{ 0.0f, -1.57f, -1.57f };
+	XMFLOAT3		m_Position{ -1.8f, -1.3f, -1.4f };
+	XMFLOAT3		m_Rotation{ 0.0f, -1.5f, -1.5f };
 	XMFLOAT3		m_Scale{ 1.0f, 1.0f, 1.0f };
 
 	std::unique_ptr<VERTEX_BUFFER>	m_VertexBuffer1;
@@ -17,11 +17,11 @@ private:
 	std::unique_ptr<TEXTURE>		m_Texture2;
 
 	float m_AddTime;
-	std::array<float, 4> m_PlayTime;
+	std::array<float, 4> m_ResultTime;
 
 public:
 
-	GameUITime();
+	ResultTime();
 
 	void Update();
 	void Draw();

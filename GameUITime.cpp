@@ -2,7 +2,6 @@
 #include "GameUITime.h"
 #include "ScoreManager.h"
 
-
 GameUITime::GameUITime()
 {
 	RenderManager* renderManager = RenderManager::GetInstance();
@@ -280,12 +279,7 @@ void GameUITime::Update()
 		m_VertexBuffer4->Resource->Unmap(0, nullptr);
 	}
 
-
-
-	if (GetKeyState('K') & 0x8000)
-	{
-		//a += 1;
-	}
+	scoreManager->SetClearTime(m_PlayTime);
 }
 
 
@@ -492,4 +486,9 @@ void GameUITime::TimeDraw5()
 
 	//•`‰æ
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
+}
+
+const std::array<float, 4>& GameUITime::GetPlayTime() const
+{
+	return m_PlayTime;
 }

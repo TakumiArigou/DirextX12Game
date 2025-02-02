@@ -22,6 +22,10 @@ Player::Player()
 	m_InvincibleCoolDownMax = 1.0f;
 }
 
+Player::~Player()
+{
+}
+
 
 
 
@@ -45,15 +49,15 @@ void Player::Update()
 	}
 
 	//弾の更新
-	for (auto Bullet : m_Bullet) {
-		Bullet->Update();
+	for (auto& Bullet : m_Bullet) {
+		Bullet.Update();
 	}
 
 	//非アクティブな弾を削除
-	m_Bullet.erase(std::remove_if(m_Bullet.begin(), m_Bullet.end(), [](PlayerBullet* bullet)
-		{
-			return !bullet->IsActive();
-		}), m_Bullet.end());
+	//m_Bullet.erase(std::remove_if(m_Bullet.begin(), m_Bullet.end(), [](PlayerBullet* bullet)
+	//	{
+	//		return !bullet->IsActive();
+	//	}), m_Bullet.end());
 
 	//弾発射
 	if (GetKeyState(VK_SPACE) & 0x8000)
@@ -223,8 +227,8 @@ void Player::Draw()
 		m_Model2.Draw();
 	}
 
-	for (auto Bullet : m_Bullet) {
-		Bullet->Draw();
+	for (auto& Bullet : m_Bullet) {
+		Bullet.Draw();
 	}
 }
 
@@ -233,10 +237,20 @@ void Player::Shoot()
 {
 	if (m_ShootCoolDown <= 0.0f) {
 		// 新しい弾を生成して発射
-		PlayerBullet* newBullet = new PlayerBullet(m_Position);  // プレイヤーの位置から弾を発射
-		m_Bullet.push_back(newBullet);
+		//PlayerBullet* newBullet = new PlayerBullet(m_Position);  // プレイヤーの位置から弾を発射
+		//m_Bullet.push_back(newBullet);
 
-		m_ShootCoolDown = m_ShootCoolDownMax;
+		for (auto& bullet : m_Bullet)
+		{
+			if (!bullet.IsActive())
+			{
+				bullet.Reset(m_Position);
+				bullet.SetActive(true);
+
+				m_ShootCoolDown = m_ShootCoolDownMax;
+				return;
+			}
+		}
 	}
 }
 
@@ -272,4 +286,9 @@ int Player::GetPlayerHP() const
 void Player::SetPlayerHP(int damage)
 {
 	m_PlayerHP -= damage;
+}
+
+const std::array<PlayerBullet, 50>& Player::GetPlayerBullet() const
+{
+	return m_Bullet;
 }

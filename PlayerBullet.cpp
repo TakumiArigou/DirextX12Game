@@ -1,15 +1,15 @@
 
 #include "GameManager.h"
 
-PlayerBullet::PlayerBullet(XMFLOAT3 startPos)
+PlayerBullet::PlayerBullet()
 {
 	m_Model.Load("Asset\\Player_Attack.obj");
 
-	m_Position = startPos;
+	m_Position = { 0.0f, 0.0f, 0.0f };
 	m_Rotation = { 0.0f, 1.57f, 0.0f };
 	m_Scale = { 0.1f, 0.1f, 0.1f };
 	m_Velocity = { 0.0f, 0.0f, 1.0f };
-	isActive = true;
+	isActive = false;
 }
 
 PlayerBullet::~PlayerBullet()
@@ -18,19 +18,16 @@ PlayerBullet::~PlayerBullet()
 
 
 
-
 void PlayerBullet::Update()
 {
 	m_Time += 1.0f / 60.0f;
 
-	m_Position.z += m_Velocity.z * m_Time;
+	m_Position.z += m_Velocity.z * (m_Time);
 
 	if (m_Position.z > 20.0f) {
 		isActive = false;
 	}
 }
-
-
 
 
 
@@ -66,10 +63,36 @@ void PlayerBullet::Draw()
 		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::OBJECT, &constant, sizeof(constant));
 	}
 
-	m_Model.Draw();
+	if (isActive)
+	{
+		m_Model.Draw();
+	}
 }
+
+
+
+void PlayerBullet::Reset(XMFLOAT3 position)
+{
+	m_Position = position;
+	m_Time = 0;
+	isActive = true;
+}
+
+
 
 bool PlayerBullet::IsActive() const
 {
 	return isActive;
+}
+
+
+
+void PlayerBullet::SetActive(bool isactive)
+{
+	isActive = isactive;
+}
+
+XMFLOAT3 PlayerBullet::GetPlayerBulletPosition() const
+{
+	return m_Position;
 }

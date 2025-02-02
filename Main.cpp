@@ -25,8 +25,6 @@ HWND GetWindow()
     return g_Window;
 }
 
-
-
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 
 //ImGUIのウィンドウ処理をプロシージャに追加
@@ -156,7 +154,8 @@ int APIENTRY wWinMain(  _In_ HINSTANCE hInstance,
         }
     }
 
-
+    RenderManager::GetInstance()->WaitGPU();
+    RenderManager::GetInstance()->~RenderManager();
 
     return 0;
 }

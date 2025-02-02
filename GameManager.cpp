@@ -10,6 +10,7 @@ GameManager::GameManager()
 	m_GameUIPlayerHPGage.SetPlayer(&m_Player);
 
 	m_EnemyManager.SetPlayer(&m_Player);
+	
 	//m_EnemyManager.AddEnemy();
 	//m_EnemyManager.AddEnemy();
 }
@@ -43,7 +44,10 @@ void GameManager::Update()
 
 	if (GetKeyState('Z') & 0x8000)
 	{
-		SceneManager::GetInstance()->SetSceneType(SceneType::Result);
+		if (GetKeyState('Z') & 0x0001)
+		{
+			SceneManager::GetInstance()->SetSceneType(SceneType::Result);
+		}
 	}
 
 }
@@ -55,11 +59,6 @@ void GameManager::Draw()
 {
 	RenderManager::GetInstance()->DrawBegin();
 
-	m_GameUIScore.Draw();
-	m_GameUITime.Draw();
-	m_GameUIPlayerGage.Draw();
-	m_GameUIPlayerHPGage.Draw();
-
 	m_Camera.Draw();
 
 	m_EnemyManager.Draw();
@@ -70,6 +69,11 @@ void GameManager::Draw()
 	m_Water.Draw();
 
 	m_Sky.Draw();
+
+	m_GameUIScore.Draw();
+	m_GameUITime.Draw();
+	m_GameUIPlayerGage.Draw();
+	m_GameUIPlayerHPGage.Draw();
 
 	RenderManager::GetInstance()->DrawEnd();
 

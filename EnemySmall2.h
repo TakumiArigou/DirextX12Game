@@ -19,7 +19,7 @@ private:
 
 	float			m_ShootCoolDown;
 	float			m_ShootCoolDownMax;
-	std::vector<EnemyBullet*> m_Bullet;
+	std::array<EnemyBullet, 20> m_Bullet;
 
 	int				m_EnemyHP;
 	bool			isActive;

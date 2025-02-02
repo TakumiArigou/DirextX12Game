@@ -9,7 +9,7 @@ class EnemyManager
 private:
     std::vector<EnemyBase*> enemies;
 
-    Player* m_Player;
+    Player*         m_Player;
 
     float m_Time = 0.0f;
 
@@ -20,6 +20,9 @@ private:
     bool m_EnemyWave2 = false;
     bool m_EnemyWave3 = false;
 
+    std::array<EnemySmall, 5> m_Small;
+    //std::array<EnemySmall2, 5> m_Small2;
+
 public:
     EnemyManager();
 
@@ -28,6 +31,9 @@ public:
 
     void AddEnemySmall();
     void AddEnemySmall2();
+
+    bool CreateEnemySmall();
+    bool CreateEnemySmall2();
 
     void SetPlayer(Player* player);
 

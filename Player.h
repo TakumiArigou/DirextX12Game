@@ -23,12 +23,13 @@ private:
 
 	float			m_ShootCoolDown;
 	float			m_ShootCoolDownMax;
-	std::vector<PlayerBullet*> m_Bullet;
+	std::array<PlayerBullet, 50> m_Bullet;
 
 
 public:
 
 	Player();
+	~Player();
 
 	void Update();
 	void Draw();
@@ -41,4 +42,5 @@ public:
 	bool GetPlayerIsInvincible() const;
 	int GetPlayerHP() const;
 	void SetPlayerHP(int damage);
+	const std::array<PlayerBullet, 50>& GetPlayerBullet() const;
 };

@@ -1,5 +1,6 @@
 
 #include "GameManager.h"
+#include "OBBManager.h"
 
 EnemySmall2::EnemySmall2(XMFLOAT3 pos, Player* player)
 {
@@ -21,6 +22,11 @@ EnemySmall2::EnemySmall2(XMFLOAT3 pos, Player* player)
 	m_MoveY = 0.01f;
 
 	m_Player = player;
+
+	for (auto& bullet : m_Bullet)
+	{
+		bullet = EnemyBullet(m_Player);
+	}
 }
 
 EnemySmall2::~EnemySmall2()
@@ -36,8 +42,8 @@ void EnemySmall2::Update()
 	}
 
 	//弾の更新
-	for (auto Bullet : m_Bullet) {
-		Bullet->Update();
+	for (auto& Bullet : m_Bullet) {
+		Bullet.Update();
 	}
 
 
@@ -72,11 +78,23 @@ void EnemySmall2::Update()
 		m_MovePosition.y = 4;
 	}
 
-	//非アクティブな弾を削除
-	m_Bullet.erase(std::remove_if(m_Bullet.begin(), m_Bullet.end(), [](EnemyBullet* bullet)
+	const auto& playerBullet = m_Player->GetPlayerBullet();
+	for (const auto& pBullet : playerBullet)
+	{
+
+		OBB		EnemyOBB(m_Position, XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), 0.5, 0.5, 0.5);	//座標(X,Y,Z),X軸,Y軸,Z軸,ボックスのサイズ(X,Y,Z)
+		OBB		PlayerBulletOBB(pBullet.GetPlayerBulletPosition(), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), 0.5, 0.5, 0.5);	//座標(X,Y,Z),X軸,Y軸,Z軸,ボックスのサイズ(X,Y,Z)
+
+		OBBManager	OM;
+
+		//衝突処理
+		bool isHit = OM.ColOBBs(EnemyOBB, PlayerBulletOBB);
+
+		if (isHit)
 		{
-			return !bullet->IsActive();
-		}), m_Bullet.end());
+			isActive = false;
+		}
+	}
 
 	if (m_ShootCoolDown <= 0.0f) {
 		Shoot();
@@ -126,8 +144,8 @@ void EnemySmall2::Draw()
 
 	m_Model.Draw();
 
-	for (auto Bullet : m_Bullet) {
-		Bullet->Draw();
+	for (auto& Bullet : m_Bullet) {
+		Bullet.Draw();
 	}
 }
 
@@ -136,10 +154,23 @@ void EnemySmall2::Shoot()
 	XMFLOAT3 playerPos = m_Player->GetPlayerPosition();
 
 	// 新しい弾を生成して発射
-	EnemyBullet* newBullet = new EnemyBullet(m_Position, playerPos, m_Player);  // エネミーの位置から弾を発射
-	m_Bullet.push_back(newBullet);
+	//EnemyBullet* newBullet = new EnemyBullet(m_Position, playerPos, m_Player);  // エネミーの位置から弾を発射
+	//m_Bullet.push_back(newBullet);
 
-	m_ShootCoolDown = m_ShootCoolDownMax;
+	for (auto& bullet : m_Bullet)
+	{
+		if (!bullet.IsActive())
+		{
+			bullet.Reset(m_Position, m_Player->GetPlayerPosition());
+			bullet.SetActive(true);
+			bullet.SetPlayer(m_Player);
+
+			m_ShootCoolDown = m_ShootCoolDownMax;
+			return;
+		}
+	}
+
+
 
 }
 

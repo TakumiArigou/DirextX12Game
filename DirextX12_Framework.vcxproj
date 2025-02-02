@@ -150,6 +150,8 @@
     <ClCompile Include="OBB.cpp" />
     <ClCompile Include="OBBManager.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="ResultScore.cpp" />
+    <ClCompile Include="ResultTime.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="TitleBack.cpp" />
@@ -175,6 +177,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="TitleLogo.cpp" />
     <ClCompile Include="TitleManager.cpp" />
     <ClCompile Include="TitleObject.cpp" />
     <ClCompile Include="Water.cpp" />
@@ -199,6 +202,8 @@
     <ClInclude Include="OBB.h" />
     <ClInclude Include="OBBManager.h" />
     <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="ResultScore.h" />
+    <ClInclude Include="ResultTime.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="Sky.h" />
     <ClInclude Include="TitleBack.h" />
@@ -227,6 +232,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="TitleLogo.h" />
     <ClInclude Include="TitleManager.h" />
     <ClInclude Include="TitleObject.h" />
     <ClInclude Include="Water.h" />

@@ -2,19 +2,59 @@
 #include "GameManager.h"
 #include "OBBManager.h"
 
-EnemyBullet::EnemyBullet(XMFLOAT3 startPos, XMFLOAT3 targetPos, Player* player)
+EnemyBullet::EnemyBullet()
 {
 	m_Model.Load("Asset\\Enemy_Attack.obj");
 
-	m_Position = startPos;
-	m_PlayerPosition = targetPos;
+	m_Position = { 0.0f, 0.0f, 0.0f };
+	m_PlayerPosition = { 0.0f, 0.0f, 0.0f };
 	m_Rotation = { 0.0f, 1.57f, 0.0f };
 	m_Scale = { 0.1f, 0.1f, 0.1f };
 	m_Velocity = { 0.0f, 0.0f, 0.1f };
-	isActive = true;
+	isActive = false;
+}
+
+
+EnemyBullet::EnemyBullet(Player* player)
+{
+	m_Model.Load("Asset\\Enemy_Attack.obj");
+
+	m_Position = { 0.0f, 0.0f, 0.0f };
+	m_PlayerPosition = { 0.0f, 0.0f, 0.0f };
+	m_Rotation = { 0.0f, 1.57f, 0.0f };
+	m_Scale = { 0.1f, 0.1f, 0.1f };
+	m_Velocity = { 0.0f, 0.0f, 0.1f };
+	isActive = false;
 
 	m_Player = player;
 }
+
+
+EnemyBullet::EnemyBullet(EnemyBullet&& other) noexcept
+{
+	m_Model.Load("Asset\\Enemy_Attack.obj");
+
+	m_Position = { 0.0f, 0.0f, 0.0f };
+	m_PlayerPosition = { 0.0f, 0.0f, 0.0f };
+	m_Rotation = { 0.0f, 1.57f, 0.0f };
+	m_Scale = { 0.1f, 0.1f, 0.1f };
+	m_Velocity = { 0.0f, 0.0f, 0.1f };
+	isActive = false;
+
+	m_Player = other.m_Player;
+	other.m_Player = nullptr;
+}
+
+
+EnemyBullet& EnemyBullet::operator=(EnemyBullet&& other) noexcept
+{
+	if (this != &other) {
+		m_Player = other.m_Player;
+		other.m_Player = nullptr;  // ムーブ元のポインタを無効化
+	}
+	return *this;
+}
+
 
 EnemyBullet::~EnemyBullet()
 {
@@ -48,6 +88,8 @@ void EnemyBullet::Update()
 		isActive = false;
 	}
 
+	m_Player = GetPlayer();
+
 	bool isPlayerInvincible = m_Player->GetPlayerIsInvincible();
 	XMFLOAT3 pos = m_Player->GetPlayerPosition();
 	XMFLOAT3 sca = {5.0f, 5.0f, 5.0f};
@@ -66,13 +108,11 @@ void EnemyBullet::Update()
 		//当たったら非アクティブ
 		if (isHit)
 		{
-			m_Player->SetPlayerHP(1);
 			isActive = false;
+			m_Player->SetPlayerHP(1);
 		}
 	}
 }
-
-
 
 
 
@@ -108,10 +148,35 @@ void EnemyBullet::Draw()
 		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::OBJECT, &constant, sizeof(constant));
 	}
 
-	m_Model.Draw();
+	if (isActive)
+	{
+		m_Model.Draw();
+	}
+}
+
+void EnemyBullet::Reset(XMFLOAT3 start_position, XMFLOAT3 target_position)
+{
+	m_Position = start_position;
+	m_PlayerPosition = target_position;
+	m_Time = 0;
 }
 
 bool EnemyBullet::IsActive() const
 {
 	return isActive;
+}
+
+void EnemyBullet::SetActive(bool isactive)
+{
+	isActive = isactive;
+}
+
+void EnemyBullet::SetPlayer(Player* player)
+{
+	m_Player = player;
+}
+
+Player* EnemyBullet::GetPlayer()
+{
+	return m_Player;
 }

@@ -1,30 +1,28 @@
 #pragma once
 
-class GameUIScore
+class TitleLogo
 {
 private:
-	
-	XMFLOAT3		m_Position{ 0.0f, 0.0f, 0.0f };
-	XMFLOAT3		m_Rotation{ 0.0f, -1.57f, -1.57f };
+
+	XMFLOAT3		m_Position{ 19.0f, 0.0f, 0.0f };
+	XMFLOAT3		m_Rotation{ -1.57f, -1.57f, -1.57f };
 	XMFLOAT3		m_Scale{ 1.0f, 1.0f, 1.0f };
 
 	std::unique_ptr<VERTEX_BUFFER>	m_VertexBuffer1;
 	std::unique_ptr<VERTEX_BUFFER>	m_VertexBuffer2;
-	std::unique_ptr<VERTEX_BUFFER>	m_VertexBuffer3;
-	std::unique_ptr<VERTEX_BUFFER>	m_VertexBuffer4;
 	std::unique_ptr<TEXTURE>		m_Texture;
+	std::unique_ptr<TEXTURE>		m_Texture2;
 
-	int m_GameScore;
+	float m_Alpha;
+	float m_AddAlpha;
 
 public:
 
-	GameUIScore();
+	TitleLogo();
 
 	void Update();
 	void Draw();
 
 	void ScoreDraw1();
 	void ScoreDraw2();
-	void ScoreDraw3();
-	void ScoreDraw4();
 };

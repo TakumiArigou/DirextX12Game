@@ -20,7 +20,6 @@ RenderManager::RenderManager()
 
 RenderManager::~RenderManager()
 {
-/*
 #if defined(_DEBUG)
 	//ReportLiveDeviceObjects
 	{
@@ -32,7 +31,7 @@ RenderManager::~RenderManager()
 		}
 	}
 #endif
-*/
+
 }
 
 
@@ -1309,7 +1308,7 @@ ComPtr<ID3D12PipelineState> RenderManager::CreatePipeline(const char* VertexShad
 	{	
 		pipelineStateDesc.BlendState.RenderTarget[i].BlendEnable = TRUE;
 		pipelineStateDesc.BlendState.RenderTarget[i].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-		pipelineStateDesc.BlendState.RenderTarget[i].DestBlend = D3D12_BLEND_INV_ALPHA_FACTOR;
+		pipelineStateDesc.BlendState.RenderTarget[i].DestBlend = D3D12_BLEND_INV_DEST_ALPHA;
 		pipelineStateDesc.BlendState.RenderTarget[i].BlendOp = D3D12_BLEND_OP_ADD;
 		pipelineStateDesc.BlendState.RenderTarget[i].SrcBlendAlpha = D3D12_BLEND_ONE;
 		pipelineStateDesc.BlendState.RenderTarget[i].DestBlendAlpha = D3D12_BLEND_ZERO;

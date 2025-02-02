@@ -20,12 +20,26 @@ private:
 	float m_Time{};
 
 public:
+	EnemyBullet();
 
-	EnemyBullet(XMFLOAT3 startPos, XMFLOAT3 targetPos, Player* player);
+	EnemyBullet(Player* player);
+
+	//ムーブメントコンストラクタ
+	EnemyBullet(EnemyBullet&& other) noexcept;
+
+	//ムーブ代入演算子
+	EnemyBullet& operator=(EnemyBullet&& other) noexcept;
+
 	~EnemyBullet();
 
 	void Update();
 	void Draw();
 
+	void Reset(XMFLOAT3 start_position, XMFLOAT3 target_position);
+
 	bool IsActive() const;
+	void SetActive(bool isactive);
+
+	void SetPlayer(Player* player);
+	Player* GetPlayer();
 };
