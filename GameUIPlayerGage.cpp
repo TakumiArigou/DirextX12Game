@@ -48,9 +48,9 @@ GameUIPlayerGage::GameUIPlayerGage()
 		HRESULT hr = m_VertexBuffer2->Resource->Map(0, nullptr, (void**)&buffer);
 		assert(SUCCEEDED(hr));
 
-		buffer[0].Position = { -0.9f,  1.0f,  -1.0f };
+		buffer[0].Position = { -0.9f,  1.0f + 0.025f,  -1.0f };
 		buffer[1].Position = { -0.9f,  2.4f,  -1.0f };
-		buffer[2].Position = { -0.9f,  1.0f, -1.2f };
+		buffer[2].Position = { -0.9f,  1.0f + 0.025f, -1.2f };
 		buffer[3].Position = { -0.9f,  2.4f, -1.2f };
 
 		buffer[0].Color = { 1.0f,  1.0f,  1.0f, 1.0f };
@@ -71,29 +71,47 @@ GameUIPlayerGage::GameUIPlayerGage()
 		m_VertexBuffer2->Resource->Unmap(0, nullptr);
 	}
 
-	a = 0;
+	//m_InvincibleTime = 0.0f;
+	//m_InvincibleTimeMax = 0.0f;
+
+	m_GageMax = 2.0f;
+	m_GageMin = 0.0f;
 }
 
 void GameUIPlayerGage::Update()
 {
+	m_InvincibleTime = m_Player->GetInvincibleTime();
+	m_InvincibleTimeMax = m_Player->GetInvincibleTimeMax();
 
-	if (GetKeyState('L') & 0x8000)
-	{
-		a -= 1;
-	}
-	else if (a <= 0)
-	{
-		a = 0;
-	}
+	V1 = XMVectorSet(m_GageMin, 0.0f, 0.0f, 0.0f);
+	V2 = XMVectorSet(m_GageMax, 0.0f, 0.0f, 0.0f);
 
-	if (GetKeyState('O') & 0x8000)
-	{
-		a += 1;
-	}
-	else if (a >= 10)
-	{
-		a = 10;
-	}
+	float t = m_InvincibleTime / m_InvincibleTimeMax;
+
+	XMVECTOR result = XMVectorLerp(V1, V2, t);
+
+	scaleValue = XMVectorGetX(result);
+
+	//float clampedValue = std::clamp(m_InvincibleTime, 0.0f, m_InvincibleTimeMax);
+	//float scaledValue = XMVectorLerp(m_GageMin, m_GageMax, clampedValue / m_InvincibleTimeMax);
+
+	//if (GetKeyState('L') & 0x8000)
+	//{
+	//	a -= 1;
+	//}
+	//else if (a <= 0)
+	//{
+	//	a = 0;
+	//}
+
+	//if (GetKeyState('O') & 0x8000)
+	//{
+	//	a += 1;
+	//}
+	//else if (a >= 10)
+	//{
+	//	a = 10;
+	//}
 }
 
 
@@ -158,11 +176,13 @@ void GameUIPlayerGage::PlayerDraw2()
 		HRESULT hr = m_VertexBuffer2->Resource->Map(0, nullptr, (void**)&buffer);
 		assert(SUCCEEDED(hr));
 
-		texX = 0.14f; // スプライトシートのX座標（10分の1）
+		
 
-		buffer[0].Position = { -0.9f,  1.0f + (texX * a), -1.0f };
+		texX = 1.4f; // スプライトシートのX座標（10分の1）
+
+		buffer[0].Position = { -0.9f,  1.0f + (scaleValue + 0.025f), -1.0f };
 		buffer[1].Position = { -0.9f,  2.4f, -1.0f };
-		buffer[2].Position = { -0.9f,  1.0f + (texX * a), -1.2f };
+		buffer[2].Position = { -0.9f,  1.0f + (scaleValue + 0.025f), -1.2f };
 		buffer[3].Position = { -0.9f,  2.4f, -1.2f };
 
 		buffer[0].TexCoord = { 0.0, texY };
@@ -190,7 +210,7 @@ void GameUIPlayerGage::PlayerDraw2()
 	{
 		MATERIAL material{};
 
-		if (a > 0)
+		if (m_InvincibleTime > 0)
 		{
 			material.BaseColor = XMFLOAT4{ 0.0f, 1.0f, 1.0f, 1.0f };
 		}
@@ -215,4 +235,9 @@ void GameUIPlayerGage::PlayerDraw2()
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
 
+}
+
+void GameUIPlayerGage::SetPlayer(Player* player)
+{
+	m_Player = player;
 }

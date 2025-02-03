@@ -19,6 +19,7 @@ struct MATERIAL
 	float		Metallic;
 	float		Specular;
 	float		Roughness;
+	float		Fade;
 };
 
 
@@ -44,10 +45,10 @@ struct CAMERA_CONSTANT
 
 	float			Time;
 
-	BOOL		isGrayScale;
-	BOOL	isSepia;
-	BOOL	isDistorsion;
-	BOOL	isChromaticAberration;
+	BOOL			isGrayScale;
+	BOOL			isSepia;
+	BOOL			isDistorsion;
+	BOOL			isChromaticAberration;
 };
 
 

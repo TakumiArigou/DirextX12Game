@@ -17,6 +17,8 @@ private:
 
 	int				m_PlayerHP;
 
+	float			m_InvincbleTime;
+	float			m_InvincbleTimeMax;
 	float			m_InvincibleCoolDown;
 	float			m_InvincibleCoolDownMax;
 	bool			isInvincible;
@@ -43,4 +45,6 @@ public:
 	int GetPlayerHP() const;
 	void SetPlayerHP(int damage);
 	const std::array<PlayerBullet, 50>& GetPlayerBullet() const;
+	float GetInvincibleTime() const;
+	float GetInvincibleTimeMax() const;
 };

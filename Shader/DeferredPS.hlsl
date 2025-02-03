@@ -95,7 +95,7 @@ PS_OUTPUT main(PS_INPUT input)
     }
         
     output.Color.rgb = diffuse.rgb + specular.rgb + emission.rgb;
-    output.Color.a = 1.0f;
+    output.Color.a = 1.0;
 
     return output;
 }

@@ -288,6 +288,21 @@ void ResultTime::Draw()
 	RenderManager* renderManager = RenderManager::GetInstance();
 	renderManager->SetPipelineState("Unlit");
 
+	//定数バッファ設定
+	{
+		ENV_CONSTANT constant;
+
+		constant.LightDirection.x = 0.0f;
+		constant.LightDirection.y = 1.0f;
+		constant.LightDirection.z = 0.0f;
+
+		constant.LightColor.x = 5.0f;
+		constant.LightColor.y = 5.0f;
+		constant.LightColor.z = 5.0f;
+
+		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::ENV, &constant, sizeof(constant));
+	}
+
 	TimeDraw1();
 	TimeDraw2();
 	TimeDraw3();

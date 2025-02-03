@@ -7,13 +7,6 @@
 #include "ScoreManager.h"
 
 
-enum class SceneType 
-{
-	Title,
-	Game,
-	Result,
-};
-
 class SceneManager
 {
 private:

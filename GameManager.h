@@ -10,7 +10,6 @@
 #include "GameUIPlayerHPGage.h"
 #include "GameUIPlayerGage.h"
 
-
 class GameManager : public SceneBase
 {
 private:

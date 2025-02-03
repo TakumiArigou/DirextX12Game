@@ -61,7 +61,7 @@ PS_OUTPUT main(PS_INPUT input)
     baseColor.rgb = pow(baseColor.rgb, 1.0 / Gamma);
     
     output.Color.rgb = baseColor.rgb;
-    output.Color.a = 1.0f;
+    output.Color.a = LightColor.a;
     
     return output;
 }

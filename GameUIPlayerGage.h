@@ -1,5 +1,7 @@
 #pragma once
 
+#include "EnemyBullet.h";
+
 class GameUIPlayerGage
 {
 private:
@@ -13,7 +15,18 @@ private:
 	std::unique_ptr<TEXTURE>		m_Texture1;
 	std::unique_ptr<TEXTURE>		m_Texture2;
 
-	int a;
+	Player*		m_Player;
+
+	float m_InvincibleTime;
+	float m_InvincibleTimeMax;
+
+	float m_GageMax;
+	float m_GageMin;
+
+	float scaleValue;
+
+	XMVECTOR V1;
+	XMVECTOR V2;
 
 public:
 
@@ -24,4 +37,6 @@ public:
 
 	void PlayerDraw1();
 	void PlayerDraw2();
+
+	void SetPlayer(Player* player);
 };

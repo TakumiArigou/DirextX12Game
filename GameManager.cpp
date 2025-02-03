@@ -1,7 +1,7 @@
 
 #include "GameManager.h"
 #include "SceneManager.h"
-
+#include "FadeManager.h"
 
 GameManager::GameManager()
 {
@@ -10,6 +10,8 @@ GameManager::GameManager()
 	m_GameUIPlayerHPGage.SetPlayer(&m_Player);
 
 	m_EnemyManager.SetPlayer(&m_Player);
+
+	m_GameUIPlayerGage.SetPlayer(&m_Player);
 	
 	//m_EnemyManager.AddEnemy();
 	//m_EnemyManager.AddEnemy();
@@ -29,6 +31,11 @@ GameManager::~GameManager()
 
 void GameManager::Update()
 {
+	if (FadeManager::GetInstance()->GetIsScneChange())
+	{
+		FadeManager::GetInstance()->FadeIN();
+	}
+
 	m_Camera.Update();
 	m_Sky.Update();
 	m_Water.Update();
@@ -41,12 +48,14 @@ void GameManager::Update()
 	m_GameUIPlayerGage.Update();
 	m_GameUIPlayerHPGage.Update();
 
+	FadeManager::GetInstance()->Update();
 
 	if (GetKeyState('Z') & 0x8000)
 	{
 		if (GetKeyState('Z') & 0x0001)
 		{
-			SceneManager::GetInstance()->SetSceneType(SceneType::Result);
+			FadeManager::GetInstance()->SetSceneType(SceneType::Result);
+			FadeManager::GetInstance()->FadeOUT();
 		}
 	}
 
@@ -75,8 +84,9 @@ void GameManager::Draw()
 	m_GameUIPlayerGage.Draw();
 	m_GameUIPlayerHPGage.Draw();
 
-	RenderManager::GetInstance()->DrawEnd();
+	FadeManager::GetInstance()->Draw();
 
+	RenderManager::GetInstance()->DrawEnd();
 }
 
 

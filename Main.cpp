@@ -1,13 +1,10 @@
 
 #include "Main.h"
-//#include "GameManager.h"
-//#include "TitleManager.h"
-//#include "ResultManager.h"
 #include "SceneManager.h"
 
 
-#define APP_NAME "Framework"
-#define CLASS_NAME "Framework"
+#define APP_NAME "FLIGHT SHOOTER"
+#define CLASS_NAME "FLIGHT SHOOTER"
 
 
 
@@ -88,16 +85,7 @@ int APIENTRY wWinMain(  _In_ HINSTANCE hInstance,
 
 
     {
-
-
-        //GameManager gameManager;
-        //TitleManager titleManager;
-        //ResultManager resultManager;
-        //SceneManager* scene = SceneManager::GetInstance();
-
         ShowWindow(g_Window, SW_SHOW);
-
-
 
         //フレームカウント初期化
         DWORD dwExecLastTime;
@@ -130,15 +118,6 @@ int APIENTRY wWinMain(  _In_ HINSTANCE hInstance,
 
                 if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60 / 5))
                 {
-                    //gameManager.Update();
-                    //gameManager.Draw();
-
-                    //titleManager.Update();
-                    //titleManager.Draw();
-
-                    //resultManager.Update();
-                    //resultManager.Draw();
-
                     SceneManager::GetInstance()->Update();
                     SceneManager::GetInstance()->Draw();
 

@@ -6,6 +6,13 @@
 #include "Camera.h"
 #include "Player.h"
 
+enum class SceneType
+{
+    Title,
+    Game,
+    Result,
+};
+
 class SceneBase
 {
 private:

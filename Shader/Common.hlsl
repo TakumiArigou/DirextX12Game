@@ -12,13 +12,13 @@ cbuffer CameraConstantBuffer : register(b1)
     float4x4    Projection;
     float4      CameraPosition;
             
-    float4 GrayScale;
-    float4 Sepia;
-    float4 ChromaticAberration;
-    float2 Distorsion;
-    float Gamma;
+    float4  GrayScale;
+    float4  Sepia;
+    float4  ChromaticAberration;
+    float2  Distorsion;
+    float   Gamma;
     
-    float Time;
+    float   Time;
     
     int isGrayScale;
     int isSepia;
@@ -42,7 +42,7 @@ cbuffer SubsetConstantBuffer : register(b3)
         float Metallic;
         float Specular;
         float Roughness;
-        float NormalWeight;
+        float Fade;
     } Material;
 };
 

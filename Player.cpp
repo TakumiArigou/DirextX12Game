@@ -18,8 +18,11 @@ Player::Player()
 	m_ShootCoolDown = 0.0f;
 	m_ShootCoolDownMax = 0.1f;
 
+	m_InvincbleTime = 0.0f;
+	m_InvincbleTimeMax = 1.0f;
+
 	m_InvincibleCoolDown = 0.0f;
-	m_InvincibleCoolDownMax = 1.0f;
+	m_InvincibleCoolDownMax = 2.0f;
 }
 
 Player::~Player()
@@ -43,6 +46,12 @@ void Player::Update()
 	{
 		m_InvincibleCoolDown -= 1.0f / 60.0f;
 	}
+
+	//無敵時間の処理
+	if (m_InvincbleTime > 0.0f)
+	{
+		m_InvincbleTime -= 1.0f / 60.0f;
+	}
 	else
 	{
 		isInvincible = false;
@@ -53,12 +62,6 @@ void Player::Update()
 		Bullet.Update();
 	}
 
-	//非アクティブな弾を削除
-	//m_Bullet.erase(std::remove_if(m_Bullet.begin(), m_Bullet.end(), [](PlayerBullet* bullet)
-	//	{
-	//		return !bullet->IsActive();
-	//	}), m_Bullet.end());
-
 	//弾発射
 	if (GetKeyState(VK_SPACE) & 0x8000)
 	{
@@ -67,7 +70,10 @@ void Player::Update()
 
 	if (GetKeyState('I') & 0x8000)
 	{
-		Invincible();
+		if (m_InvincibleCoolDown <= 0.0f)
+		{
+			Invincible();
+		}
 	}
 
 	//プレイヤー横移動処理
@@ -258,8 +264,13 @@ void Player::Invincible()
 {
 	if (m_InvincibleCoolDown <= 0.0f)
 	{
-		isInvincible = true;
 		m_InvincibleCoolDown = m_InvincibleCoolDownMax;
+	}
+
+	if (m_InvincbleTime <= 0.0f)
+	{
+		isInvincible = true;
+		m_InvincbleTime = m_InvincbleTimeMax;
 	}
 }
 
@@ -291,4 +302,14 @@ void Player::SetPlayerHP(int damage)
 const std::array<PlayerBullet, 50>& Player::GetPlayerBullet() const
 {
 	return m_Bullet;
+}
+
+float Player::GetInvincibleTime() const
+{
+	return m_InvincibleCoolDown;
+}
+
+float Player::GetInvincibleTimeMax() const
+{
+	return m_InvincibleCoolDownMax;
 }

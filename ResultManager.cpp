@@ -1,6 +1,7 @@
 
 #include "ResultManager.h"
 #include "SceneManager.h"
+#include "FadeManager.h"
 
 ResultManager::ResultManager()
 {
@@ -20,16 +21,26 @@ ResultManager::~ResultManager()
 
 void ResultManager::Update()
 {
+	if (FadeManager::GetInstance()->GetIsScneChange())
+	{
+		FadeManager::GetInstance()->FadeIN();
+	}
+
 	m_Camera.Update();
+
+	m_Plyaer.Update();
 
 	m_ResultScore.Update();
 	m_ResultTime.Update();
+
+	FadeManager::GetInstance()->Update();
 
 	if (GetKeyState('B') & 0x8000)
 	{
 		if (GetKeyState('B') & 0x0001)
 		{
-			SceneManager::GetInstance()->SetSceneType(SceneType::Title);
+			FadeManager::GetInstance()->SetSceneType(SceneType::Title);
+			FadeManager::GetInstance()->FadeOUT();
 		}
 	}
 
@@ -37,7 +48,8 @@ void ResultManager::Update()
 	{
 		if (GetKeyState('N') & 0x0001)
 		{
-			SceneManager::GetInstance()->SetSceneType(SceneType::Game);
+			FadeManager::GetInstance()->SetSceneType(SceneType::Game);
+			FadeManager::GetInstance()->FadeOUT();
 		}
 	}
 
@@ -46,7 +58,6 @@ void ResultManager::Update()
 		if (GetKeyState('M') & 0x0001)
 		{
 			PostQuitMessage(0);
-			RenderManager::GetInstance()->WaitGPU();
 		}
 	}
 }
@@ -63,6 +74,8 @@ void ResultManager::Draw()
 
 	m_ResultScore.Draw();
 	m_ResultTime.Draw();
+
+	FadeManager::GetInstance()->Draw();
 
 	RenderManager::GetInstance()->DrawEnd();
 
