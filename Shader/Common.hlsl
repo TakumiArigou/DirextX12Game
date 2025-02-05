@@ -94,7 +94,6 @@ SamplerState Sampler : register(s0);
 
 static float PI = 3.141592653589;
 
-
 //レイリー散乱で大気色を算出
 float3 GetAtomColor(float3 EyeVector)
 {

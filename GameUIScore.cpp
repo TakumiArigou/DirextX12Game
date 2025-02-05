@@ -10,7 +10,6 @@ GameUIScore::GameUIScore()
 
 	m_Texture = renderManager->LoadTexture("Asset\\Number.dds");
 
-
 	m_VertexBuffer1 = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), 4);
 	m_VertexBuffer2 = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), 4);
 	m_VertexBuffer3 = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), 4);
@@ -144,7 +143,6 @@ void GameUIScore::Update()
 	float texX;
 	float texY = 0.0f;         // スプライトシートのY座標
 
-
 	int digit; // 最下位の数字を取得
 
 	{
@@ -165,7 +163,6 @@ void GameUIScore::Update()
 		buffer[3].TexCoord = { texX + 0.1f, texY + 1.0f };
 
 		m_VertexBuffer1->Resource->Unmap(0, nullptr);
-
 	}
 
 	{
@@ -227,13 +224,6 @@ void GameUIScore::Update()
 
 		m_VertexBuffer4->Resource->Unmap(0, nullptr);
 	}
-
-
-
-	if (GetKeyState('K') & 0x8000)
-	{
-		m_GameScore += 1;
-	}
 }
 
 
@@ -252,7 +242,7 @@ void GameUIScore::Draw()
 void GameUIScore::ScoreDraw1()
 {
 	RenderManager* renderManager = RenderManager::GetInstance();
-	//renderManager->SetPipelineState("Unlit");
+
 	//マトリクス設定
 	{
 		XMMATRIX world = XMMatrixIdentity();
@@ -279,13 +269,11 @@ void GameUIScore::ScoreDraw1()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }
 
 
@@ -318,13 +306,11 @@ void GameUIScore::ScoreDraw2()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }
 
 
@@ -363,7 +349,6 @@ void GameUIScore::ScoreDraw3()
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }
 
 
@@ -395,7 +380,6 @@ void GameUIScore::ScoreDraw4()
 
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture.get());
-
 
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);

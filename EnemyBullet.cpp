@@ -12,6 +12,10 @@ EnemyBullet::EnemyBullet()
 	m_Scale = { 0.1f, 0.1f, 0.1f };
 	m_Velocity = { 0.0f, 0.0f, 0.1f };
 	isActive = false;
+	isSmall = false;
+	isSmall2 = false;
+
+	m_EnemyBulletType = EnemyBulletType::HOMING;
 }
 
 
@@ -25,8 +29,11 @@ EnemyBullet::EnemyBullet(Player* player)
 	m_Scale = { 0.1f, 0.1f, 0.1f };
 	m_Velocity = { 0.0f, 0.0f, 0.1f };
 	isActive = false;
-
+	isSmall = false;
+	isSmall2 = false;
 	m_Player = player;
+
+	m_EnemyBulletType = EnemyBulletType::HOMING;
 }
 
 
@@ -40,9 +47,12 @@ EnemyBullet::EnemyBullet(EnemyBullet&& other) noexcept
 	m_Scale = { 0.1f, 0.1f, 0.1f };
 	m_Velocity = { 0.0f, 0.0f, 0.1f };
 	isActive = false;
-
+	isSmall = false;
+	isSmall2 = false;
 	m_Player = other.m_Player;
 	other.m_Player = nullptr;
+
+	m_EnemyBulletType = EnemyBulletType::HOMING;
 }
 
 
@@ -69,23 +79,43 @@ void EnemyBullet::Update()
 
 	m_Time += 1.0 / 60.0f;
 
-	// Lerpによる線形補間で弾を目標位置に向かって移動
-	m_Position.x = XMVectorGetX(XMVectorLerp(
-		XMLoadFloat3(&m_Position),
-		XMLoadFloat3(&m_PlayerPosition),
-		0.1 * m_Time
-	));
+	switch (m_EnemyBulletType)
+	{
+	case HOMING:
 
-	m_Position.y = XMVectorGetY(XMVectorLerp(
-		XMLoadFloat3(&m_Position),
-		XMLoadFloat3(&m_PlayerPosition),
-		0.1 * m_Time
-	));
+		// Lerpによる線形補間で弾を目標位置に向かって移動
+		m_Position.x = XMVectorGetX(XMVectorLerp(
+			XMLoadFloat3(&m_Position),
+			XMLoadFloat3(&m_PlayerPosition),
+			0.1 * m_Time
+		));
 
-	m_Position.z -= m_Velocity.z * m_Time;
+		m_Position.y = XMVectorGetY(XMVectorLerp(
+			XMLoadFloat3(&m_Position),
+			XMLoadFloat3(&m_PlayerPosition),
+			0.1 * m_Time
+		));
 
-	if (m_Position.z <= 0.0f) {
-		isActive = false;
+		m_Position.z -= m_Velocity.z * m_Time;
+
+		if (m_Position.z <= 0.0f) {
+			isActive = false;
+		}
+
+		break;
+
+	case STRAIGHT:
+
+		m_Position.z -= m_Velocity.z * m_Time;
+
+		if (m_Position.z <= 0.0f) {
+			isActive = false;
+		}
+
+		break;
+
+	default:
+		break;
 	}
 
 	m_Player = GetPlayer();
@@ -154,11 +184,12 @@ void EnemyBullet::Draw()
 	}
 }
 
-void EnemyBullet::Reset(XMFLOAT3 start_position, XMFLOAT3 target_position)
+void EnemyBullet::Reset(XMFLOAT3 start_position, XMFLOAT3 target_position, EnemyBulletType type)
 {
 	m_Position = start_position;
 	m_PlayerPosition = target_position;
 	m_Time = 0;
+	m_EnemyBulletType = type;
 }
 
 bool EnemyBullet::IsActive() const
@@ -169,6 +200,11 @@ bool EnemyBullet::IsActive() const
 void EnemyBullet::SetActive(bool isactive)
 {
 	isActive = isactive;
+}
+
+void EnemyBullet::SetScale(XMFLOAT3 scale)
+{
+	m_Scale = scale;
 }
 
 void EnemyBullet::SetPlayer(Player* player)

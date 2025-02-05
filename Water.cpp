@@ -1,6 +1,7 @@
 
 #include "Main.h"
 #include "RenderManager.h"
+#include "SceneManager.h"
 #include "Water.h"
 
 
@@ -9,8 +10,6 @@ Water::Water()
 	RenderManager* renderManager = RenderManager::GetInstance();
 
 	m_Texture = renderManager->LoadTexture("Asset\\field004.dds");
-
-
 
 	{
 		m_VertexBuffer = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), FIELD_X * FIELD_Z);
@@ -34,9 +33,6 @@ Water::Water()
 
 		m_VertexBuffer->Resource->Unmap(0, nullptr);
 	}
-
-
-
 
 	{
 		m_IndexBuffer = renderManager->CreateIndexBuffer((FIELD_X * 2 + 2) * (FIELD_Z - 1) - 2);
@@ -70,37 +66,33 @@ Water::Water()
 }
 
 
-
-
 void Water::Update()
 {
-
 }
-
-
-
 
 
 void Water::Draw()
 {
 	RenderManager* renderManager = RenderManager::GetInstance();
 
-	ImGui::Begin("Water");
-
 	OBJECT_CONSTANT constant{};
-	//定数バッファ設定
+
+	if (SceneManager::GetInstance()->GetIsImGui())
 	{
+		ImGui::Begin("Water");
+		//定数バッファ設定
+		{
+			ImGui::SliderFloat("Hight", (float*)&m_WaterHieht, 1.0f, 100.0f);
+			ImGui::SliderFloat("Octave", (float*)&m_WaterOctave, 1.0f, 10.0f);
+		}
 
-		ImGui::SliderFloat("Hight", (float*)&m_WaterHieht, 1.0f, 100.0f);
-		ImGui::SliderFloat("Octave", (float*)&m_WaterOctave, 1.0f, 10.0f);
-
-		constant.Water.x = m_WaterHieht;
-		constant.Water.y = m_WaterOctave;
-		constant.Water.z = 0.0f;
-		constant.Water.w = 0.0f;
+		ImGui::End();
 	}
 
-	ImGui::End();
+	constant.Water.x = m_WaterHieht;
+	constant.Water.y = m_WaterOctave;
+	constant.Water.z = 0.0f;
+	constant.Water.w = 0.0f;
 
 	//マトリクス設定
 	{
@@ -113,8 +105,6 @@ void Water::Draw()
 
 		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::OBJECT, &constant, sizeof(constant));
 	}
-
-
 
 	//頂点バッファ設定
 	renderManager->SetVertexBuffer(m_VertexBuffer.get());
@@ -133,6 +123,4 @@ void Water::Draw()
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawIndexedInstanced(((FIELD_X * 2 + 2) * (FIELD_Z - 1) - 2), 1, 0, 0, 0);
-
-
 }

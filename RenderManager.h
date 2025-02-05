@@ -93,7 +93,6 @@ struct RENDER_TARGET
 };
 
 
-
 struct VERTEX_BUFFER
 {
 	ComPtr<ID3D12Resource>		Resource;
@@ -115,18 +114,11 @@ class RenderManager
 private:
 	static RenderManager*				m_Instance;
 
-
-
-
 	HWND								m_WindowHandle;
-
 
 	bool								m_WindowMode;
 	int									m_BackBufferWidth;
 	int									m_BackBufferHeight;
-
-
-
 
 	UINT64								m_Frame[2];
 	UINT								m_RTIndex;
@@ -142,9 +134,6 @@ private:
 
 	HANDLE								m_FenceEvent;
 
-
-
-
 	ComPtr<ID3D12Resource>				m_RenderTarget[2];
 	ComPtr<ID3D12DescriptorHeap>		m_RenderTargetDescriptorHeap;
 	D3D12_CPU_DESCRIPTOR_HANDLE			m_RenderTargetHandle[2];
@@ -153,14 +142,8 @@ private:
 	ComPtr<ID3D12DescriptorHeap>		m_DepthBufferDescriptorHeap;
 	D3D12_CPU_DESCRIPTOR_HANDLE			m_DepthBufferHandle;
 
-
-
-
-
 	D3D12_RECT							m_ScissorRect;
 	D3D12_VIEWPORT						m_Viewport;
-
-
 
 	ComPtr<ID3D12DescriptorHeap>		m_SRVDescriptorHeap;
 	std::list<unsigned int>				m_SRVDescriptorPool;
@@ -170,9 +153,6 @@ private:
 	std::list<unsigned int>				m_RTVDescriptorPool;
 	static const unsigned int			RTV_DESCRIPTOR_MAX = 1000;
 
-
-
-
 	static const unsigned int			CONSTANT_BUFFER_SIZE = 512;
 	static const unsigned int			CONSTANT_BUFFER_MAX = 1000;
 	ComPtr<ID3D12Resource>				m_ConstantBuffer[2];
@@ -180,14 +160,10 @@ private:
 	unsigned int						m_ConstantBufferView[2][CONSTANT_BUFFER_MAX];
 	unsigned int						m_ConstantBufferIndex[2];
 
-
-
 	ComPtr<ID3D12RootSignature>			m_RootSignature;
-
 
 	std::unordered_map<std::string, ComPtr<ID3D12PipelineState>>	m_PipelineState;
 	ComPtr<ID3D12PipelineState> CreatePipeline(const char* VertexShaderFile, const char* PixelShaderFile, const DXGI_FORMAT* RTVFormats, unsigned int NumRenderTargets);
-
 
 	std::unique_ptr<VERTEX_BUFFER>		m_VertexBuffer;	//頂点バッファ
 
@@ -235,30 +211,21 @@ public:
 	int GetBackBufferWidth() { return m_BackBufferWidth; }
 	int GetBackBufferHeight() { return m_BackBufferHeight; }
 
-
-
 	RenderManager();
 	~RenderManager();
-
 
 	void WaitGPU();
 
 	void DrawBegin();
 	void DrawEnd();
 
-
 	void DrawScreen();
-
-
 
 	void ReleaseShaderResourceView(unsigned int SRVIndex);
 	void ReleaseRenderTargetView(unsigned int SRVIndex);
 
-
 	//レンダーターゲット
 	std::unique_ptr<RENDER_TARGET> CreateRenderTarget(unsigned int Width, unsigned int Height, DXGI_FORMAT Format, unsigned int MipLevel = 1);
-
-
 
 	//定数バッファ
 	enum class CONSTANT_TYPE
@@ -269,9 +236,6 @@ public:
 		SUBSET
 	};
 	void SetConstant(CONSTANT_TYPE Type, const void* Constant, unsigned int Size);
-
-
-
 
 	//テクスチャ
 	enum class TEXTURE_TYPE
@@ -287,19 +251,13 @@ public:
 	void SetTexture(TEXTURE_TYPE Type, const TEXTURE* Texture);
 	void SetTexture(TEXTURE_TYPE Type, const RENDER_TARGET* Texture);
 
-
-
-
 	//頂点バッファ
 	std::unique_ptr<VERTEX_BUFFER> CreateVertexBuffer(unsigned int Stride, unsigned int Size);
 	void SetVertexBuffer(const VERTEX_BUFFER* VertexBuffer);
-
 
 	//インデックスバッファ
 	std::unique_ptr<INDEX_BUFFER> CreateIndexBuffer(unsigned int Size);
 	void SetIndexBuffer(const INDEX_BUFFER* IndexBuffer);
 
-
 	void SetPipelineState(const char* PiplineName);
 };
-

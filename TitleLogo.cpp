@@ -75,6 +75,7 @@ TitleLogo::TitleLogo()
 	m_AddAlpha = 0.01f;
 }
 
+
 void TitleLogo::Update()
 {
 	m_Alpha += m_AddAlpha;
@@ -105,7 +106,6 @@ void TitleLogo::Draw()
 void TitleLogo::ScoreDraw1()
 {
 	RenderManager* renderManager = RenderManager::GetInstance();
-	//renderManager->SetPipelineState("Unlit");
 	//マトリクス設定
 	{
 		XMMATRIX world = XMMatrixIdentity();
@@ -132,13 +132,11 @@ void TitleLogo::ScoreDraw1()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }
 
 
@@ -171,11 +169,9 @@ void TitleLogo::ScoreDraw2()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture2.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }

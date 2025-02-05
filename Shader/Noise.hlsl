@@ -1,12 +1,9 @@
-//#include "Common.hlsl"
-
 
 //2D¨1D‹^——”
 float random2(in float2 vec)
 {
     return frac(sin(dot(vec.xy, float2(12.9898, 78.233))) * 43758.5453123);
 }
-
 
 //3D¨1D‹^——”
 float random3(in float3 vec)

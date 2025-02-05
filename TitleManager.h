@@ -19,11 +19,6 @@ public:
 	TitleManager();
 	~TitleManager() override;
 
-
-
 	void Update() override;
 	void Draw() override;
-
-
 };
-

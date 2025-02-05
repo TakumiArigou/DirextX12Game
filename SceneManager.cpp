@@ -7,12 +7,13 @@ SceneManager::SceneManager()
 {
 	m_Instance = this;
 
-	m_Scene = SceneType::Game;
+	m_Scene = SceneType::Title;
 
 	m_Title = std::make_unique<TitleManager>();
 	m_Game = std::make_unique<GameManager>();
 	m_Result = std::make_unique<ResultManager>();
 }
+
 
 SceneManager::~SceneManager()
 {
@@ -20,6 +21,7 @@ SceneManager::~SceneManager()
 
 	delete m_Instance;
 }
+
 
 void SceneManager::Update()
 {
@@ -43,7 +45,20 @@ void SceneManager::Update()
 		break;
 	}
 
+	if (GetAsyncKeyState('P') & 0x0001)
+	{
+		if (m_isImGui)
+		{
+			m_isImGui = false;
+		}
+		else if (!m_isImGui)
+		{
+			m_isImGui = true;
+		}
+
+	}
 }
+
 
 void SceneManager::Draw()
 {
@@ -68,6 +83,7 @@ void SceneManager::Draw()
 	}
 }
 
+
 void SceneManager::InitializeScene(SceneType sceneType)
 {
 	switch (sceneType)
@@ -83,6 +99,7 @@ void SceneManager::InitializeScene(SceneType sceneType)
 		break;
 	}
 }
+
 
 void SceneManager::FinalizeScene(SceneType sceneType)
 {
@@ -100,9 +117,21 @@ void SceneManager::FinalizeScene(SceneType sceneType)
 	}
 }
 
+
 void SceneManager::SetSceneType(SceneType sceneType)
 {
 	FinalizeScene(m_Scene);
 	m_Scene = sceneType;
 	InitializeScene(sceneType);
+}
+
+
+bool SceneManager::GetIsImGui() const
+{
+	return m_isImGui;
+}
+
+void SceneManager::SetIsImGui(bool isImGui)
+{
+	m_isImGui = isImGui;
 }

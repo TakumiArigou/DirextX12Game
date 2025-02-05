@@ -6,7 +6,6 @@
 #include "ResultManager.h"
 #include "ScoreManager.h"
 
-
 class SceneManager
 {
 private:
@@ -20,6 +19,8 @@ private:
 
 	void InitializeScene(SceneType sceneType);
 	void FinalizeScene(SceneType sceneType);
+
+	bool m_isImGui;
 
 public:
 	static SceneManager* GetInstance() {
@@ -37,4 +38,7 @@ public:
 	void Draw();
 
 	void SetSceneType(SceneType sceneType);
+
+	bool GetIsImGui() const;
+	void SetIsImGui(bool isImGui);
 };

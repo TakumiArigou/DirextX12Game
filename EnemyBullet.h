@@ -3,6 +3,12 @@
 #include "Model.h"
 #include "Player.h"
 
+enum EnemyBulletType
+{
+	HOMING,
+	STRAIGHT,
+};
+
 class EnemyBullet
 {
 private:
@@ -14,10 +20,15 @@ private:
 	XMFLOAT3		m_Velocity{ 0.0f, 0.0f, 0.0f };
 	bool isActive;
 
+	bool isSmall;
+	bool isSmall2;
+
 	Model			m_Model;
 	Player*			m_Player;
 
 	float m_Time{};
+
+	EnemyBulletType m_EnemyBulletType;
 
 public:
 	EnemyBullet();
@@ -35,10 +46,11 @@ public:
 	void Update();
 	void Draw();
 
-	void Reset(XMFLOAT3 start_position, XMFLOAT3 target_position);
+	void Reset(XMFLOAT3 start_position, XMFLOAT3 target_position, EnemyBulletType type);
 
 	bool IsActive() const;
 	void SetActive(bool isactive);
+	void SetScale(XMFLOAT3 scale);
 
 	void SetPlayer(Player* player);
 	Player* GetPlayer();

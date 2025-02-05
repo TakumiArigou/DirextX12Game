@@ -15,9 +15,11 @@ FadeManager::FadeManager()
     m_isSceneChange = false;
 }
 
+
 FadeManager::~FadeManager()
 {
 }
+
 
 void FadeManager::FadeIN()
 {
@@ -26,12 +28,14 @@ void FadeManager::FadeIN()
     m_Alpha = 0.0f;
 }
 
+
 void FadeManager::FadeOUT()
 {
 	m_isFadeIN = false;
 	m_isFadeOUT = true;
     m_Alpha = 1.0f;
 }
+
 
 void FadeManager::Update()
 {
@@ -58,6 +62,7 @@ void FadeManager::Update()
     }
 }
 
+
 void FadeManager::Draw()
 {
     RenderManager* renderManager = RenderManager::GetInstance();
@@ -77,6 +82,7 @@ void FadeManager::Draw()
         renderManager->SetConstant(RenderManager::CONSTANT_TYPE::ENV, &constant, sizeof(constant));
     }
 }
+
 
 float FadeManager::GetAlpha() const
 {

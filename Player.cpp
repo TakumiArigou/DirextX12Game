@@ -30,8 +30,6 @@ Player::~Player()
 }
 
 
-
-
 void Player::Update()
 {
 	GetPlayerHP();
@@ -63,12 +61,12 @@ void Player::Update()
 	}
 
 	//弾発射
-	if (GetKeyState(VK_SPACE) & 0x8000)
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
 		Shoot();
 	}
 
-	if (GetKeyState('I') & 0x8000)
+	if (GetAsyncKeyState('I') & 0x8000)
 	{
 		if (m_InvincibleCoolDown <= 0.0f)
 		{
@@ -78,7 +76,7 @@ void Player::Update()
 
 	//プレイヤー横移動処理
 	//入力方向に回転を加える
-	if (GetKeyState('A') & 0x8000)		//左入力(Aキー)
+	if (GetAsyncKeyState('A') & 0x8000)		//左入力(Aキー)
 	{
 		m_Position.x -= 0.07f;
 		m_Rotation.x -= 0.02f;
@@ -88,7 +86,7 @@ void Player::Update()
 			m_Rotation.x = -0.5f;
 		}
 	}
-	else if (GetKeyState('D') & 0x8000)	//右入力(Dキー)
+	else if (GetAsyncKeyState('D') & 0x8000)	//右入力(Dキー)
 	{
 		m_Position.x += 0.07f;
 		m_Rotation.x += 0.02f;
@@ -109,7 +107,7 @@ void Player::Update()
 
 	//プレイヤー縦移送処理
 	//入力方向に回転を加える
-	if (GetKeyState('W') & 0x8000)		//上入力(Wキー)
+	if (GetAsyncKeyState('W') & 0x8000)		//上入力(Wキー)
 	{
 		m_Position.y += 0.07f;
 		m_Rotation.z -= 0.02f;
@@ -119,7 +117,7 @@ void Player::Update()
 			m_Rotation.z = -0.3f;
 		}
 	}
-	else if (GetKeyState('S') & 0x8000)	//下入力(Sキー)
+	else if (GetAsyncKeyState('S') & 0x8000)	//下入力(Sキー)
 	{
 		m_Position.y -= 0.07f;
 		m_Rotation.z += 0.02f;
@@ -159,9 +157,6 @@ void Player::Update()
 		m_Position.y = -4.0f;
 	}
 }
-
-
-
 
 
 void Player::Draw()
@@ -242,9 +237,6 @@ void Player::Draw()
 void Player::Shoot()
 {
 	if (m_ShootCoolDown <= 0.0f) {
-		// 新しい弾を生成して発射
-		//PlayerBullet* newBullet = new PlayerBullet(m_Position);  // プレイヤーの位置から弾を発射
-		//m_Bullet.push_back(newBullet);
 
 		for (auto& bullet : m_Bullet)
 		{
@@ -260,6 +252,7 @@ void Player::Shoot()
 	}
 }
 
+
 void Player::Invincible()
 {
 	if (m_InvincibleCoolDown <= 0.0f)
@@ -273,6 +266,7 @@ void Player::Invincible()
 		m_InvincbleTime = m_InvincbleTimeMax;
 	}
 }
+
 
 XMFLOAT3 Player::GetPlayerPosition() const 
 {

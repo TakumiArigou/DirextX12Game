@@ -71,9 +71,6 @@ GameUIPlayerGage::GameUIPlayerGage()
 		m_VertexBuffer2->Resource->Unmap(0, nullptr);
 	}
 
-	//m_InvincibleTime = 0.0f;
-	//m_InvincibleTimeMax = 0.0f;
-
 	m_GageMax = 2.0f;
 	m_GageMin = 0.0f;
 }
@@ -91,27 +88,6 @@ void GameUIPlayerGage::Update()
 	XMVECTOR result = XMVectorLerp(V1, V2, t);
 
 	scaleValue = XMVectorGetX(result);
-
-	//float clampedValue = std::clamp(m_InvincibleTime, 0.0f, m_InvincibleTimeMax);
-	//float scaledValue = XMVectorLerp(m_GageMin, m_GageMax, clampedValue / m_InvincibleTimeMax);
-
-	//if (GetKeyState('L') & 0x8000)
-	//{
-	//	a -= 1;
-	//}
-	//else if (a <= 0)
-	//{
-	//	a = 0;
-	//}
-
-	//if (GetKeyState('O') & 0x8000)
-	//{
-	//	a += 1;
-	//}
-	//else if (a >= 10)
-	//{
-	//	a = 10;
-	//}
 }
 
 
@@ -176,8 +152,6 @@ void GameUIPlayerGage::PlayerDraw2()
 		HRESULT hr = m_VertexBuffer2->Resource->Map(0, nullptr, (void**)&buffer);
 		assert(SUCCEEDED(hr));
 
-		
-
 		texX = 1.4f; // スプライトシートのX座標（10分の1）
 
 		buffer[0].Position = { -0.9f,  1.0f + (scaleValue + 0.025f), -1.0f };
@@ -192,7 +166,6 @@ void GameUIPlayerGage::PlayerDraw2()
 
 		m_VertexBuffer2->Resource->Unmap(0, nullptr);
 	}
-
 
 	{
 		XMMATRIX world = XMMatrixIdentity();
@@ -228,13 +201,11 @@ void GameUIPlayerGage::PlayerDraw2()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture2.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }
 
 void GameUIPlayerGage::SetPlayer(Player* player)

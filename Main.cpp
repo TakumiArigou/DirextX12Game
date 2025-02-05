@@ -7,14 +7,11 @@
 #define CLASS_NAME "FLIGHT SHOOTER"
 
 
-
-
 HINSTANCE   g_Instance;
 HWND        g_Window;
 bool        g_FullWindow;
 int         g_WindowWidth;
 int         g_WindowHeight;
-
 
 
 HWND GetWindow()
@@ -42,14 +39,10 @@ int APIENTRY wWinMain(  _In_ HINSTANCE hInstance,
     g_FullWindow = false;
 
 
-
-
     int windowWidth, windowHeight;
 
     windowWidth = SCREEN_MAX_WIDTH;
     windowHeight = SCREEN_MAX_HIGHT;
-
-
 
 
     {
@@ -81,9 +74,6 @@ int APIENTRY wWinMain(  _In_ HINSTANCE hInstance,
     }
 
 
-
-
-
     {
         ShowWindow(g_Window, SW_SHOW);
 
@@ -96,8 +86,6 @@ int APIENTRY wWinMain(  _In_ HINSTANCE hInstance,
 
         while (true)
         {
-
-            //DWORD frame = 0;
             MSG msg;
 
             if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -127,8 +115,6 @@ int APIENTRY wWinMain(  _In_ HINSTANCE hInstance,
                 {
                     Sleep(0);
                 }
-
-
             }
         }
     }
@@ -159,7 +145,6 @@ void ChangeFullWindow()
 }
 
 
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     //ImGUIのウィンドウ処理をプロシージャに追加
@@ -168,7 +153,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     switch (message)
     {
-
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
@@ -187,7 +171,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
-
     }
 
     return 0;

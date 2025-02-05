@@ -6,7 +6,6 @@ PS_OUTPUT main(PS_INPUT input)
 {
     PS_OUTPUT output;
 
-
 	//法線算出
     float dx = GetWaterHeight(input.WorldPosition.xz + float2(0.1f, 0.0f), Water.y, Time, Water.x)
 	         - GetWaterHeight(input.WorldPosition.xz - float2(0.1f, 0.01), Water.y, Time, Water.x);
@@ -17,11 +16,6 @@ PS_OUTPUT main(PS_INPUT input)
     float3 normal = float3(-dx, 1.0f, -dz);
     
     normal = normalize(normal);
-    
-    //ハーフランバート
-    //float3 normal = normalize(input.Normal.rgb);
-    //output.Color.rgb = saturate(dot(LightDirection.xyz, normal.xyz) * 0.5 + 0.5);
-    //output.Color.rgb *= fbm2(input.WorldPosition.xz * 0.1, 8, Time);
     
     //視線ベクトル生成
     float3 eyeVec = input.WorldPosition.xyz - CameraPosition.xyz;

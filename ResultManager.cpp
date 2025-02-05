@@ -9,14 +9,10 @@ ResultManager::ResultManager()
 }
 
 
-
-
 ResultManager::~ResultManager()
 {
 	RenderManager::GetInstance()->WaitGPU();
 }
-
-
 
 
 void ResultManager::Update()
@@ -35,39 +31,27 @@ void ResultManager::Update()
 
 	FadeManager::GetInstance()->Update();
 
-	if (GetKeyState('B') & 0x8000)
+	if (GetAsyncKeyState('B') & 0x0001)
 	{
-		if (GetKeyState('B') & 0x0001)
-		{
-			FadeManager::GetInstance()->SetSceneType(SceneType::Title);
-			FadeManager::GetInstance()->FadeOUT();
-		}
+		FadeManager::GetInstance()->SetSceneType(SceneType::Title);
+		FadeManager::GetInstance()->FadeOUT();
 	}
 
-	if (GetKeyState('N') & 0x8000)
+	if (GetAsyncKeyState('N') & 0x0001)
 	{
-		if (GetKeyState('N') & 0x0001)
-		{
-			FadeManager::GetInstance()->SetSceneType(SceneType::Game);
-			FadeManager::GetInstance()->FadeOUT();
-		}
+		FadeManager::GetInstance()->SetSceneType(SceneType::Game);
+		FadeManager::GetInstance()->FadeOUT();
 	}
 
-	if (GetKeyState('M') & 0x8000)
+	if (GetAsyncKeyState('M') & 0x0001)
 	{
-		if (GetKeyState('M') & 0x0001)
-		{
-			PostQuitMessage(0);
-		}
+		PostQuitMessage(0);
 	}
 }
 
 
-
-
 void ResultManager::Draw()
 {
-
 	RenderManager::GetInstance()->DrawBegin();
 
 	m_Camera.Draw();
@@ -78,5 +62,4 @@ void ResultManager::Draw()
 	FadeManager::GetInstance()->Draw();
 
 	RenderManager::GetInstance()->DrawEnd();
-
 }

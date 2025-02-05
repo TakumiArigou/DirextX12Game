@@ -5,13 +5,11 @@
 
 EnemySmall::EnemySmall()
 {
-	m_Model.Load("Asset\\PlayerModel.obj");
+	m_Model.Load("Asset\\Enemy1.obj");
 
 	m_Position = { 10.0f, 10.0f, 15.0f };
 	m_Rotation = { 0.0f, 1.57f, 0.0f };
 	m_Scale = { 0.1f, 0.1f, 0.1f };
-
-	//m_AddCount = 0.0f;
 
 	m_ShootCoolDown = 0.0f;
 	m_ShootCoolDownMax = 0.5f;
@@ -26,14 +24,11 @@ EnemySmall::EnemySmall()
 
 EnemySmall::EnemySmall(XMFLOAT3 pos, Player* player)
 {
-	m_Model.Load("Asset\\PlayerModel.obj");
+	m_Model.Load("Asset\\Enemy1.obj");
 
-	//m_Position = { 10.0f, 10.0f, 15.0f };
 	m_Position = pos;
 	m_Rotation = { 0.0f, 1.57f, 0.0f };
 	m_Scale = { 0.1f, 0.1f, 0.1f };
-
-	//m_AddCount = 0.0f;
 
 	m_ShootCoolDown = 0.0f;
 	m_ShootCoolDownMax = 0.5f;
@@ -50,13 +45,11 @@ EnemySmall::EnemySmall(XMFLOAT3 pos, Player* player)
 
 EnemySmall::EnemySmall(EnemySmall&& other) noexcept
 {
-	m_Model.Load("Asset\\PlayerModel.obj");
+	m_Model.Load("Asset\\Enemy1.obj");
 
 	m_Position = { 10.0f, 10.0f, 15.0f };
 	m_Rotation = { 0.0f, 1.57f, 0.0f };
 	m_Scale = { 0.1f, 0.1f, 0.1f };
-
-	//m_AddCount = 0.0f;
 
 	m_ShootCoolDown = 0.0f;
 	m_ShootCoolDownMax = 0.5f;
@@ -172,6 +165,7 @@ void EnemySmall::Update()
 				isActive = false;
 				isDead = true;
 
+				scoreManager->AddEnemyCount(1);
 				scoreManager->AddScore(10);
 			}
 		}
@@ -179,7 +173,7 @@ void EnemySmall::Update()
 		if (m_ShootCoolDown <= 0.0f) {
 			Shoot();
 		}
-
+		
 		if (m_EnemyHP <= 0)
 		{
 			isDead = true;
@@ -244,16 +238,13 @@ void EnemySmall::Shoot()
 		if (!bullet.IsActive())
 		{
 			bullet.SetPlayer(m_Player);
-			bullet.Reset(m_Position, m_Player->GetPlayerPosition());
+			bullet.Reset(m_Position, m_Player->GetPlayerPosition(), EnemyBulletType::HOMING);
 			bullet.SetActive(true);
 
 			m_ShootCoolDown = m_ShootCoolDownMax;
 			return;
 		}
 	}
-
-
-	
 }
 
 void EnemySmall::SetPlayer(Player* player)

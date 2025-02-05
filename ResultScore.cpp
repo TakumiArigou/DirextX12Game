@@ -218,15 +218,20 @@ ResultScore::ResultScore()
 		m_VertexBufferResultMenu->Resource->Unmap(0, nullptr);
 	}
 
-
 	m_ResultScore = 0;
 }
+
 
 void ResultScore::Update()
 {
 	ScoreManager* scoreManager = ScoreManager::GetInstance();
 
 	m_ResultScore = scoreManager->GetClearScore();
+
+	if (m_ResultScore >= 19999)
+	{
+		m_ResultScore = 19999;
+	}
 
 	std::string scoreBase = std::to_string(m_ResultScore);
 	float texX;
@@ -336,7 +341,7 @@ void ResultScore::Draw()
 void ResultScore::ScoreDraw1()
 {
 	RenderManager* renderManager = RenderManager::GetInstance();
-	//renderManager->SetPipelineState("Unlit");
+
 	//マトリクス設定
 	{
 		XMMATRIX world = XMMatrixIdentity();
@@ -363,13 +368,11 @@ void ResultScore::ScoreDraw1()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }
 
 
@@ -402,13 +405,11 @@ void ResultScore::ScoreDraw2()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }
 
 
@@ -441,13 +442,11 @@ void ResultScore::ScoreDraw3()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }
 
 
@@ -480,13 +479,13 @@ void ResultScore::ScoreDraw4()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
 }
+
 
 void ResultScore::ScoreDraw5()
 {
@@ -507,7 +506,7 @@ void ResultScore::ScoreDraw5()
 	//マテリアル設定
 	{
 		MATERIAL material{};
-		material.BaseColor = XMFLOAT4{ 1.0f, 1.0f, 1.0f, 1.0f };
+		material.BaseColor = XMFLOAT4{ 0.0f, 1.0f, 1.0f, 1.0f };
 		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::SUBSET, &material, sizeof(material));
 	}
 
@@ -517,13 +516,13 @@ void ResultScore::ScoreDraw5()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture2.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
 }
+
 
 void ResultScore::TimeDraw()
 {
@@ -544,7 +543,7 @@ void ResultScore::TimeDraw()
 	//マテリアル設定
 	{
 		MATERIAL material{};
-		material.BaseColor = XMFLOAT4{ 1.0f, 1.0f, 1.0f, 1.0f };
+		material.BaseColor = XMFLOAT4{ 0.0f, 1.0f, 1.0f, 1.0f };
 		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::SUBSET, &material, sizeof(material));
 	}
 
@@ -554,13 +553,13 @@ void ResultScore::TimeDraw()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture3.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
 }
+
 
 void ResultScore::ResultMenu()
 {
@@ -581,7 +580,7 @@ void ResultScore::ResultMenu()
 	//マテリアル設定
 	{
 		MATERIAL material{};
-		material.BaseColor = XMFLOAT4{ 1.0f, 1.0f, 1.0f, 1.0f };
+		material.BaseColor = XMFLOAT4{ 1.0f, 0.0f, 1.0f, 1.0f };
 		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::SUBSET, &material, sizeof(material));
 	}
 
@@ -590,7 +589,6 @@ void ResultScore::ResultMenu()
 
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture4.get());
-
 
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);

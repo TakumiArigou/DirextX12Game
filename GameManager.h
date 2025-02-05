@@ -25,6 +25,11 @@ private:
 	Water				m_Water;
 	GameField			m_GameField;
 
+	bool isBossDead;
+	bool isNone;
+
+	int m_PlayerHP;
+
 public:
 
 	GameManager();

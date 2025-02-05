@@ -12,21 +12,20 @@ GameManager::GameManager()
 	m_EnemyManager.SetPlayer(&m_Player);
 
 	m_GameUIPlayerGage.SetPlayer(&m_Player);
-	
-	//m_EnemyManager.AddEnemy();
-	//m_EnemyManager.AddEnemy();
+
+	isBossDead = false;
+	isNone = true;
+
+	m_PlayerHP = 0;
+
+	SceneManager::GetInstance()->SetIsImGui(false);
 }
-
-
 
 
 GameManager::~GameManager()
 {
 	RenderManager::GetInstance()->WaitGPU();
 }
-
-
-
 
 
 void GameManager::Update()
@@ -36,32 +35,57 @@ void GameManager::Update()
 		FadeManager::GetInstance()->FadeIN();
 	}
 
-	m_Camera.Update();
-	m_Sky.Update();
-	m_Water.Update();
-	m_GameField.Update();
-	m_Player.Update();
-	m_EnemyManager.Update();
-
-	m_GameUIScore.Update();
-	m_GameUITime.Update();
-	m_GameUIPlayerGage.Update();
-	m_GameUIPlayerHPGage.Update();
-
-	FadeManager::GetInstance()->Update();
-
-	if (GetKeyState('Z') & 0x8000)
+	if (isNone)
 	{
-		if (GetKeyState('Z') & 0x0001)
+		isBossDead = m_EnemyManager.GetBoss();
+		m_PlayerHP = m_Player.GetPlayerHP();
+
+		if (isBossDead)
 		{
+			isNone = false;
+		}
+
+		if (m_PlayerHP <= 0)
+		{
+			isNone = false;
+			isBossDead = true;
+		}
+	}
+	else if (!isNone)
+	{
+		if (isBossDead)
+		{
+			isBossDead = false;
+
+			ScoreManager::GetInstance()->SetEnemyCount(0);
+
 			FadeManager::GetInstance()->SetSceneType(SceneType::Result);
 			FadeManager::GetInstance()->FadeOUT();
 		}
 	}
 
+	FadeManager::GetInstance()->Update();
+
+
+	if (!isBossDead)
+	{
+		m_Camera.Update();
+		m_Sky.Update();
+		m_Water.Update();
+		m_GameField.Update();
+
+		if (!SceneManager::GetInstance()->GetIsImGui())
+		{
+			m_Player.Update();
+			m_EnemyManager.Update();
+
+			m_GameUIScore.Update();
+			m_GameUITime.Update();
+			m_GameUIPlayerGage.Update();
+			m_GameUIPlayerHPGage.Update();
+		}
+	}
 }
-
-
 
 
 void GameManager::Draw()
@@ -88,5 +112,3 @@ void GameManager::Draw()
 
 	RenderManager::GetInstance()->DrawEnd();
 }
-
-

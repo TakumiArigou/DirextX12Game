@@ -9,13 +9,11 @@ ResultTime::ResultTime()
 	m_Texture1 = renderManager->LoadTexture("Asset\\Number.dds");
 	m_Texture2 = renderManager->LoadTexture("Asset\\GameTimeColon.dds");
 
-
 	m_VertexBuffer1 = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), 4);
 	m_VertexBuffer2 = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), 4);
 	m_VertexBuffer3 = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), 4);
 	m_VertexBuffer4 = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), 4);
 	m_VertexBuffer5 = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), 4);
-
 
 	//頂点データの書き込み
 	{
@@ -165,11 +163,11 @@ ResultTime::ResultTime()
 	}
 }
 
+
 void ResultTime::Update()
 {
 	ScoreManager* scoreManager = ScoreManager::GetInstance();
 
-	//a = scoreManager->GetScore();
 	m_AddTime = 1 / 60.0f;
 
 	m_ResultTime[0] += m_AddTime;
@@ -190,17 +188,14 @@ void ResultTime::Update()
 		m_ResultTime[2] = 0;
 	}
 
-
 	std::string scoreBase = std::to_string(0);
 	float texX;
 	float texY = 0.0f;         // スプライトシートのY座標
-
 
 	int digit; // 最下位の数字を取得
 
 	{
 		digit = m_ResultTime[0];
-		//digit += 2;
 
 		// テクスチャ座標の設定
 		VERTEX_3D* buffer{};
@@ -216,12 +211,10 @@ void ResultTime::Update()
 		buffer[3].TexCoord = { texX + 0.1f, texY + 1.0f };
 
 		m_VertexBuffer1->Resource->Unmap(0, nullptr);
-
 	}
 
 	{
 		digit = m_ResultTime[1];
-		//digit += 2;
 
 		// テクスチャ座標の設定
 		VERTEX_3D* buffer{};
@@ -241,7 +234,6 @@ void ResultTime::Update()
 
 	{
 		digit = m_ResultTime[2];
-		//digit += 2;
 
 		// テクスチャ座標の設定
 		VERTEX_3D* buffer{};
@@ -261,7 +253,6 @@ void ResultTime::Update()
 
 	{
 		digit = m_ResultTime[3];
-		//digit += 2;
 
 		// テクスチャ座標の設定
 		VERTEX_3D* buffer{};
@@ -314,7 +305,6 @@ void ResultTime::Draw()
 void ResultTime::TimeDraw1()
 {
 	RenderManager* renderManager = RenderManager::GetInstance();
-	//renderManager->SetPipelineState("Unlit");
 	//マトリクス設定
 	{
 		XMMATRIX world = XMMatrixIdentity();
@@ -341,13 +331,11 @@ void ResultTime::TimeDraw1()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture1.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }
 
 
@@ -380,13 +368,11 @@ void ResultTime::TimeDraw2()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture1.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }
 
 
@@ -419,13 +405,11 @@ void ResultTime::TimeDraw3()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture1.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }
 
 
@@ -458,13 +442,13 @@ void ResultTime::TimeDraw4()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture1.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
 }
+
 
 void ResultTime::TimeDraw5()
 {
@@ -495,13 +479,13 @@ void ResultTime::TimeDraw5()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture2.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
 }
+
 
 const std::array<float, 4>& ResultTime::GetPlayTime() const
 {

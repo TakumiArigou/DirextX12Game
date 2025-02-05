@@ -8,28 +8,17 @@
 #include "Model.h"
 
 
-
-
-
-
-
 void Model::Load(const char* FileName)
 {
 	RenderManager* renderManager = RenderManager::GetInstance();
-
-
 
 	std::string dir(FileName);
 	dir = dir.substr(0, dir.find_last_of("\\"));
 	dir += "\\";
 
-
 	std::string path(FileName);
 	path = path.substr(0, path.find_last_of("."));
 	path += ".objbin";
-
-	
-
 
 	//ファイル読み込み
 	MODEL model{};
@@ -55,9 +44,6 @@ void Model::Load(const char* FileName)
 
 		CloseHandle(handleBin);
 
-
-
-		//if (findBin)
 		if (false)
 		{
 			LoadObjBin(path.c_str(), &model);
@@ -67,19 +53,12 @@ void Model::Load(const char* FileName)
 			LoadObj(FileName, &model);
 			SaveObjBin(path.c_str(), &model);
 		}
-
 	}
-
-
-
 
 
 	//バッファ生成
 	{
-
 		ComPtr<ID3D12Device> device = RenderManager::GetInstance()->GetDevice();
-
-
 
 		//頂点バッファの作成
 		m_VertexBuffer = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), model.VertexNum);
@@ -91,9 +70,6 @@ void Model::Load(const char* FileName)
 
 		m_VertexBuffer->Resource->Unmap(0, nullptr);
 
-
-
-
 		//インデックスバッファの作成
 		m_IndexBuffer = renderManager->CreateIndexBuffer(model.IndexNum);
 
@@ -104,13 +80,6 @@ void Model::Load(const char* FileName)
 
 		m_IndexBuffer->Resource->Unmap(0, nullptr);
 	}
-
-
-
-
-
-
-
 
 	//サブセット設定
 	{
@@ -128,13 +97,8 @@ void Model::Load(const char* FileName)
 
 			if(strlen(model.SubsetArray[i].Material.TextureNameBaseColor) != 0)
 				m_SubsetArray[i].Material.TextureBaseColor = RenderManager::GetInstance()->LoadTexture((dir + model.SubsetArray[i].Material.TextureNameBaseColor).c_str());
-
 		}
 	}
-
-
-
-
 
 	//アルファ値でソート
 	std::sort(
@@ -146,10 +110,6 @@ void Model::Load(const char* FileName)
 		}
 	);
 
-
-
-
-
 	assert(model.VertexArray);
 	assert(model.IndexArray);
 	assert(model.SubsetArray);
@@ -157,20 +117,13 @@ void Model::Load(const char* FileName)
 	delete[] model.VertexArray;
 	delete[] model.IndexArray;
 	delete[] model.SubsetArray;
-
-
 }
-
-
-
 
 
 void Model::Draw(bool UseMaterial)
 {
-
 	RenderManager* renderManager = RenderManager::GetInstance();
 	ID3D12GraphicsCommandList* CommandList = renderManager->GetGraphicsCommandList();
-
 
 	//頂点バッファ設定
 	renderManager->SetVertexBuffer(m_VertexBuffer.get());
@@ -180,8 +133,6 @@ void Model::Draw(bool UseMaterial)
 
 	//トポロジ設定
 	CommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-
 
 	for (SUBSET& subset: m_SubsetArray)
 	{
@@ -195,11 +146,7 @@ void Model::Draw(bool UseMaterial)
 
 		CommandList->DrawIndexedInstanced(subset.IndexNum, 1, subset.StartIndex, 0, 0);
 	}
-
 }
-
-
-
 
 
 void Model::LoadObjBin(const char* FileName, MODEL* Model)
@@ -208,38 +155,23 @@ void Model::LoadObjBin(const char* FileName, MODEL* Model)
 	file = fopen(FileName, "rb");
 	assert(file);
 
-
-
 	fread(&Model->VertexNum, sizeof(Model->VertexNum), 1, file);
 
 	Model->VertexArray = new VERTEX_3D[Model->VertexNum];
-
 	fread(Model->VertexArray, sizeof(VERTEX_3D), Model->VertexNum, file);
-
-
-
 
 	fread(&Model->IndexNum, sizeof(Model->IndexNum), 1, file);
 
 	Model->IndexArray = new unsigned int[Model->IndexNum];
-
 	fread(Model->IndexArray, sizeof(unsigned int), Model->IndexNum, file);
-
-
-
 
 	fread(&Model->SubsetNum, sizeof(Model->SubsetNum), 1, file);
 
 	Model->SubsetArray = new MODEL_SUBSET[Model->SubsetNum];
-
 	fread(Model->SubsetArray, sizeof(MODEL_SUBSET), Model->SubsetNum, file);
 
-
-
 	fclose(file);
-
 }
-
 
 
 void Model::SaveObjBin(const char* FileName, MODEL* Model)
@@ -248,37 +180,23 @@ void Model::SaveObjBin(const char* FileName, MODEL* Model)
 	file = fopen(FileName, "wb");
 	assert(file);
 
-
-
 	fwrite(&Model->VertexNum, sizeof(Model->VertexNum), 1, file);
 	fwrite(Model->VertexArray, sizeof(VERTEX_3D), Model->VertexNum, file);
-
 
 	fwrite(&Model->IndexNum, sizeof(Model->IndexNum), 1, file);
 	fwrite(Model->IndexArray, sizeof(unsigned int), Model->IndexNum, file);
 
-
 	fwrite(&Model->SubsetNum, sizeof(Model->SubsetNum), 1, file);
 	fwrite(Model->SubsetArray, sizeof(MODEL_SUBSET), Model->SubsetNum, file);
 
-
-
 	fclose(file);
-
 }
-
-
-
-
 
 
 void Model::LoadObj( const char *FileName, MODEL *Model )
 {
-
 	std::string dir(FileName);
 	dir = dir.substr(0, dir.find_last_of("\\"));
-
-
 
 	XMFLOAT3		*positionArray = nullptr;
 	XMFLOAT3		*normalArray = nullptr;
@@ -302,12 +220,9 @@ void Model::LoadObj( const char *FileName, MODEL *Model )
 	char *s;
 	char c;
 
-
 	FILE *file;
 	file = fopen( FileName, "rt" );
 	assert(file);
-
-
 
 	//要素数カウント
 	while( true )
@@ -358,13 +273,11 @@ void Model::LoadObj( const char *FileName, MODEL *Model )
 		}
 	}
 
-
 	//メモリ確保
 	positionArray = new XMFLOAT3[ positionNum ];
 	normalArray = new XMFLOAT3[ normalNum ];
 	texcoordArray = new XMFLOAT2[ texcoordNum ];
 	colorArray = new XMFLOAT4[ colorNum ];
-
 
 	Model->VertexArray = new VERTEX_3D[ vertexNum ];
 	Model->VertexNum = vertexNum;
@@ -374,9 +287,6 @@ void Model::LoadObj( const char *FileName, MODEL *Model )
 
 	Model->SubsetArray = new MODEL_SUBSET[ subsetNum ];
 	Model->SubsetNum = subsetNum;
-
-
-
 
 	//要素読込
 	XMFLOAT3* position = positionArray;
@@ -389,7 +299,6 @@ void Model::LoadObj( const char *FileName, MODEL *Model )
 	unsigned int sc = 0;
 
 	char objectName[256];
-
 
 	fseek( file, 0, SEEK_SET );
 
@@ -466,7 +375,6 @@ void Model::LoadObj( const char *FileName, MODEL *Model )
 
 			Model->SubsetArray[ sc ].StartIndex = ic;
 
-
 			for( unsigned int i = 0; i < materialNum; i++ )
 			{
 				if( strcmp( str, materialArray[i].Name ) == 0 )
@@ -477,7 +385,6 @@ void Model::LoadObj( const char *FileName, MODEL *Model )
 			}
 
 			sc++;
-			
 		}
 		else if( strcmp( str, "f" ) == 0 )
 		{
@@ -507,7 +414,6 @@ void Model::LoadObj( const char *FileName, MODEL *Model )
 				else
 					Model->VertexArray[vc].Color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-
 				Model->IndexArray[ic] = vc;
 				ic++;
 				vc++;
@@ -530,13 +436,10 @@ void Model::LoadObj( const char *FileName, MODEL *Model )
 		}
 	}
 
-
 	if( sc != 0 )
 		Model->SubsetArray[ sc - 1 ].IndexNum = ic - Model->SubsetArray[ sc - 1 ].StartIndex;
 
-
 	fclose(file);
-
 
 	assert(positionArray);
 	assert(normalArray);
@@ -548,21 +451,14 @@ void Model::LoadObj( const char *FileName, MODEL *Model )
 	delete[] texcoordArray;
 	delete[] colorArray;
 
-
-
 	assert(materialArray);
 
 	delete[] materialArray;
 }
 
 
-
-
-
-
 void Model::LoadMaterial( const char *FileName, MODEL_SUBSET_MATERIAL **MaterialArray, unsigned int *MaterialNum )
 {
-
 	char str[256];
 
 	FILE *file;
@@ -587,10 +483,8 @@ void Model::LoadMaterial( const char *FileName, MODEL_SUBSET_MATERIAL **Material
 		}
 	}
 
-
 	//メモリ確保
 	materialArray = new MODEL_SUBSET_MATERIAL[ materialNum ];
-
 
 	//要素読込
 	int mc = -1;
@@ -603,7 +497,6 @@ void Model::LoadMaterial( const char *FileName, MODEL_SUBSET_MATERIAL **Material
 
 		if( feof( file ) != 0 )
 			break;
-
 
 		if( strcmp( str, "newmtl" ) == 0 )
 		{
@@ -678,9 +571,6 @@ void Model::LoadMaterial( const char *FileName, MODEL_SUBSET_MATERIAL **Material
 
 	fclose(file);
 
-
 	*MaterialArray = materialArray;
 	*MaterialNum = materialNum;
-
 }
-

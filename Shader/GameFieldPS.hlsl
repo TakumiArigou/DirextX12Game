@@ -6,16 +6,12 @@ PS_OUTPUT_GEOMETRY main(PS_INPUT input)
     PS_OUTPUT_GEOMETRY output;
        
     float4 baseColor;
-	//baseColor = TextureBaseColor.Sample(Sampler, input.TexCoord);
 	
     float2 texCoord = input.TexCoord;
     texCoord.x *= 1.5;
     texCoord.y *= 1.5;
     float noise = fbm2(texCoord, 9);
     float wood = sin(noise * 5.0);
-    //baseColor.rgb = lerp(float3(0.6, 0.5, 0.8),
-				//		 float3(0.2, 0.2, 0.1),
-				//		 wood);
     
     float h = (input.WorldPosition.y + 100) / -150;
    baseColor.rgb = lerp(float3(0.0, 1.0, 0.0),
@@ -48,7 +44,6 @@ PS_OUTPUT_GEOMETRY main(PS_INPUT input)
     output.Material.a = 1.0;
 	
     output.Emission = Material.EmissionColor;
-
 
     return output;
 }

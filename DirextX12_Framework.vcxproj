@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DDSTextureLoader12.cpp" />
+    <ClCompile Include="EnemyBoss.cpp" />
     <ClCompile Include="EnemySmall.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
@@ -162,10 +163,6 @@
     <ClCompile Include="ImGUI\imgui_impl_dx12.cpp" />
     <ClCompile Include="ImGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="ImGUI\imgui_widgets.cpp" />
-    <ClCompile Include="Json.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="GameUIScore.cpp" />
@@ -186,6 +183,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="D3DX12.h" />
     <ClInclude Include="DDSTextureLoader12.h" />
+    <ClInclude Include="EnemyBoss.h" />
     <ClInclude Include="EnemySmall.h" />
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="EnemyBullet.h" />
@@ -199,6 +197,7 @@
     <ClInclude Include="GameUIPlayerGage.h" />
     <ClInclude Include="GameUIPlayerHPGage.h" />
     <ClInclude Include="GameUITime.h" />
+    <ClInclude Include="Json.h" />
     <ClInclude Include="OBB.h" />
     <ClInclude Include="OBBManager.h" />
     <ClInclude Include="PlayerBullet.h" />
@@ -216,11 +215,6 @@
     <ClInclude Include="ImGUI\imstb_rectpack.h" />
     <ClInclude Include="ImGUI\imstb_textedit.h" />
     <ClInclude Include="ImGUI\imstb_truetype.h" />
-    <ClInclude Include="Json.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="json.hpp" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="GameUIScore.h" />

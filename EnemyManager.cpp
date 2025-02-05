@@ -1,26 +1,21 @@
 
 #include "Main.h"
 #include "EnemyManager.h"
-
+#include "ScoreManager.h"
 
 EnemyManager::EnemyManager()
 {
-    //XMFLOAT3 pos = XMFLOAT3(10.0f, 10.0f, 15.0f);
-    //for (auto& smallEnemy : m_Small)
-    //{
-    //    smallEnemy = EnemySmall(pos, m_Player);
-    //}
 }
 
 void EnemyManager::Update()
 {
+    ScoreManager* scoreManager = ScoreManager::GetInstance();
+
     if (m_AddEnemy)
     {
         AddEnemySmall();
-        //AddEnemySmall2();
-
-        //AddEnemySmall();
-        //AddEnemySmall2();
+        AddEnemySmall2();
+        AddEnemyBoss();
 
         m_AddEnemy = false;
     }
@@ -40,57 +35,19 @@ void EnemyManager::Update()
         }
     }
 
-    if (m_Time >= 0.0f)
+    if (CreateEnemySmall2())
     {
+        m_Time2 += 1.0f / 60.0f;
 
-
-                   m_EnemyCount += 1;
-    /*               m_Time = 0.0f;*/
-
-                   //if (m_EnemyCount >= 5)
-                   //{
-                   //    m_EnemyWave1 = false;
-                   //    m_EnemyWave2 = true;
-                   //}
-    }
-
-    if (m_EnemyWave1 && !m_EnemyWave2 && !m_EnemyWave3)
-    {
-
-
-        m_EnemyWave1 = false;
-    }
-    else if (!m_EnemyWave1 && m_EnemyWave2 && !m_EnemyWave3)
-    {
- /*       if (m_Time >= 5.0f)
+        if (m_Time2 >= 3.0f)
         {
-            AddEnemy(std::make_shared<Enemy>());
-
-            m_EnemyCount += 1;
-            m_Time = 0.0f;
-
-            if (m_EnemyCount >= 5)
+            for (auto& smallEnmey2 : m_Small2)
             {
-                m_EnemyWave2 = false;
-                m_EnemyWave3 = true;
+                smallEnmey2.SetIsActive(true);
             }
-        }*/
-    }
-    else if (!m_EnemyWave1 && !m_EnemyWave2 && m_EnemyWave3)
-    {
-        //if (m_Time >= 5.0f)
-        //{
-        //    AddEnemy(std::make_shared<Enemy>());
 
-        //    m_EnemyCount += 1;
-        //    m_Time = 0.0f;
-
-        //    if (m_EnemyCount >= 5)
-        //    {
-        //        m_EnemyWave3 = false;
-        //        m_EnemyWave1 = true;
-        //    }
-        //}
+            m_Time2 = 0.0F;
+        }
     }
 
     for (auto& smallEnmey : m_Small)
@@ -98,26 +55,32 @@ void EnemyManager::Update()
         smallEnmey.Update();
     }
 
-    //for (auto enemy : enemies) {
-    //    enemy->Update();
-    //}
+    for (auto& smallEnmey2 : m_Small2)
+    {
+        smallEnmey2.Update();
+    }
 
-    ////非アクティブな敵を削除
-    //enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](EnemyBase* enemy)
-    //    {
-    //        return enemy->IsDead();
-    //    }), enemies.end());
+    for (auto& boss : m_Boss)
+    {
+        boss.Update();
+    }
 }
 
 void EnemyManager::Draw()
 {
-    //for (auto enemy : enemies) {
-    //    enemy->Draw();
-    //}
-
     for (auto& smallEnmey : m_Small)
     {
         smallEnmey.Draw();
+    }
+
+    for (auto& smallEnmey2 : m_Small2)
+    {
+        smallEnmey2.Draw();
+    }
+
+    for (auto& boss : m_Boss)
+    {
+        boss.Draw();
     }
 }
 
@@ -138,9 +101,32 @@ void EnemyManager::AddEnemySmall()
 
 void EnemyManager::AddEnemySmall2()
 {
-    XMFLOAT3 pos = XMFLOAT3(-10.0f, -10.0f, 15.0f);
-    EnemySmall2* enemy = new EnemySmall2(pos, m_Player);
-    enemies.push_back(enemy);
+    XMFLOAT3 pos = XMFLOAT3(-15.0f, -15.0f, 15.0f);
+    float count = 0;
+
+    for (auto& smallEnemy2 : m_Small2)
+    {
+        smallEnemy2.SetPlayer(m_Player);
+        smallEnemy2.SetEnemySmallPosition(pos);
+        smallEnemy2.SetAddCount(count);
+
+        count += 0.5f;
+    }
+}
+
+void EnemyManager::AddEnemyBoss()
+{
+    XMFLOAT3 pos = XMFLOAT3(-17.0f, 17.0f, 19.0f);
+    float count = 0;
+
+    for (auto& boss : m_Boss)
+    {
+        boss.SetPlayer(m_Player);
+        boss.SetEnemySmallPosition(pos);
+        boss.SetAddCount(count);
+
+        count += 0.5f;
+    }
 }
 
 bool EnemyManager::CreateEnemySmall()
@@ -171,7 +157,51 @@ bool EnemyManager::CreateEnemySmall()
 
 bool EnemyManager::CreateEnemySmall2()
 {
-    return false;
+    XMFLOAT3 pos = XMFLOAT3(-15.0f, -15.0f, 15.0f);
+    float count = 0;
+
+    for (auto& smallEnemy2 : m_Small2)
+    {
+        bool isActiveEnemy;
+        isActiveEnemy = smallEnemy2.IsActive();
+
+        if (isActiveEnemy)
+        {
+            return false;
+        }
+        else if (!isActiveEnemy)
+        {
+            smallEnemy2.SetEnemySmallPosition(pos);
+            smallEnemy2.SetAddCount(count);
+        }
+
+        count += 0.5f;
+    }
+
+    return true;
+}
+
+bool EnemyManager::CreateEnemyBoss()
+{
+    for (auto& boss : m_Boss)
+    {
+        bool isActiveEnemy;
+        isActiveEnemy = boss.IsActive();
+
+        if (isActiveEnemy)
+        {
+            return false;
+        }
+        else if (!isActiveEnemy)
+        {
+            return true;
+        }
+    }
+}
+
+bool EnemyManager::GetBoss()
+{
+    return CreateEnemyBoss();
 }
 
 void EnemyManager::SetPlayer(Player* player)

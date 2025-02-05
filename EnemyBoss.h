@@ -4,7 +4,7 @@
 #include "EnemyBase.h"
 #include "EnemyBullet.h"
 
-class EnemySmall : public EnemyBase
+class EnemyBoss : public EnemyBase
 {
 private:
 
@@ -25,6 +25,7 @@ private:
 	PlayerBullet	m_PlayerBullet;
 
 	int				m_EnemyHP;
+	int				m_EnemyCount;
 	bool			isActive;
 	bool			isDead;
 
@@ -35,16 +36,16 @@ private:
 
 public:
 
-	EnemySmall();
-	EnemySmall(XMFLOAT3 pos, Player* player);
+	EnemyBoss();
+	EnemyBoss(XMFLOAT3 pos, Player* player);
 
 	//ムーブメントコンストラクタ
-	EnemySmall(EnemySmall&& other) noexcept;
+	EnemyBoss(EnemyBoss&& other) noexcept;
 
 	//ムーブ代入演算子
-	EnemySmall& operator=(EnemySmall&& other) noexcept;
+	EnemyBoss& operator=(EnemyBoss&& other) noexcept;
 
-	~EnemySmall();
+	~EnemyBoss();
 
 	void Update() override;
 	void Draw() override;

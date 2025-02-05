@@ -2,11 +2,6 @@
 
 #include "RenderManager.h"
 
-
-
-
-
-
 // 描画サブセットマテリアル構造体
 struct SUBSET_MATERIAL
 {
@@ -26,9 +21,6 @@ struct SUBSET
 	SUBSET_MATERIAL	Material;
 };
 
-
-
-
 // モデルサブセットマテリアル構造体
 struct MODEL_SUBSET_MATERIAL
 {
@@ -38,8 +30,6 @@ struct MODEL_SUBSET_MATERIAL
 	char						TextureNameBaseColor[256];
 };
 
-
-
 // モデルサブセット構造体
 struct MODEL_SUBSET
 {
@@ -48,8 +38,6 @@ struct MODEL_SUBSET
 	unsigned int			IndexNum;
 	MODEL_SUBSET_MATERIAL	Material;
 };
-
-
 
 // モデル構造体
 struct MODEL
@@ -65,10 +53,6 @@ struct MODEL
 };
 
 
-
-
-
-
 class Model
 {
 private:
@@ -76,7 +60,6 @@ private:
 	std::unique_ptr<VERTEX_BUFFER>	m_VertexBuffer;
 	std::unique_ptr<INDEX_BUFFER>	m_IndexBuffer;
 	std::vector<SUBSET>				m_SubsetArray;
-
 
 	void LoadObj( const char *FileName, MODEL *Model );
 	void LoadMaterial( const char *FileName, MODEL_SUBSET_MATERIAL **MaterialArray, unsigned int *MaterialNum );
@@ -88,7 +71,4 @@ public:
 
 	void Load(const char *FileName);
 	void Draw(bool UseMaterial=true);
-
-
-
 };

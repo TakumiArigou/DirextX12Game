@@ -18,11 +18,7 @@ public:
 	ResultManager();
 	~ResultManager() override;
 
-
-
 	void Update() override;
 	void Draw() override;
-
-
 };
 

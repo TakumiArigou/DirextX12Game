@@ -19,8 +19,7 @@ public:
 
 private:
 
-
-	
 	POSTEFFECT_STATUS& postEffect = POSTEFFECT_STATUS::GetInstance();
+	MATERIAL_STATUS& materialStatus = MATERIAL_STATUS::GetInstace();
 };
 

@@ -10,25 +10,17 @@ Sky::Sky()
 	m_Position = { 0.0f, 0.0f, 0.0f };
 	m_Rotation = { 0.0f, 0.0f, 0.0f };
 	m_Scale = { 2000.0f, 2000.0f, 2000.0f };
-
 }
-
-
 
 
 void Sky::Update()
 {
-
 }
-
-
-
 
 
 void Sky::Draw()
 {
 	RenderManager* renderManager = RenderManager::GetInstance();
-
 
 	//マトリクス設定
 	{

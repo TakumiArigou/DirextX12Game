@@ -1,10 +1,5 @@
 
-
 #include "TitleManager.h"
-
-
-
-
 
 TitleBack::TitleBack()
 {
@@ -12,10 +7,7 @@ TitleBack::TitleBack()
 
 	m_Texture = renderManager->LoadTexture("Asset\\Number.dds");
 
-
 	m_VertexBuffer = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), 4);
-
-
 
 	//頂点データの書き込み
 	VERTEX_3D* buffer{};
@@ -26,11 +18,6 @@ TitleBack::TitleBack()
 	buffer[1].Position = { -0.95f,  8.0f,  1.4f };
 	buffer[2].Position = { -1.0f,  7.5f, 1.0f };
 	buffer[3].Position = { -0.95f,  8.0f, 1.0f };
-
-	//buffer[0].Position = { -50.0f,  0.0f,  50.0f };
-	//buffer[1].Position = { 50.0f,  0.0f,  50.0f };
-	//buffer[2].Position = { -50.0f,  0.0f, -50.0f };
-	//buffer[3].Position = { 50.0f,  0.0f, -50.0f };
 
 	buffer[0].Color = { 1.0f,  1.0f,  1.0f, 1.0f };
 	buffer[1].Color = { 1.0f,  1.0f,  1.0f, 1.0f };
@@ -49,8 +36,6 @@ TitleBack::TitleBack()
 
 	m_VertexBuffer->Resource->Unmap(0, nullptr);
 }
-
-
 
 
 void TitleBack::Update()
@@ -73,16 +58,8 @@ void TitleBack::Update()
 	buffer[2].TexCoord = { texX, texY + 1.0f };
 	buffer[3].TexCoord = { texX + 0.1f, texY + 1.0f };
 
-	//for (int j = 0; j < 4; ++j)
-	{
-		//buffer[0].Position.x += offsetX + 1 * digitWidth; // 数字の位置を調整
-	}
-
 	m_VertexBuffer->Resource->Unmap(0, nullptr);
 }
-
-
-
 
 
 void TitleBack::Draw()
@@ -106,7 +83,6 @@ void TitleBack::Draw()
 		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::ENV, &constant, sizeof(constant));
 	}
 
-
 	//マトリクス設定
 	{
 		XMMATRIX world = XMMatrixIdentity();
@@ -120,8 +96,6 @@ void TitleBack::Draw()
 		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::OBJECT, &constant, sizeof(constant));
 	}
 
-
-
 	//マテリアル設定
 	{
 		MATERIAL material{};
@@ -129,21 +103,15 @@ void TitleBack::Draw()
 		renderManager->SetConstant(RenderManager::CONSTANT_TYPE::SUBSET, &material, sizeof(material));
 	}
 
-
-
 	//頂点バッファ設定
 	renderManager->SetVertexBuffer(m_VertexBuffer.get());
 
-
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture.get());
-
 
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
-
 }

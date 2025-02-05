@@ -2,10 +2,8 @@
 
 #include "Main.h"
 #include "RenderManager.h"
+#include "SceneManager.h"
 #include "GameField.h"
-
-
-
 
 
 GameField::GameField()
@@ -13,8 +11,6 @@ GameField::GameField()
 	RenderManager* renderManager = RenderManager::GetInstance();
 
 	m_Texture = renderManager->LoadTexture("Asset\\field004.dds");
-
-
 
 	{
 		m_VertexBuffer = renderManager->CreateVertexBuffer(sizeof(VERTEX_3D), FIELD_X * FIELD_Z);
@@ -38,9 +34,6 @@ GameField::GameField()
 
 		m_VertexBuffer->Resource->Unmap(0, nullptr);
 	}
-
-
-
 
 	{
 		m_IndexBuffer = renderManager->CreateIndexBuffer((FIELD_X * 2 + 2) * (FIELD_Z - 1) - 2);
@@ -74,52 +67,47 @@ GameField::GameField()
 }
 
 
-
-
 void GameField::Update()
 {
 	m_Time += 1.0f / 60.0f;
 }
 
 
-
-
-
 void GameField::Draw()
 {
 	RenderManager* renderManager = RenderManager::GetInstance();
 
+	ENV_CONSTANT constant;
 
-
-	ImGui::Begin("GameField");
-
-	//定数バッファ設定
+	if (SceneManager::GetInstance()->GetIsImGui())
 	{
-		ENV_CONSTANT constant;
 
-		ImGui::SliderFloat("LightRotationX", (float*)&m_LightRotation.x, 0.0f, XM_PI);
-		ImGui::SliderFloat("LightRotationY", (float*)&m_LightRotation.y, 0.0f, XM_2PI);
+		ImGui::Begin("GameField");
 
-		ImGui::SliderFloat("Octave", (float*)&m_FiledParameter.x, 0.0f, 10.0f);
-		ImGui::SliderFloat("Hight", (float*)&m_FiledParameter.y, 0.0f, 1000.0f);
-		ImGui::SliderFloat("Mesh", (float*)&m_FiledParameter.z, 0.0f, 0.01f);
+		//定数バッファ設定
+		{
+			ImGui::SliderFloat("LightRotationX", (float*)&m_LightRotation.x, 0.0f, XM_PI);
+			ImGui::SliderFloat("LightRotationY", (float*)&m_LightRotation.y, 0.0f, XM_2PI);
 
-		constant.LightDirection.x = sinf(m_LightRotation.y) * cosf(m_LightRotation.x);
-		constant.LightDirection.y = sinf(m_LightRotation.x);
-		constant.LightDirection.z = cosf(m_LightRotation.y) * cosf(m_LightRotation.x);
+			ImGui::SliderFloat("Octave", (float*)&m_FiledParameter.x, 0.0f, 10.0f);
+			ImGui::SliderFloat("Hight", (float*)&m_FiledParameter.y, 0.0f, 1000.0f);
+			ImGui::SliderFloat("Mesh", (float*)&m_FiledParameter.z, 0.0f, 0.01f);
+		}
 
-		constant.LightColor.x = 5.0f;
-		constant.LightColor.y = 5.0f;
-		constant.LightColor.z = 5.0f;
-
-		RenderManager::GetInstance()->SetConstant(
-			RenderManager::CONSTANT_TYPE::ENV,
-			&constant, sizeof(constant));
+		ImGui::End();
 	}
 
-	ImGui::End();
+	constant.LightDirection.x = sinf(m_LightRotation.y) * cosf(m_LightRotation.x);
+	constant.LightDirection.y = sinf(m_LightRotation.x);
+	constant.LightDirection.z = cosf(m_LightRotation.y) * cosf(m_LightRotation.x);
 
+	constant.LightColor.x = 5.0f;
+	constant.LightColor.y = 5.0f;
+	constant.LightColor.z = 5.0f;
 
+	RenderManager::GetInstance()->SetConstant(
+		RenderManager::CONSTANT_TYPE::ENV,
+		&constant, sizeof(constant));
 
 	//マトリクス設定
 	{
@@ -164,9 +152,6 @@ void GameField::Draw()
 	//パイプライン設定
 	renderManager->SetPipelineState("GameField");
 
-
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawIndexedInstanced(((FIELD_X * 2 + 2) * (FIELD_Z - 1) - 2), 1, 0, 0, 0);
-
-
 }

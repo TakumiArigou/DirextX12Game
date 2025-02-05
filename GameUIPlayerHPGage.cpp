@@ -74,27 +74,10 @@ GameUIPlayerHPGage::GameUIPlayerHPGage()
 	m_oldPlayerHP = MAX_PLAYER_HP;
 }
 
+
 void GameUIPlayerHPGage::Update()
 {
 	m_PlayerHP = m_Player->GetPlayerHP();
-
-	if (GetKeyState('L') & 0x8000)
-	{
-		m_PlayerHP -= 1;
-	}
-	else if (m_PlayerHP <= 0)
-	{
-		m_PlayerHP = 0;
-	}
-
-	if (GetKeyState('O') & 0x8000)
-	{
-		m_PlayerHP += 1;
-	}
-	else if (m_PlayerHP >= m_oldPlayerHP)
-	{
-		m_PlayerHP = m_oldPlayerHP;
-	}
 }
 
 
@@ -136,13 +119,13 @@ void GameUIPlayerHPGage::PlayerHPDraw1()
 	//テクスチャ設定
 	renderManager->SetTexture(RenderManager::TEXTURE_TYPE::BASE_COLOR, m_Texture1.get());
 
-
 	//トポロジ設定
 	renderManager->GetGraphicsCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
 }
+
 
 void GameUIPlayerHPGage::PlayerHPDraw2()
 {
@@ -173,7 +156,6 @@ void GameUIPlayerHPGage::PlayerHPDraw2()
 
 		m_VertexBuffer2->Resource->Unmap(0, nullptr);
 	}
-
 
 	{
 		XMMATRIX world = XMMatrixIdentity();
@@ -218,7 +200,6 @@ void GameUIPlayerHPGage::PlayerHPDraw2()
 
 	//描画
 	renderManager->GetGraphicsCommandList()->DrawInstanced(4, 1, 0, 0);
-
 }
 
 void GameUIPlayerHPGage::SetPlayer(Player* player)

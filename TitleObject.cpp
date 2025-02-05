@@ -9,19 +9,13 @@ TitleObject::TitleObject()
 	m_Position = { 0.0f, 0.0f, 0.0f };
 	m_Rotation = { 0.5f, 0.0f, 0.0f };
 	m_Scale = { 1.0f, 1.0f, 1.0f };
-
 }
-
-
 
 
 void TitleObject::Update()
 {
 	m_Rotation.y += 0.01f;
 }
-
-
-
 
 
 void TitleObject::Draw()

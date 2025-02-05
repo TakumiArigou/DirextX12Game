@@ -72,9 +72,6 @@
     <ClCompile Include="ImGUI\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Json.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="SceneBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -159,6 +156,9 @@
     <ClCompile Include="TitleLogo.cpp">
       <Filter>Scene_Title</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBoss.cpp">
+      <Filter>Scene_Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -202,12 +202,6 @@
     </ClInclude>
     <ClInclude Include="ImGUI\imstb_truetype.h">
       <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Json.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="json.hpp">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Scene_Game\Header</Filter>
@@ -292,6 +286,12 @@
     </ClInclude>
     <ClInclude Include="TitleLogo.h">
       <Filter>Scene_Title\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBoss.h">
+      <Filter>Scene_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Json.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

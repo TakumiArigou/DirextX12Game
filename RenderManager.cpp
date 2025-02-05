@@ -1,7 +1,5 @@
 #include "SceneBase.h"
-#include "Json.h"
-#include "json.hpp"
-
+#include "SceneManager.h"
 #include "D3DX12.h"
 #include "DDSTextureLoader12.h"
 
@@ -14,8 +12,6 @@ RenderManager::RenderManager()
 
 	Init();
 }
-
-
 
 
 RenderManager::~RenderManager()
@@ -31,28 +27,20 @@ RenderManager::~RenderManager()
 		}
 	}
 #endif
-
 }
 
 
-
-fp::path RenderManager::OriginalDir;
-
 void RenderManager::Init()
 {
-
 	m_WindowMode = true;
 
 	m_BackBufferWidth = 1280;
 	m_BackBufferHeight = 720;
 
-
-
 	m_WindowHandle = GetWindow();
 	m_Frame[0] = 1;
 	m_Frame[1] = 0;
 	m_RTIndex = 0;
-
 
 	m_Viewport.TopLeftX = 0.f;
 	m_Viewport.TopLeftY = 0.f;
@@ -66,14 +54,7 @@ void RenderManager::Init()
 	m_ScissorRect.right = m_BackBufferWidth;
 	m_ScissorRect.bottom = m_BackBufferHeight;
 
-
-
-
-
-
 	HRESULT hr;
-
-
 
 #if defined(_DEBUG)
 
@@ -83,21 +64,9 @@ void RenderManager::Init()
 		if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
 		{
 			debugController->EnableDebugLayer();
-			//debugController->SetEnableGPUBasedValidation(true);
 		}
 	}
-/*	
-	//DRED
-	{
-		ComPtr<ID3D12DeviceRemovedExtendedDataSettings1> d3dDredSettings1;
-		if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&d3dDredSettings1))))
-		{
-			d3dDredSettings1->SetAutoBreadcrumbsEnablement(D3D12_DRED_ENABLEMENT_FORCED_ON);
-			d3dDredSettings1->SetBreadcrumbContextEnablement(D3D12_DRED_ENABLEMENT_FORCED_ON);
-			d3dDredSettings1->SetPageFaultEnablement(D3D12_DRED_ENABLEMENT_FORCED_ON);
-		}
-	}
-*/
+
 #endif
 
 
@@ -113,8 +82,6 @@ void RenderManager::Init()
 		hr = D3D12CreateDevice(m_Adapter.Get(), D3D_FEATURE_LEVEL_11_1, IID_PPV_ARGS(&m_Device));
 		assert(SUCCEEDED(hr));
 	}
-
-
 
 
 	//コマンドキュー生成
@@ -137,7 +104,6 @@ void RenderManager::Init()
 	}
 
 
-
 	//コマンドアロケータ・リスト生成
 	{
 		hr = m_Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&m_GraphicsCommandAllocator[0]));
@@ -152,10 +118,6 @@ void RenderManager::Init()
 		assert(SUCCEEDED(hr));
 		m_GraphicsCommandList->SetName(L"GraphicsCommandList");
 	}
-
-
-
-
 
 
 	//スワップチェーン生成
@@ -179,7 +141,6 @@ void RenderManager::Init()
 		swapChainDesc.SampleDesc.Count = 1;
 		swapChainDesc.SampleDesc.Quality = 0;
 
-
 		hr = m_Factory->CreateSwapChain(m_CommandQueue.Get(), &swapChainDesc, &swapChain);
 		assert(SUCCEEDED(hr));
 
@@ -188,10 +149,6 @@ void RenderManager::Init()
 
 		m_RTIndex = m_SwapChain->GetCurrentBackBufferIndex();
 	}
-
-
-
-
 
 	//レンダーターゲット生成
 	{
@@ -218,8 +175,6 @@ void RenderManager::Init()
 		}
 	}
 
-
-
 	//デプスバッファ用デスクリプタヒープ
 	{
 		D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc{};
@@ -231,9 +186,6 @@ void RenderManager::Init()
 		hr = m_Device->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(&m_DepthBufferDescriptorHeap));
 		assert(SUCCEEDED(hr));
 	}
-
-
-
 
 	//デプスバッファ生成
 	{
@@ -264,8 +216,6 @@ void RenderManager::Init()
 
 		m_DepthBuffer->SetName(L"DepthBuffer");
 
-
-
 		D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
 		dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 		dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
@@ -277,9 +227,6 @@ void RenderManager::Init()
 		m_Device->CreateDepthStencilView(m_DepthBuffer.Get(), &dsvDesc, m_DepthBufferHandle);
 
 	}
-
-
-
 
 	//汎用デスクリプタヒープ
 	{
@@ -314,8 +261,6 @@ void RenderManager::Init()
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
-		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;		//Enable Keyboard Controls
-		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;		//Enable Gamepad Controls 
 
 		//Setup Dear ImGui style
 		ImGui::StyleColorsDark();
@@ -329,8 +274,6 @@ void RenderManager::Init()
 
 		m_SRVDescriptorPool.pop_front();
 	}
-
-
 
 	//汎用定数バッファ
 	for (int i = 0; i < 2; i++)
@@ -354,7 +297,6 @@ void RenderManager::Init()
 			desc.SampleDesc.Quality = 0;
 			desc.Width = CONSTANT_BUFFER_SIZE * CONSTANT_BUFFER_MAX;
 
-
 			HRESULT hr = m_Device->CreateCommittedResource(&properties,
 				D3D12_HEAP_FLAG_NONE,
 				&desc,
@@ -364,24 +306,17 @@ void RenderManager::Init()
 			assert(SUCCEEDED(hr));
 		}
 
-
 		hr = m_ConstantBuffer[i]->Map(0, nullptr, (void**)&m_ConstantBufferPointer[i]);
 		assert(SUCCEEDED(hr));
-
 
 		for (int j = 0; j < CONSTANT_BUFFER_MAX; j++)
 		{
 			unsigned int index = m_SRVDescriptorPool.front();
 			m_SRVDescriptorPool.pop_front();
 
-
-
-
 			D3D12_CONSTANT_BUFFER_VIEW_DESC desc = {};
 			desc.BufferLocation = m_ConstantBuffer[i]->GetGPUVirtualAddress() + j * CONSTANT_BUFFER_SIZE;
 			desc.SizeInBytes = CONSTANT_BUFFER_SIZE;
-
-
 
 			D3D12_CPU_DESCRIPTOR_HANDLE handle = m_SRVDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 			unsigned int size = m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -395,15 +330,10 @@ void RenderManager::Init()
 		m_ConstantBufferIndex[i] = 0;
 	}
 
-
-
-
 	//ルートシグネチャ生成
 	{
-
 		D3D12_ROOT_PARAMETER		rootParameters[12]{};
 		D3D12_DESCRIPTOR_RANGE		range[12]{};
-
 
 		//定数バッファ
 		for (unsigned int i = 0; i < 4; i++)
@@ -419,7 +349,6 @@ void RenderManager::Init()
 			rootParameters[i].DescriptorTable.pDescriptorRanges = &range[i];
 		}
 
-
 		//テクスチャ
 		for (unsigned int i = 4; i < 12; i++)
 		{
@@ -433,7 +362,6 @@ void RenderManager::Init()
 			rootParameters[i].DescriptorTable.NumDescriptorRanges = 1;
 			rootParameters[i].DescriptorTable.pDescriptorRanges = &range[i];
 		}
-
 
 		//サンプラー
 		D3D12_STATIC_SAMPLER_DESC	samplerDesc[2]{};
@@ -466,15 +394,12 @@ void RenderManager::Init()
 		samplerDesc[1].RegisterSpace = 0;
 		samplerDesc[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
-
-
 		D3D12_ROOT_SIGNATURE_DESC	rootSignatureDesc{};
 		rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 		rootSignatureDesc.NumParameters = _countof(rootParameters);
 		rootSignatureDesc.pParameters = rootParameters;
 		rootSignatureDesc.NumStaticSamplers = 2;
 		rootSignatureDesc.pStaticSamplers = samplerDesc;
-
 
 		HRESULT hr;
 		ComPtr<ID3DBlob> blob{};
@@ -484,8 +409,6 @@ void RenderManager::Init()
 		hr = m_Device->CreateRootSignature(0, blob->GetBufferPointer(), blob->GetBufferSize(), IID_PPV_ARGS(&m_RootSignature));
 		assert(SUCCEEDED(hr));
 	}
-
-
 
 	//スプライトポリゴン
 	{
@@ -647,7 +570,6 @@ void RenderManager::Init()
 				RTVFormats, _countof(RTVFormats));
 	}
 
-
 	//カラーバッファ生成
 	{
 		m_ColorBuffer = CreateRenderTarget(
@@ -713,40 +635,11 @@ void RenderManager::Init()
 
 		m_PostEffectBuffer->Resource->SetName(L"PostEffectBuffer");
 	}
-
-	OriginalDir = fp::current_path();
-
-	{
-		ZeroMemory(&ofn, sizeof(ofn));
-		ofn.lStructSize = sizeof(ofn);
-		ofn.hwndOwner = NULL;
-		ofn.lpstrFile = szFile;
-		ofn.lpstrFile[0] = '\0';
-		ofn.nMaxFile = sizeof(szFile);
-		ofn.lpstrFilter = "JSON Files\0*.json\0All\0*.*\0";
-		ofn.nFilterIndex = 1;
-		ofn.lpstrInitialDir = NULL; // 初期ディレクトリ
-		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-	}
-
-	{
-		ZeroMemory(&_ofn, sizeof(_ofn));
-		_ofn.lStructSize = sizeof(_ofn);
-		_ofn.hwndOwner = NULL;
-		_ofn.lpstrFile = szFile;
-		_ofn.lpstrFile[0] = '\0';
-		_ofn.nMaxFile = sizeof(szFile);
-		_ofn.lpstrFilter = "JSON Files\0*.json\0All\0*.*\0";
-		_ofn.nFilterIndex = 1;
-		_ofn.lpstrInitialDir = NULL; // 初期ディレクトリ
-		_ofn.Flags = OFN_OVERWRITEPROMPT;
-	}
 }
 
 
 void RenderManager::WaitGPU()
 {
-
 	//実行したコマンドの終了待ち
 	m_CommandQueue->Signal(m_Fence.Get(), m_Frame[m_RTIndex]);
 
@@ -754,13 +647,11 @@ void RenderManager::WaitGPU()
 	WaitForSingleObjectEx(m_FenceEvent, INFINITE, FALSE);
 
 	m_Frame[m_RTIndex]++;
-
 }
 
 
 void RenderManager::DrawBegin()
 {
-	Json		m_Json;
 	Camera		m_Camera;
 
 	//汎用デスクリプタヒープ
@@ -832,8 +723,7 @@ void RenderManager::DrawBegin()
 	//パイプライン設定
 	SetPipelineState("Geometry");
 
-
-	//ImGui
+		//ImGui
 	{
 		RECT rect;
 		GetClientRect(GetWindow(), &rect);
@@ -842,63 +732,9 @@ void RenderManager::DrawBegin()
 		ImGui_ImplWin32_NewFrame((float)(rect.right - rect.left) / m_BackBufferWidth,
 			(float)(rect.bottom - rect.top) / m_BackBufferHeight);
 
-
-
 		ImGui::NewFrame();
-
-		//Material
-		ImGui::Begin("Material");
-
-		if (ImGui::TreeNode("GGX"))
-		{
-			ImGui::SliderFloat("Metallic", &materialStatus.m_Metallic, 0.0f, 1.0f, "%.2f");
-			ImGui::SliderFloat("Roughness", &materialStatus.m_Roughness, 0.0f, 1.0f, "%.2f");
-			ImGui::SliderFloat("Specular", &materialStatus.m_Specular, 0.0f, 2.0f, "%.2f");
-
-
-			ImGui::TreePop();
-		}
-
-
-		if (ImGui::TreeNode("ClearColor"))
-		{
-			ImGui::SliderFloat("ClearColor_R", &materialStatus.m_ClearColor[0], 0.0f, 1.0f, "%.2f");
-			ImGui::SliderFloat("ClearColor_G", &materialStatus.m_ClearColor[1], 0.0f, 1.0f, "%.2f");
-			ImGui::SliderFloat("ClearColor_B", &materialStatus.m_ClearColor[2], 0.0f, 1.0f, "%.2f");
-
-			ImGui::TreePop();
-		}
-
-		//json
-		ImGui::LabelText("", "File");
-		if (ImGui::Button("Load"))
-		{
-			if (GetOpenFileName(&ofn) == TRUE)
-			{
-				FilePath = ofn.lpstrFile;
-
-				//読み込み
-				m_Json.LoadJson(FilePath);
-			}
-		}
-
-		ImGui::SameLine();
-
-		if (ImGui::Button("Save"))
-		{
-			if (GetSaveFileName(&_ofn) == TRUE)
-			{
-				FilePath = _ofn.lpstrFile;
-
-				//書き込み
-				m_Json.SaveJson(FilePath);
-			}
-		}
-
-		ImGui::End();
 	}
 }
-
 
 
 void RenderManager::DrawEnd()
@@ -948,7 +784,7 @@ void RenderManager::DrawEnd()
 
 
 		//デプスバッファ・レンダーターゲットのクリア
-		FLOAT clearColor[4] = { 0.0f, 1.0f, 1.0f, 1.0f };
+		FLOAT clearColor[4] = { 1.0f, 1.0f, 1.0f, 0.0f };
 		m_GraphicsCommandList->ClearRenderTargetView(m_PostEffectBuffer->RTVHandle, materialStatus.m_ClearColor, 0, nullptr);
 		m_GraphicsCommandList->ClearDepthStencilView(m_DepthBufferHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	}
@@ -981,7 +817,6 @@ void RenderManager::DrawEnd()
 		DrawScreen();
 	}
 
-	
 	//リソースバリア(ポストエフェクトバッファ)
 	m_GraphicsCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(
 		m_PostEffectBuffer->Resource.Get(),
@@ -1001,7 +836,7 @@ void RenderManager::DrawEnd()
 
 
 		//デプスバッファ・レンダーターゲットのクリア
-		FLOAT clearColor[4] = { 0.0f, 1.0f, 1.0f, 1.0f };
+		FLOAT clearColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		m_GraphicsCommandList->ClearRenderTargetView(m_RenderTargetHandle[m_RTIndex], materialStatus.m_ClearColor, 0, nullptr);
 		m_GraphicsCommandList->ClearDepthStencilView(m_DepthBufferHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	}
@@ -1016,55 +851,51 @@ void RenderManager::DrawEnd()
 		DrawScreen();
 	}
 
-	//ImGui
+		//ImGui
 	{
+		if (SceneManager::GetInstance()->GetIsImGui())
 		{
-			ImGui::Begin("G-Buffer");
+			{
+				ImGui::Begin("G-Buffer");
 
-			ImGui::Text("ColorBuffer");
-			ImGui::Image((void*)m_ColorBuffer->SRVHandle.ptr,
-				ImVec2(300.0f, 150.0f));
+				ImGui::Text("ColorBuffer");
+				ImGui::Image((void*)m_ColorBuffer->SRVHandle.ptr,
+					ImVec2(300.0f, 150.0f));
 
-			ImGui::Text("NormalBuffer");
-			ImGui::Image((void*)m_NormalBuffer->SRVHandle.ptr,
-				ImVec2(300.0f, 150.0f));
-			
-			ImGui::Text("PositionBuffer");
-			ImGui::Image((void*)m_PositionBuffer->SRVHandle.ptr,
-				ImVec2(300.0f, 150.0f));
+				ImGui::Text("NormalBuffer");
+				ImGui::Image((void*)m_NormalBuffer->SRVHandle.ptr,
+					ImVec2(300.0f, 150.0f));
 
-			ImGui::Text("MaterialBuffer");
-			ImGui::Image((void*)m_MaterialBuffer->SRVHandle.ptr,
-				ImVec2(300.0f, 150.0f));
+				ImGui::Text("PositionBuffer");
+				ImGui::Image((void*)m_PositionBuffer->SRVHandle.ptr,
+					ImVec2(300.0f, 150.0f));
 
-			ImGui::Text("EmissionBuffer");
-			ImGui::Image((void*)m_EmissionBuffer->SRVHandle.ptr,
-				ImVec2(300.0f, 150.0f));
+				ImGui::Text("MaterialBuffer");
+				ImGui::Image((void*)m_MaterialBuffer->SRVHandle.ptr,
+					ImVec2(300.0f, 150.0f));
 
-			ImGui::Text("PostEffectBuffer");
-			ImGui::Image((void*)m_PostEffectBuffer->SRVHandle.ptr,
-				ImVec2(300.0f, 150.0f));
+				ImGui::Text("EmissionBuffer");
+				ImGui::Image((void*)m_EmissionBuffer->SRVHandle.ptr,
+					ImVec2(300.0f, 150.0f));
 
+				ImGui::Text("PostEffectBuffer");
+				ImGui::Image((void*)m_PostEffectBuffer->SRVHandle.ptr,
+					ImVec2(300.0f, 150.0f));
 
-
-			ImGui::End();
+				ImGui::End();
+			}
 		}
 
 		ImGui::Render();
 
 		ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), m_GraphicsCommandList.Get());
 	}
-
+	
 	//リソースバリア
 	m_GraphicsCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(
 												m_RenderTarget[m_RTIndex].Get(),
 												D3D12_RESOURCE_STATE_RENDER_TARGET,
 												D3D12_RESOURCE_STATE_PRESENT));
-
-
-
-
-
 
 	//コマンド発行
 	{
@@ -1077,12 +908,8 @@ void RenderManager::DrawEnd()
 		m_CommandQueue->Signal(m_Fence.Get(), m_Frame[m_RTIndex]);
 	}
 
-
-
 	hr = m_SwapChain->Present(1, 0);
 	assert(SUCCEEDED(hr));
-
-
 
 	//前フレーム待ち
 	{
@@ -1100,9 +927,6 @@ void RenderManager::DrawEnd()
 		m_Frame[m_RTIndex] = frame + 1;
 	}
 
-
-
-
 	hr = m_GraphicsCommandAllocator[m_RTIndex]->Reset();
 	assert(SUCCEEDED(hr));
 
@@ -1110,28 +934,23 @@ void RenderManager::DrawEnd()
 	assert(SUCCEEDED(hr));
 }
 
+
 void RenderManager::DrawScreen()
 {
-
 	//頂点バッファ設定
 	SetVertexBuffer(m_VertexBuffer.get());
-
 
 	//トポロジ設定
 	m_GraphicsCommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-
 	//描画
 	m_GraphicsCommandList->DrawInstanced(4, 1, 0, 0);
-
-
 }
 
 
 std::unique_ptr<TEXTURE> RenderManager::LoadTexture(const char* FileName)
 {
 	std::unique_ptr<TEXTURE> texture = std::make_unique<TEXTURE>();
-
 
 	std::unique_ptr<uint8_t[]> ddsData;
 	std::vector<D3D12_SUBRESOURCE_DATA> subresouceData;
@@ -1144,8 +963,6 @@ std::unique_ptr<TEXTURE> RenderManager::LoadTexture(const char* FileName)
 	assert(SUCCEEDED(hr));
 
 	texture->Resource->SetName(wFileName);
-
-
 
 	D3D12_RESOURCE_DESC desc = texture->Resource->GetDesc();
 
@@ -1167,10 +984,6 @@ std::unique_ptr<TEXTURE> RenderManager::LoadTexture(const char* FileName)
 		block = 1;
 	}
 	
-
-
-
-
 	for (unsigned int a = 0; a < desc.DepthOrArraySize; a++)
 	{
 		for (unsigned int m = 0; m < desc.MipLevels; m++)
@@ -1187,35 +1000,20 @@ std::unique_ptr<TEXTURE> RenderManager::LoadTexture(const char* FileName)
 		}
 	}
 
-
 	m_GraphicsCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(
 												texture->Resource.Get(),
 												D3D12_RESOURCE_STATE_COPY_DEST,
 												D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
 
-
-
-
-
 	texture->SRVIndex = CreateShaderResourceView(texture->Resource.Get());
-
-
 
 	return std::move(texture);
 }
 
 
-
-
-
-
 ComPtr<ID3D12PipelineState> RenderManager::CreatePipeline(const char* VertexShaderFile, const char* PixelShaderFile, const DXGI_FORMAT* RTVFormats, unsigned int NumRenderTargets)
 {
-
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineStateDesc{};
-
-
-
 
 	//頂点シェーダー読み込み
 	std::vector<char> vertexShader;
@@ -1232,11 +1030,9 @@ ComPtr<ID3D12PipelineState> RenderManager::CreatePipeline(const char* VertexShad
 
 		file.close();
 
-
 		pipelineStateDesc.VS.pShaderBytecode = &vertexShader[0];
 		pipelineStateDesc.VS.BytecodeLength = filesize;
 	}
-
 
 	//ピクセルシェーダー読み込み
 	std::vector<char> pixelShader;
@@ -1253,11 +1049,9 @@ ComPtr<ID3D12PipelineState> RenderManager::CreatePipeline(const char* VertexShad
 
 		file.close();
 
-
 		pipelineStateDesc.PS.pShaderBytecode = &pixelShader[0];
 		pipelineStateDesc.PS.BytecodeLength = filesize;
 	}
-
 
 	//インプットレイアウト
 	D3D12_INPUT_ELEMENT_DESC InputElementDesc[] =
@@ -1271,24 +1065,17 @@ ComPtr<ID3D12PipelineState> RenderManager::CreatePipeline(const char* VertexShad
 	pipelineStateDesc.InputLayout.pInputElementDescs = InputElementDesc;
 	pipelineStateDesc.InputLayout.NumElements = _countof(InputElementDesc);
 
-
-
 	pipelineStateDesc.SampleDesc.Count = 1;
 	pipelineStateDesc.SampleDesc.Quality = 0;
 	pipelineStateDesc.SampleMask = UINT_MAX;
-
-
 
 	pipelineStateDesc.NumRenderTargets = NumRenderTargets;
 	for (int i = 0; i < NumRenderTargets; i++)
 		pipelineStateDesc.RTVFormats[i] = RTVFormats[i];
 
-
-
 	pipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
 	pipelineStateDesc.pRootSignature = m_RootSignature.Get();
-
 
 	//ラスタライザステート
 	pipelineStateDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
@@ -1301,7 +1088,6 @@ ComPtr<ID3D12PipelineState> RenderManager::CreatePipeline(const char* VertexShad
 	pipelineStateDesc.RasterizerState.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
 	pipelineStateDesc.RasterizerState.AntialiasedLineEnable = FALSE;
 	pipelineStateDesc.RasterizerState.MultisampleEnable = FALSE;
-
 
 	//ブレンドステート
 	for (int i = 0; i < _countof(pipelineStateDesc.BlendState.RenderTarget); ++i)
@@ -1320,7 +1106,6 @@ ComPtr<ID3D12PipelineState> RenderManager::CreatePipeline(const char* VertexShad
 	}
 	pipelineStateDesc.BlendState.AlphaToCoverageEnable = FALSE;
 	pipelineStateDesc.BlendState.IndependentBlendEnable = FALSE;
-
 
 	//デプス・ステンシルステート
 	pipelineStateDesc.DepthStencilState.DepthEnable = TRUE;
@@ -1342,31 +1127,22 @@ ComPtr<ID3D12PipelineState> RenderManager::CreatePipeline(const char* VertexShad
 
 	pipelineStateDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 
-
-
-
 	ComPtr<ID3D12PipelineState> pipelineState;
 	HRESULT hr = m_Device->CreateGraphicsPipelineState(&pipelineStateDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(hr));
-
 
 	return pipelineState;
 }
 
 
-
 unsigned int RenderManager::CreateShaderResourceView(ID3D12Resource* Resource)
 {
-
 	unsigned int index = m_SRVDescriptorPool.front();
 	m_SRVDescriptorPool.pop_front();
-
-
 
 	D3D12_CPU_DESCRIPTOR_HANDLE handle = m_SRVDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	unsigned int size = m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	handle.ptr += size * index;
-
 
 	D3D12_RESOURCE_DESC resDesc = Resource->GetDesc();
 
@@ -1376,9 +1152,7 @@ unsigned int RenderManager::CreateShaderResourceView(ID3D12Resource* Resource)
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = resDesc.MipLevels;
 
-
 	m_Device->CreateShaderResourceView(Resource, &srvDesc, handle);
-
 
 	return index;
 }
@@ -1400,23 +1174,16 @@ void RenderManager::ReleaseShaderResourceView(unsigned int SRVIndex)
 }
 
 
-
-
-
 unsigned int RenderManager::CreateRenderTargetView(ID3D12Resource* Resource, unsigned int MipLevel)
 {
 	unsigned int index = m_RTVDescriptorPool.front();
 	m_RTVDescriptorPool.pop_front();
 
-
-
 	D3D12_CPU_DESCRIPTOR_HANDLE handle = m_RTVDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	unsigned int size = m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	handle.ptr += size * index;
 
-
 	m_Device->CreateRenderTargetView(Resource, nullptr, handle);
-
 
 	return index;
 }
@@ -1424,14 +1191,12 @@ unsigned int RenderManager::CreateRenderTargetView(ID3D12Resource* Resource, uns
 
 D3D12_CPU_DESCRIPTOR_HANDLE RenderManager::GetRenderTargetViewHandle(unsigned int RTVIndex)
 {
-
 	D3D12_CPU_DESCRIPTOR_HANDLE handle = m_RTVDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	unsigned int size = m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	handle.ptr += size * RTVIndex;
 
 	return handle;
 }
-
 
 
 void RenderManager::ReleaseRenderTargetView(unsigned int SRVIndex)
@@ -1442,7 +1207,6 @@ void RenderManager::ReleaseRenderTargetView(unsigned int SRVIndex)
 
 std::unique_ptr<RENDER_TARGET> RenderManager::CreateRenderTarget(unsigned int Width, unsigned int Height, DXGI_FORMAT Format, unsigned int MipLeve)
 {
-
 	D3D12_HEAP_PROPERTIES properties{};
 	properties.Type = D3D12_HEAP_TYPE_DEFAULT;
 	properties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
@@ -1469,7 +1233,6 @@ std::unique_ptr<RENDER_TARGET> RenderManager::CreateRenderTarget(unsigned int Wi
 	clearValue.Color[3] = 1.0f;
 	clearValue.Format = Format;
 
-
 	std::unique_ptr<RENDER_TARGET> renderTarget = std::make_unique<RENDER_TARGET>();
 
 	HRESULT hr = m_Device->CreateCommittedResource(&properties,
@@ -1480,30 +1243,21 @@ std::unique_ptr<RENDER_TARGET> RenderManager::CreateRenderTarget(unsigned int Wi
 													IID_PPV_ARGS(&renderTarget->Resource));
 	assert(SUCCEEDED(hr));
 
-
 	renderTarget->SRVIndex = CreateShaderResourceView(renderTarget->Resource.Get());
 	renderTarget->SRVHandle = GetShaderResourceViewHandle(renderTarget->SRVIndex);
 
 	renderTarget->RTVIndex = CreateRenderTargetView(renderTarget->Resource.Get());
 	renderTarget->RTVHandle = GetRenderTargetViewHandle(renderTarget->RTVIndex);
 
-
 	return std::move(renderTarget);
 }
-
-
-
-
-
 
 
 void RenderManager::SetConstant(CONSTANT_TYPE Type, const void* Constant, unsigned int Size)
 {
 	assert(m_ConstantBufferIndex[m_RTIndex] < CONSTANT_BUFFER_MAX);
 
-
 	memcpy(m_ConstantBufferPointer[m_RTIndex] + CONSTANT_BUFFER_SIZE * m_ConstantBufferIndex[m_RTIndex], Constant, Size);
-
 
 	D3D12_GPU_DESCRIPTOR_HANDLE handle = m_SRVDescriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	unsigned int size = m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -1511,45 +1265,33 @@ void RenderManager::SetConstant(CONSTANT_TYPE Type, const void* Constant, unsign
 
 	m_GraphicsCommandList->SetGraphicsRootDescriptorTable((unsigned int)Type, handle);
 
-
 	m_ConstantBufferIndex[m_RTIndex]++;
 }
 
 
-
-
-
 void RenderManager::SetTexture(TEXTURE_TYPE Type, const TEXTURE* Texture)
 {
-
 	D3D12_GPU_DESCRIPTOR_HANDLE handle = m_SRVDescriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	unsigned int size = m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	handle.ptr += size * Texture->SRVIndex;
 
 	m_GraphicsCommandList->SetGraphicsRootDescriptorTable((unsigned int)Type, handle);
-
 }
-
 
 
 void RenderManager::SetTexture(TEXTURE_TYPE Type, const RENDER_TARGET* Texture)
 {
-
 	D3D12_GPU_DESCRIPTOR_HANDLE handle = m_SRVDescriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	unsigned int size = m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	handle.ptr += size * Texture->SRVIndex;
 
 	m_GraphicsCommandList->SetGraphicsRootDescriptorTable((unsigned int)Type, handle);
-
 }
-
-
 
 
 std::unique_ptr<VERTEX_BUFFER> RenderManager::CreateVertexBuffer(unsigned int Stride, unsigned int Size)
 {
 	std::unique_ptr<VERTEX_BUFFER> vertexBuffer = std::make_unique<VERTEX_BUFFER>();
-
 
 	HRESULT hr = m_Device->CreateCommittedResource(&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 													D3D12_HEAP_FLAG_NONE,
@@ -1559,17 +1301,15 @@ std::unique_ptr<VERTEX_BUFFER> RenderManager::CreateVertexBuffer(unsigned int St
 													IID_PPV_ARGS(&vertexBuffer->Resource));
 	assert(SUCCEEDED(hr));
 
-
 	vertexBuffer->Stride = Stride;
 	vertexBuffer->Size = Size;
-
 
 	return std::move(vertexBuffer);
 }
 
+
 void RenderManager::SetVertexBuffer(const VERTEX_BUFFER* VertexBuffer)
 {
-
 	D3D12_VERTEX_BUFFER_VIEW vertexView{};
 	vertexView.BufferLocation = VertexBuffer->Resource->GetGPUVirtualAddress();
 	vertexView.StrideInBytes = VertexBuffer->Stride;
@@ -1579,11 +1319,9 @@ void RenderManager::SetVertexBuffer(const VERTEX_BUFFER* VertexBuffer)
 }
 
 
-
 std::unique_ptr<INDEX_BUFFER> RenderManager::CreateIndexBuffer(unsigned int Size)
 {
 	std::unique_ptr<INDEX_BUFFER> indexBuffer = std::make_unique<INDEX_BUFFER>();
-
 
 	HRESULT hr = m_Device->CreateCommittedResource(&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
@@ -1593,9 +1331,7 @@ std::unique_ptr<INDEX_BUFFER> RenderManager::CreateIndexBuffer(unsigned int Size
 		IID_PPV_ARGS(&indexBuffer->Resource));
 	assert(SUCCEEDED(hr));
 
-
 	indexBuffer->Size = Size;
-
 
 	return std::move(indexBuffer);
 }
@@ -1603,15 +1339,12 @@ std::unique_ptr<INDEX_BUFFER> RenderManager::CreateIndexBuffer(unsigned int Size
 
 void RenderManager::SetIndexBuffer(const INDEX_BUFFER* IndexBuffer)
 {
-
 	D3D12_INDEX_BUFFER_VIEW indexView{};
 	indexView.BufferLocation = IndexBuffer->Resource->GetGPUVirtualAddress();
 	indexView.SizeInBytes = sizeof(unsigned int) * IndexBuffer->Size;
 	indexView.Format = DXGI_FORMAT_R32_UINT;
 	m_GraphicsCommandList->IASetIndexBuffer(&indexView);
-
 }
-
 
 
 void RenderManager::SetPipelineState(const char* PiplineName)
@@ -1621,7 +1354,6 @@ void RenderManager::SetPipelineState(const char* PiplineName)
 
 	m_GraphicsCommandList->SetPipelineState(pipeline);
 }
-
 
 
 TEXTURE::~TEXTURE()

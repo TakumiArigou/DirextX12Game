@@ -15,7 +15,6 @@ float G2_Smith(float NL, float NV, float m2)
     float Lambda_L = (-1.0f + sqrt(m2 * (1.0f - NV2) / NV2 + 1.0f)) * 0.5f;
     
     return 1.0f / (1.0f + Lambda_L + Lambda_V);
-
 }
 
 float3 SchlickFresnel(float3 specular, float VH)

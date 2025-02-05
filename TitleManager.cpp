@@ -8,15 +8,10 @@ TitleManager::TitleManager()
 }
 
 
-
-
 TitleManager::~TitleManager()
 {
 	RenderManager::GetInstance()->WaitGPU();
 }
-
-
-
 
 
 void TitleManager::Update()
@@ -33,22 +28,16 @@ void TitleManager::Update()
 
 	FadeManager::GetInstance()->Update();
 
-	if (GetKeyState(VK_SPACE) & 0x8000)
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
-		if (GetKeyState(VK_SPACE) & 0x0001)
-		{
-			FadeManager::GetInstance()->SetSceneType(SceneType::Game);
-			FadeManager::GetInstance()->FadeOUT();
-		}
+		FadeManager::GetInstance()->SetSceneType(SceneType::Game);
+		FadeManager::GetInstance()->FadeOUT();
 	}
 }
 
 
-
-
 void TitleManager::Draw()
 {
-
 	RenderManager::GetInstance()->DrawBegin();
 
 	m_Camera.Draw();
@@ -59,7 +48,4 @@ void TitleManager::Draw()
 	FadeManager::GetInstance()->Draw();
 
 	RenderManager::GetInstance()->DrawEnd();
-
 }
-
-

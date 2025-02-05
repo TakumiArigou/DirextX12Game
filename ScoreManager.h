@@ -7,6 +7,7 @@ private:
 	static ScoreManager* m_Instance;
 
     int     m_ClearScore;
+	int		m_EnemyCount;
 	std::array<float, 4> m_ClearTime;
 
 	int m_HighScore;       // ç≈çÇÉXÉRÉA
@@ -30,10 +31,14 @@ public:
 	void Update();
 
 	void AddScore(int addscore);
+	void AddEnemyCount(int addenemycount);
 
 	const std::array<float, 4>& GetClearTime() const;
 	void SetClearTime(std::array<float, 4> cleartime);
 
 	int GetClearScore() const;
 	void SetClearScore(int clearscore);
+
+	int GetEnemyCount() const;
+	void SetEnemyCount(int enemycount);
 };

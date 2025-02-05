@@ -12,10 +12,10 @@ PlayerBullet::PlayerBullet()
 	isActive = false;
 }
 
+
 PlayerBullet::~PlayerBullet()
 {
 }
-
 
 
 void PlayerBullet::Update()
@@ -28,7 +28,6 @@ void PlayerBullet::Update()
 		isActive = false;
 	}
 }
-
 
 
 void PlayerBullet::Draw()
@@ -70,7 +69,6 @@ void PlayerBullet::Draw()
 }
 
 
-
 void PlayerBullet::Reset(XMFLOAT3 position)
 {
 	m_Position = position;
@@ -78,14 +76,10 @@ void PlayerBullet::Reset(XMFLOAT3 position)
 	isActive = true;
 }
 
-
-
 bool PlayerBullet::IsActive() const
 {
 	return isActive;
 }
-
-
 
 void PlayerBullet::SetActive(bool isactive)
 {
